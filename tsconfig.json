@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
+    "types": [
+      "@emotion/react/types/css-prop"
+    ],
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,7 +21,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react"
   },
   "include": [
     "src"
