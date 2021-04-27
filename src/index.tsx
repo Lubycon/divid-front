@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useLocation } from 'react-router';
+import { RecoilRoot } from 'recoil';
 
 import Landing from './pages/landing';
 import Login from './pages/login';
@@ -37,7 +38,9 @@ function App() {
 
 ReactDOM.render(
   <Router>
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </Router>,
   document.getElementById('root')
 );
