@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
+import { Global } from '@emotion/react';
+
+import { reset } from './reset';
 
 import Landing from './pages/landing';
 import Login from './pages/login';
@@ -40,6 +43,7 @@ ReactDOM.render(
   <Router>
     <RecoilRoot>
       <App />
+      <Global styles={reset} />
     </RecoilRoot>
   </Router>,
   document.getElementById('root')
