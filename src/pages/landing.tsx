@@ -12,7 +12,9 @@ export default function Landing() {
   return (
     <div>
       <p>{number}</p>
-      <button onClick={() => setNumber(number + 1)}>click</button>
+      <button type="button" onClick={() => setNumber(number + 1)}>
+        click
+      </button>
     </div>
   );
 }
