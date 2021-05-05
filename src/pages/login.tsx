@@ -80,15 +80,29 @@ const subText = css`
 `;
 
 export default function Login() {
+  const { Kakao } = window;
+  const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
+
+  Kakao.init(apiKey);
+
+  const onClickLogin = () => {
+    if (Kakao.isInitialized()) {
+      Kakao.Auth.authorize({
+        redirectUri: 'http://localhost:3000/oauth'
+      });
+    }
+  };
+
   return (
     <div css={wrap}>
       <p css={title}>
-        복잡한 정산은
-        <br />
+        복잡한 정산은 <br />
         ourney에서 쉽게!
       </p>
       <div css={box}>slider</div>
-      <button css={loginBtn}>카카오로 계속하기</button>
+      <button type="button" onClick={onClickLogin} css={loginBtn}>
+        카카오로 계속하기
+      </button>
       <p css={subText}>
         “카카오로 계속하기”를 누름으로써 <br />
         <a href="/#">개인정보처리방침</a>과 <a href="/#">이용약관</a>에 동의합니다.

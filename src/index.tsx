@@ -9,6 +9,8 @@ import { reset } from './reset';
 
 import Landing from './pages/landing';
 import Login from './pages/login';
+import Oauth from './pages/oauth';
+import Signin from './pages/signin';
 
 interface RouteProps {
   path: string;
@@ -23,6 +25,14 @@ const routes: RouteProps[] = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/oauth',
+    component: Oauth
+  },
+  {
+    path: '/signin',
+    component: Signin
   }
 ];
 
@@ -31,9 +41,9 @@ function App() {
 
   return (
     <Switch location={location}>
-      <Route exact path="/" render={() => <Redirect to="landing" />} />
-      {routes.map((route, i) => (
-        <Route key={i} path={route.path} component={route.component} exact />
+      <Route exact path="/" render={() => <Redirect to="login" />} />
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} component={route.component} exact />
       ))}
     </Switch>
   );

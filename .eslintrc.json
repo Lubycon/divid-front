@@ -5,13 +5,7 @@
         "es6": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:prettier/recommended",
-        "prettier"
+        "airbnb-typescript"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -31,13 +25,11 @@
     ],
     "rules": {
         "semi": "error",
-        "prettier/prettier": [
-            "error",
-            {
-                "endOfLine": "auto"
-            }
-        ],
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off"
+        "comma-dangle": "off",
+        "@typescript-eslint/comma-dangle": "off",
+        "import/prefer-default-export": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}],
+        "object-curly-newline": "off"
     }
 }
