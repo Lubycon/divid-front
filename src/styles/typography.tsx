@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
-import { mediaQuery, calcSize } from './media';
+import { mediaQuery, pxToVw } from './media';
 
 export const title1 = css`
   font-weight: bold;
-  font-size: ${calcSize(32)};
+  font-size: ${pxToVw(32)};
   text-align: center;
   line-height: 1.3;
 

@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
-import { mediaQuery, calcSize } from './media';
+import { mediaQuery, pxToVw } from './media';
 
 export const basicWrap = css`
   width: 100%;
-  padding: ${calcSize(66)} ${calcSize(40)};
+  padding: ${pxToVw(66)} ${pxToVw(40)};
   display: flex;
   flex-direction: column;
   justify-content: center;

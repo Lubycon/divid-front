@@ -31,7 +31,8 @@
         "react/jsx-one-expression-per-line": "off",
         "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}],
         "object-curly-newline": "off",
-        "no-console": "off",
-        "react/jsx-props-no-spreading": "off"
+        "no-console": "warn",
+        "react/jsx-props-no-spreading": "off",
+        "react/require-default-props": "off"
     }
 }

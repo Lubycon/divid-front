@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
-import { mediaQuery, calcSize } from './media';
+import { mediaQuery, pxToVw } from './media';
 
 export const squareButton = css`
-  width: ${calcSize(295)};
-  height: ${calcSize(58)};
-  border-radius: ${calcSize(8)};
-  font-size: ${calcSize(16)};
+  width: ${pxToVw(295)};
+  height: ${pxToVw(58)};
+  border-radius: ${pxToVw(8)};
+  font-size: ${pxToVw(16)};
   font-weight: bold;
   outline: none;
   border: none;

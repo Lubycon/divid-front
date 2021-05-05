@@ -1,12 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { mediaQuery, calcSize } from 'styles/media';
+import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
-
-interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string | undefined;
-  subinfo: string | undefined;
-}
 
 const container = css`
   display: flex;
@@ -14,11 +9,11 @@ const container = css`
 `;
 
 const inputText = css`
-  width: ${calcSize(296)};
-  height: ${calcSize(48)};
-  border-radius: ${calcSize(8)};
+  width: ${pxToVw(296)};
+  height: ${pxToVw(48)};
+  border-radius: ${pxToVw(8)};
   border: 1px solid ${color.border.gray01};
-  padding: ${calcSize(14)} ${calcSize(16)};
+  padding: ${pxToVw(14)} ${pxToVw(16)};
   box-sizing: border-box;
 
   ${mediaQuery(640)} {
@@ -30,10 +25,10 @@ const inputText = css`
 `;
 
 const labelStyle = css`
-  font-size: ${calcSize(16)};
+  font-size: ${pxToVw(16)};
   line-height: 1.5;
   color: ${color.font.gray10};
-  margin-bottom: ${calcSize(8)};
+  margin-bottom: ${pxToVw(8)};
   font-weight: 600;
 
   ${mediaQuery(640)} {
@@ -43,7 +38,7 @@ const labelStyle = css`
 `;
 
 const subtext = css`
-  font-size: ${calcSize(14)};
+  font-size: ${pxToVw(14)};
   color: ${color.font.gray10};
   margin-top: 1.6vw;
 
@@ -53,14 +48,17 @@ const subtext = css`
   }
 `;
 
-export default function InputBox(props: InputBoxProps) {
-  const { label, subinfo, ...rest } = props;
+interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  note?: string;
+}
 
+export default function InputBox({ label, note, ...rest }: InputBoxProps) {
   return (
     <div css={container}>
       {label && <p css={labelStyle}>{label}</p>}
       <input css={inputText} type="text" {...rest} />
-      {subinfo && <p css={subtext}>{subinfo}</p>}
+      {note && <p css={subtext}>{note}</p>}
     </div>
   );
 }
