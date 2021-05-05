@@ -1,6 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import color from '../styles/colors';
+import color from 'styles/colors';
+import { mediaQuery } from 'styles/media';
+import { squareButton } from 'styles/buttons';
 
 const wrap = css`
   width: 100%;
@@ -10,7 +12,7 @@ const wrap = css`
   justify-content: center;
   align-items: center;
 
-  @media (min-width: 640px) {
+  ${mediaQuery(640)} {
     width: 640px;
     margin: 0 auto;
     padding: 66px 0;
@@ -24,7 +26,7 @@ const title = css`
   line-height: 1.3;
   margin-bottom: 6.4vw;
 
-  @media (min-width: 640px) {
+  ${mediaQuery(640)} {
     font-size: 32px;
     margin-bottom: 58px;
   }
@@ -35,29 +37,16 @@ const box = css`
   height: 80vw;
   background-color: #e0e0e0;
 
-  @media (min-width: 640px) {
+  ${mediaQuery(640)} {
     width: 480px;
     height: 480px;
   }
 `;
 
 const loginBtn = css`
-  width: 78.6666666667vw;
-  height: 15.4666666667vw;
-  border-radius: 2.1333333333vw;
+  ${squareButton}
   background-color: ${color.kakaoYellow};
-  margin-top: 16.8vw;
-  font-size: 4.2666666667vw;
-  font-weight: bold;
   color: rgb(0, 0, 0, 0.85);
-
-  @media (min-width: 640px) {
-    width: 560px;
-    height: 58px;
-    border-radius: 8px;
-    margin-top: 126px;
-    font-size: 16px;
-  }
 `;
 
 const subText = css`
@@ -68,7 +57,7 @@ const subText = css`
   text-align: center;
   margin-top: 1.8666666667vw;
 
-  @media (min-width: 640px) {
+  ${mediaQuery(640)} {
     font-size: 14px;
     letter-spacing: -0.41px;
     margin-top: 7px;
@@ -83,12 +72,14 @@ export default function Login() {
   const { Kakao } = window;
   const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
 
+  console.log(Kakao);
+
   Kakao.init(apiKey);
 
-  const onClickLogin = () => {
+  const handleClickLogin = () => {
     if (Kakao.isInitialized()) {
       Kakao.Auth.authorize({
-        redirectUri: 'http://localhost:3000/oauth'
+        redirectUri: 'http://localhost:3000/oauth/kakao/result'
       });
     }
   };
@@ -100,7 +91,7 @@ export default function Login() {
         ourney에서 쉽게!
       </p>
       <div css={box}>slider</div>
-      <button type="button" onClick={onClickLogin} css={loginBtn}>
+      <button type="button" onClick={handleClickLogin} css={loginBtn}>
         카카오로 계속하기
       </button>
       <p css={subText}>

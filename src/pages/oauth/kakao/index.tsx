@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from 'utils';
 
-export default function Oauth() {
+export default function Kakao() {
   const code = useQuery().get('code');
 
   console.log(code);

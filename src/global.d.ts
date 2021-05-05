@@ -1,7 +1,14 @@
-declare global {
-  interface Window {
-    Kakao: any;
-  }
+export interface Auth {
+  authorize: ({ redirectUri: string }) => void;
+}
+export interface KakaoSDK {
+  Auth: Auth;
+  init: (apiKey: string | undefined) => void;
+  isInitialized: () => boolean;
 }
 
-export {};
+declare global {
+  interface Window {
+    Kakao: KakaoSDK;
+  }
+}

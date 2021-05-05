@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
-import { Global } from '@emotion/react';
 
-import { reset } from './reset';
-
+import 'reset-css';
 import Landing from './pages/landing';
 import Login from './pages/login';
-import Oauth from './pages/oauth';
+import Kakao from './pages/oauth/kakao';
 import Signin from './pages/signin';
 
 interface RouteProps {
@@ -27,8 +25,8 @@ const routes: RouteProps[] = [
     component: Login
   },
   {
-    path: '/oauth',
-    component: Oauth
+    path: '/oauth/kakao/result',
+    component: Kakao
   },
   {
     path: '/signin',
@@ -53,7 +51,6 @@ ReactDOM.render(
   <Router>
     <RecoilRoot>
       <App />
-      <Global styles={reset} />
     </RecoilRoot>
   </Router>,
   document.getElementById('root')
