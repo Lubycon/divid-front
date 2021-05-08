@@ -1,41 +1,25 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import color from 'styles/colors';
-import { mediaQuery } from 'styles/media';
-import { squareButton } from 'styles/buttons';
-
-const wrap = css`
-  width: 100%;
-  padding: 17.6vw 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  ${mediaQuery(640)} {
-    width: 640px;
-    margin: 0 auto;
-    padding: 66px 0;
-  }
-`;
+import { mediaQuery, pxToVw } from 'styles/media';
+import { basicWrap } from 'styles/containers';
+import { title1 } from 'styles/typography';
+import Button from 'components/button';
 
 const title = css`
-  font-weight: bold;
-  font-size: 8.5333333333vw;
-  text-align: center;
-  line-height: 1.3;
-  margin-bottom: 6.4vw;
+  ${title1}
+  margin-bottom: ${pxToVw(24)};
 
   ${mediaQuery(640)} {
-    font-size: 32px;
     margin-bottom: 58px;
   }
 `;
 
-const box = css`
-  width: 80vw;
-  height: 80vw;
+const blank = css`
+  width: ${pxToVw(300)};
+  height: ${pxToVw(300)};
   background-color: #e0e0e0;
+  border-radius: 100%;
 
   ${mediaQuery(640)} {
     width: 480px;
@@ -43,19 +27,23 @@ const box = css`
   }
 `;
 
-const loginBtn = css`
-  ${squareButton}
+const button = css`
   background-color: ${color.kakaoYellow};
   color: rgb(0, 0, 0, 0.85);
+  margin-top: ${pxToVw(63)};
+
+  ${mediaQuery(640)} {
+    margin-top: 126px;
+  }
 `;
 
 const subText = css`
-  font-size: 3.7333333333vw;
+  font-size: ${pxToVw(14)};
   line-height: 1.57;
   color: #4f4f4f;
-  letter-spacing: -0.1093333333vw;
+  letter-spacing: ${pxToVw(-0.41)};
   text-align: center;
-  margin-top: 1.8666666667vw;
+  margin-top: ${pxToVw(7)};
 
   ${mediaQuery(640)} {
     font-size: 14px;
@@ -85,15 +73,13 @@ export default function Login() {
   };
 
   return (
-    <div css={wrap}>
-      <p css={title}>
+    <div css={basicWrap}>
+      <h1 css={title}>
         복잡한 정산은 <br />
         ourney에서 쉽게!
-      </p>
-      <div css={box}>slider</div>
-      <button type="button" onClick={handleClickLogin} css={loginBtn}>
-        카카오로 계속하기
-      </button>
+      </h1>
+      <div css={blank}>slider</div>
+      <Button label="카카오로 계속하기" onClick={handleClickLogin} customStyle={button} />
       <p css={subText}>
         “카카오로 계속하기”를 누름으로써 <br />
         <a href="/#">개인정보처리방침</a>과 <a href="/#">이용약관</a>에 동의합니다.
