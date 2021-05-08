@@ -39,7 +39,6 @@ const blank = css`
 `;
 
 export default function Signin() {
-  console.log('test');
   return (
     <div css={basicWrap}>
       <h1 css={title}>
