@@ -6,11 +6,9 @@ import { basicWrap } from 'styles/containers';
 import { title1 } from 'styles/typography';
 
 import Button from 'components/button';
-import InputBox from 'components/inputBox';
+import InputBox from 'components/input-box';
 
 const button = css`
-  background: ${color.purple};
-  color: ${color.white};
   margin-top: ${pxToVw(40)};
 
   ${mediaQuery(640)} {
@@ -47,7 +45,7 @@ export default function Signin() {
       </h1>
       <div css={blank} />
       <InputBox placeholder="카카오 닉네임" label="이름" note="최소 0자 최대 0자 입력가능해요." />
-      <Button label="다음" customStyle={button} onClick={() => alert('signin')} />
+      <Button label="다음" customStyle={button} />
     </div>
   );
 }
