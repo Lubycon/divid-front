@@ -42,11 +42,11 @@ interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   note?: string;
 }
 
-export default function textInput({ label, note, ...rest }: InputBoxProps) {
+export default function TextInput({ label, note, ...rest }: InputBoxProps) {
   return (
     <>
       <input css={inputText} type="text" {...rest} />
-      {note && <p css={subtext}>{note}</p>}
+      {note ? <p css={subtext}>{note}</p> : null}
     </>
   );
 }
