@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
+import React, { useState } from 'react';
+import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
 import { css } from '@emotion/react';
 import { mediaQuery, pxToVw } from 'styles/media';
-import ko from 'date-fns/locale/ko';
 import '../../node_modules/react-datepicker/dist/react-datepicker.css';
+import ko from 'date-fns/locale/ko';
 
 const datePickerWrap = css`
   display: flex;
@@ -26,7 +26,11 @@ const customInput = css`
 const divider = css`
   padding: 0 10px;
   font-size: 28px;
+  line-height: 1.2;
 `;
+
+registerLocale('ko', ko);
+setDefaultLocale('ko');
 
 const CustomInput = ({
   value,
@@ -48,10 +52,6 @@ export default function DateSelector({ defaultDate }: DateSelectorProps) {
   const [startDate, setStartDate] = useState(defaultDate);
   const [endDate, setEndDate] = useState(defaultDate);
 
-  useEffect(() => {
-    registerLocale('ko', ko);
-  }, []);
-
   return (
     <div css={datePickerWrap}>
       <DatePicker
@@ -60,7 +60,6 @@ export default function DateSelector({ defaultDate }: DateSelectorProps) {
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        locale="ko"
         customInput={<CustomInput />}
         dateFormat="M.deee"
       />
@@ -72,7 +71,6 @@ export default function DateSelector({ defaultDate }: DateSelectorProps) {
         startDate={startDate}
         endDate={endDate}
         minDate={startDate}
-        locale="ko"
         customInput={<CustomInput />}
         dateFormat="M.deee"
       />
