@@ -16,6 +16,10 @@ const inputText = css`
   padding: ${pxToVw(14)} ${pxToVw(16)};
   box-sizing: border-box;
 
+  &:focus {
+    outline: none;
+  }
+
   ${mediaQuery(640)} {
     width: 560px;
     height: 48px;

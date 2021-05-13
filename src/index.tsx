@@ -9,6 +9,7 @@ import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
 import Signin from './pages/signin';
+import Create from './pages/create';
 
 interface RouteProps {
   path: string;
@@ -31,6 +32,10 @@ const routes: RouteProps[] = [
   {
     path: '/signin',
     component: Signin
+  },
+  {
+    path: '/create',
+    component: Create
   }
 ];
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { mediaQuery, pxToVw } from 'styles/media';
+import color from 'styles/colors';
 
 export const squareButton = css`
   width: ${pxToVw(295)};
@@ -10,6 +11,8 @@ export const squareButton = css`
   font-weight: bold;
   outline: none;
   border: none;
+  background: ${color.purple};
+  color: ${color.white};
 
   ${mediaQuery(640)} {
     width: 560px;
