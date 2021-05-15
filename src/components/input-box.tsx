@@ -12,7 +12,7 @@ const inputText = css`
   width: ${pxToVw(296)};
   height: ${pxToVw(48)};
   border-radius: ${pxToVw(8)};
-  border: 1px solid ${color.border.gray01};
+  border: 1px solid ${color.grayscale.gray05};
   padding: ${pxToVw(14)} ${pxToVw(16)};
   box-sizing: border-box;
 
