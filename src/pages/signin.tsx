@@ -25,7 +25,7 @@ const title = css`
 const blank = css`
   width: ${pxToVw(120)};
   height: ${pxToVw(120)};
-  background-color: ${color.border.gray01};
+  background-color: ${color.grayscale.gray05};
   border-radius: 100%;
   margin: ${pxToVw(40)} 0 ${pxToVw(16)};
 

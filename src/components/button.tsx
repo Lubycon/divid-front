@@ -11,7 +11,7 @@ export const squareButton = css`
   font-weight: bold;
   outline: none;
   border: none;
-  background: ${color.purple};
+  background: ${color.primary};
   color: ${color.white};
 
   ${mediaQuery(640)} {
@@ -19,6 +19,14 @@ export const squareButton = css`
     height: 58px;
     border-radius: 8px;
     font-size: 16px;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+  }
+
+  &:hover {
+    opacity: 0.7;
   }
 `;
 

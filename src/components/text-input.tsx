@@ -7,14 +7,14 @@ const inputText = css`
   width: ${pxToVw(296)};
   height: ${pxToVw(48)};
   border: none;
-  border-bottom: 1px solid ${color.border.gray01};
+  border-bottom: 1px solid ${color.grayscale.gray05};
   padding: ${pxToVw(14)} 0;
   box-sizing: border-box;
   font-size: ${pxToVw(28)};
 
   &:focus {
     outline: none;
-    border-bottom: 2px solid ${color.purple};
+    border-bottom: 2px solid ${color.primary};
   }
 
   ${mediaQuery(640)} {
