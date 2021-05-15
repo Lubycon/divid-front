@@ -4,7 +4,7 @@ import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
 
 export const squareButton = css`
-  width: ${pxToVw(295)};
+  width: 100%;
   height: ${pxToVw(58)};
   border-radius: ${pxToVw(8)};
   font-size: ${pxToVw(16)};
@@ -15,7 +15,6 @@ export const squareButton = css`
   color: ${color.white};
 
   ${mediaQuery(640)} {
-    width: 560px;
     height: 58px;
     border-radius: 8px;
     font-size: 16px;

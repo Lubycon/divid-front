@@ -33,6 +33,11 @@
         "object-curly-newline": "off",
         "no-console": "warn",
         "react/jsx-props-no-spreading": "off",
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "react/jsx-indent": "off",
+        "@typescript-eslint/indent": "off",
+        "implicit-arrow-linebreak": "off",
+        "no-confusing-arrow": "off",
+        "max-len": "off"
     }
 }

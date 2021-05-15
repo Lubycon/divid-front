@@ -15,6 +15,7 @@ export const title1 = css`
 
 export const Heading = styled.h1`
   font-family: 'NanumSquare', sans-serif;
+  line-height: 1.5;
 `;
 
 export const Heading1 = styled(Heading)`
@@ -55,39 +56,46 @@ export const Heading7 = styled(Heading)`
 export const Body1 = styled.p`
   font-weight: 500;
   font-size: 26px;
+  line-height: 1.5;
 `;
 
 export const Body2 = styled.p`
   font-weight: 500;
   font-size: 20px;
+  line-height: 1.5;
 `;
 
 export const Body3 = styled.p`
   font-weight: 400;
   font-size: 18px;
+  line-height: 1.5;
 `;
 
 export const Body4 = styled.p`
   font-weight: 400;
   font-size: 16px;
+  line-height: 1.5;
 `;
 
-export const caption_title = styled.h3`
+export const CaptionTitle = styled.h3`
   font-weight: 600;
   font-size: 18px;
+  line-height: 1.5;
 `;
 
-export const caption_bold = styled.p`
+export const CaptionBold = styled.p`
   font-weight: 600;
   font-size: 14px;
+  line-height: 1.5;
 `;
 
-export const caption = styled.p`
+export const Caption = styled.p`
   font-weight: 400;
   font-size: 14px;
+  line-height: 1.5;
 `;
 
-export const badge = styled.span`
+export const Badge = styled.span`
   font-weight: 500;
   font-size: 14px;
 `;
