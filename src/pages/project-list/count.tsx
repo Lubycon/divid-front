@@ -35,14 +35,7 @@ const Point = styled(Heading5)<{ isGive: boolean }>`
 const Icon = styled.div<{ isGive: boolean }>`
   width: 12px;
   height: 12px;
-  ${({ isGive }) =>
-    isGive
-      ? css`
-          background: url('./images/ico_give.png') center no-repeat;
-        `
-      : css`
-          background: url('./images/ico_take.png') center no-repeat;
-        `}
+  background: url('./images/${({ isGive }) => (isGive ? 'ico_give' : 'ico_take')}.png') center no-repeat;
   background-size: contain;
   margin-right: 7px;
 `;

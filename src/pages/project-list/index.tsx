@@ -17,42 +17,41 @@ const DUMMY = [
   }
 ];
 
-const DUMMY2 = [];
-
 const Title = styled(Heading4)`
   margin: 16px 0;
 `;
 
 export default function ProjectList() {
-  if (DUMMY2.length) {
+  if (DUMMY.length === 0) {
     return <Empty />;
   }
+
   return (
     <div css={basicWrap}>
-      <Title>여행 중</Title>
-      {DUMMY.length && DUMMY.map
+      {DUMMY.length !== 0 ? <Title>여행 중</Title> : null}
+      {DUMMY.length !== 0 && DUMMY.map
         ? DUMMY.map(({ name, startDate, endDate, memberCount, give, take }) => (
             <Card
               name={name}
               startDate={startDate}
               endDate={endDate}
               memberCount={memberCount}
-              give={give}
-              take={take}
+              giveMoneyAmount={give}
+              takeMoneyAmount={take}
               isCurrent
             />
           ))
         : null}
-      {DUMMY.length ? <Title>모든 여행</Title> : null}
-      {DUMMY.length && DUMMY.map
+      {DUMMY.length !== 0 ? <Title>모든 여행</Title> : null}
+      {DUMMY.length !== 0 && DUMMY.map
         ? DUMMY.map(({ name, startDate, endDate, memberCount, give, take }) => (
             <Card
               name={name}
               startDate={startDate}
               endDate={endDate}
               memberCount={memberCount}
-              give={give}
-              take={take}
+              giveMoneyAmount={give}
+              takeMoneyAmount={take}
             />
           ))
         : null}

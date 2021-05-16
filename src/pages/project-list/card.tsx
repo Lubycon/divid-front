@@ -27,12 +27,20 @@ interface CardProps {
   startDate: string;
   endDate: string;
   memberCount: number;
-  give: number;
-  take: number;
+  giveMoneyAmount: number;
+  takeMoneyAmount: number;
   isCurrent?: boolean;
 }
 
-export default function Card({ name, startDate, endDate, memberCount, give, take, isCurrent = false }: CardProps) {
+export default function Card({
+  name,
+  startDate,
+  endDate,
+  memberCount,
+  giveMoneyAmount,
+  takeMoneyAmount,
+  isCurrent = false
+}: CardProps) {
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
 
@@ -60,8 +68,8 @@ export default function Card({ name, startDate, endDate, memberCount, give, take
           display: flex;
         `}
       >
-        {take ? <Count type={GiveOrTake.Take} amount={take} /> : null}
-        {give ? <Count type={GiveOrTake.Give} amount={give} /> : null}
+        {takeMoneyAmount ? <Count type={GiveOrTake.Take} amount={takeMoneyAmount} /> : null}
+        {giveMoneyAmount ? <Count type={GiveOrTake.Give} amount={giveMoneyAmount} /> : null}
       </div>
     </CardWrap>
   );

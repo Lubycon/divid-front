@@ -7,15 +7,13 @@ export function useQuery() {
 }
 
 export function changeStringToDate(dateString: string) {
-  const date = parse(dateString, 'yyyy-MM-dd', new Date());
-  return date;
+  return parse(dateString, 'yyyy-MM-dd', new Date());
 }
 
 export function makeDateFormat(date: Date) {
-  const result = format(date, 'M.ddeee', { locale: ko });
-  return result;
+  return format(date, 'M.ddeee', { locale: ko });
 }
 
-export function numberWithCommas(price: number) {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export function numberWithCommas(number: number) {
+  return number.toLocaleString();
 }
