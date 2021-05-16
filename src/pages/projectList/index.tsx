@@ -23,7 +23,7 @@ const Title = styled(Heading4)`
   margin: 16px 0;
 `;
 
-export default function Projects() {
+export default function ProjectList() {
   if (DUMMY2.length) {
     return <Empty />;
   }

@@ -10,7 +10,7 @@ import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
 import Signin from './pages/signin';
 import Create from './pages/create';
-import Projects from './pages/projects';
+import ProjectList from './pages/projectList';
 
 interface RouteProps {
   path: string;
@@ -40,7 +40,7 @@ const routes: RouteProps[] = [
   },
   {
     path: '/projects',
-    component: Projects
+    component: ProjectList
   }
 ];
 
