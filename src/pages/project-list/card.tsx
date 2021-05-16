@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useDateFormat } from 'utils';
+import { changeStringToDate, makeDateFormat } from 'utils';
 import { Heading4 as Title, Heading7 as Desc } from 'styles/typography';
 import color from 'styles/colors';
 import Count, { GiveOrTake } from './count';
@@ -33,6 +33,9 @@ interface CardProps {
 }
 
 export default function Card({ name, startDate, endDate, memberCount, give, take, isCurrent = false }: CardProps) {
+  const sDate = changeStringToDate(startDate);
+  const eDate = changeStringToDate(endDate);
+
   return (
     <CardWrap isCurrent={isCurrent}>
       <div
@@ -50,7 +53,7 @@ export default function Card({ name, startDate, endDate, memberCount, give, take
           margin-bottom: 32px;
         `}
       >
-        {`${useDateFormat(startDate)} - ${useDateFormat(endDate)}, ${memberCount}명`}
+        {`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}, ${memberCount}명`}
       </Desc>
       <div
         css={css`

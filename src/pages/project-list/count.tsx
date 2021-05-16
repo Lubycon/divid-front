@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { Badge, Heading5 as Point, CaptionBold } from 'styles/typography';
+import { Badge, Heading5, CaptionBold } from 'styles/typography';
 import color from 'styles/colors';
-import { useNumberWithCommas } from 'utils';
+import { numberWithCommas } from 'utils';
 
 export enum GiveOrTake {
   Give = 'give',
@@ -25,6 +25,10 @@ const PriceWrap = styled.div<{ isGive: boolean }>`
   display: flex;
   align-items: center;
 
+  color: ${({ isGive }) => (isGive ? color.red : color.green)};
+`;
+
+const Point = styled(Heading5)<{ isGive: boolean }>`
   color: ${({ isGive }) => (isGive ? color.red : color.green)};
 `;
 
@@ -57,7 +61,7 @@ export default function Count({ type, amount }: CountProps) {
       </Badge>
       <PriceWrap isGive={isGive}>
         <Icon isGive={isGive} />
-        <Point>{useNumberWithCommas(amount)}</Point>
+        <Point isGive={isGive}>{numberWithCommas(amount)}</Point>
         <CaptionBold>원</CaptionBold>
       </PriceWrap>
     </div>

@@ -10,7 +10,7 @@ import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
 import Signin from './pages/signin';
 import Create from './pages/create';
-import ProjectList from './pages/projectList';
+import ProjectList from './pages/project-list';
 
 interface RouteProps {
   path: string;
