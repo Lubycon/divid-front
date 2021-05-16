@@ -13,7 +13,18 @@ const DUMMY = [
     endDate: '2021-05-13',
     memberCount: 1,
     give: 20000,
-    take: 400000
+    take: 400000,
+    endYn: false
+  },
+  {
+    id: 2,
+    name: '강원도 우정여행',
+    startDate: '2021-05-13',
+    endDate: '2021-05-13',
+    memberCount: 1,
+    give: 20000,
+    take: 400000,
+    endYn: true
   }
 ];
 
