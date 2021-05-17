@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Graph from 'components/graph';
+import { GiveNTakeAmountProps } from 'components/graph';
 import Log from './log';
 
 const DUMMY = [
@@ -19,12 +20,7 @@ const Wrap = styled.div`
   margin-top: 24px;
 `;
 
-interface LogListProps {
-  giveMoneyAmount: number;
-  takeMoneyAmount: number;
-}
-
-export default function LogList({ giveMoneyAmount, takeMoneyAmount }: LogListProps) {
+export default function LogList({ giveMoneyAmount, takeMoneyAmount }: GiveNTakeAmountProps) {
   return (
     <Wrap>
       <Graph giveMoneyAmount={giveMoneyAmount} takeMoneyAmount={takeMoneyAmount} />

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import color from 'styles/colors';
 
-const Wrap = styled.div<{ iconColor: IconColors; mainUser: boolean }>`
+const Wrap = styled.div<{ iconColor: IconColors; isMe: boolean }>`
   width: 44px;
   height: 44px;
   display: flex;
@@ -23,8 +23,8 @@ const Wrap = styled.div<{ iconColor: IconColors; mainUser: boolean }>`
           border: 1px solid ${color.grayscale.gray06};
         `}
 
-  ${({ mainUser }) =>
-    mainUser &&
+  ${({ isMe }) =>
+    isMe &&
     css`
       border-color: ${color.primary};
     `}
@@ -56,12 +56,12 @@ export enum IconColors {
 interface ProfileProps {
   iconColor?: IconColors;
   type: Animals;
-  mainUser?: boolean;
+  isMe?: boolean;
 }
 
-export default function Profile({ iconColor = IconColors.White, type, mainUser = false }: ProfileProps) {
+export default function Profile({ iconColor = IconColors.White, type, isMe = false }: ProfileProps) {
   return (
-    <Wrap iconColor={iconColor} mainUser={mainUser}>
+    <Wrap iconColor={iconColor} isMe={isMe}>
       <AnimalImg type={type} />
     </Wrap>
   );

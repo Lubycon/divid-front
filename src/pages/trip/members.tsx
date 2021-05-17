@@ -17,7 +17,7 @@ export default function Members() {
   return (
     <MembersWrap>
       {/* 사용자 본인의 이모지 */}
-      <Profile type={Animals.Hamster} mainUser />
+      <Profile type={Animals.Hamster} isMe />
       {/* 친구들의 이모지 (차후 map으로 수정) */}
       <div css={overlapIcon}>
         <Profile type={Animals.Puppy} />

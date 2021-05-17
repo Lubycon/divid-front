@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
-import { numberWithCommas } from 'utils';
+import { numberWithCommas, calcRate } from 'utils';
 import { Badge as CommonBadge, Heading5 } from 'styles/typography';
 
-interface GraphProps {
+export interface GiveNTakeAmountProps {
   giveMoneyAmount: number;
   takeMoneyAmount: number;
 }
@@ -18,10 +18,10 @@ const GraphContainer = styled.div`
   margin-bottom: 24px;
 `;
 
-const ColorBar = styled.div<{ percent: number; type: string }>`
+const ColorBar = styled.div<{ percent: number; type: LogType }>`
   width: ${({ percent }) => percent}%;
   height: 100%;
-  background-color: ${({ type }) => (type === 'give' ? color.red : color.green)};
+  background-color: ${({ type }) => (type === LogType.Give ? color.red : color.green)};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,21 +38,26 @@ const Amount = styled(Heading5)`
   line-height: 1;
 `;
 
-export default function Graph({ giveMoneyAmount, takeMoneyAmount }: GraphProps) {
+enum LogType {
+  Give = 'give',
+  Take = 'take'
+}
+
+export default function Graph({ giveMoneyAmount, takeMoneyAmount }: GiveNTakeAmountProps) {
   const totalAmount = giveMoneyAmount + takeMoneyAmount;
-  const giveMoneyPercent = (giveMoneyAmount / totalAmount) * 100;
-  const takeMoneyPercent = (takeMoneyAmount / totalAmount) * 100;
+  const giveMoneyPercent = calcRate(giveMoneyAmount, totalAmount);
+  const takeMoneyPercent = calcRate(takeMoneyAmount, totalAmount);
 
   return (
     <GraphContainer>
       {giveMoneyAmount !== 0 && (
-        <ColorBar type="give" percent={giveMoneyPercent}>
+        <ColorBar type={LogType.Give} percent={giveMoneyPercent}>
           <Badge>갚을 돈</Badge>
           <Amount>{numberWithCommas(giveMoneyAmount)}</Amount>
         </ColorBar>
       )}
       {takeMoneyAmount !== 0 && (
-        <ColorBar type="take" percent={takeMoneyPercent}>
+        <ColorBar type={LogType.Take} percent={takeMoneyPercent}>
           <Badge>받을 돈</Badge>
           <Amount>{numberWithCommas(takeMoneyAmount)}</Amount>
         </ColorBar>

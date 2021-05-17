@@ -44,23 +44,17 @@ export enum ButtonType {
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
+  label?: string;
   customStyle?: SerializedStyles;
   buttonType?: ButtonType;
 }
 
 export default function Button({ label = '확인', customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {
-  if (buttonType === ButtonType.Round) {
-    return (
-      <button type="button" css={[roundButton, customStyle]} {...rest}>
-        <CaptionBold>{label}</CaptionBold>
-      </button>
-    );
-  }
+  const buttonStyle = buttonType === ButtonType.Round ? roundButton : squareButton;
 
   return (
-    <button type="button" css={[squareButton, customStyle]} {...rest}>
-      {label}
+    <button type="button" css={[buttonStyle, customStyle]} {...rest}>
+      <CaptionBold>{label}</CaptionBold>
     </button>
   );
 }
