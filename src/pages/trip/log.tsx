@@ -4,7 +4,8 @@ import styled from '@emotion/styled';
 import color from 'styles/colors';
 import Profile, { IconColors } from 'components/profile';
 import { Heading7, Heading5 as Amount, CaptionBold, Badge } from 'styles/typography';
-import { numberWithCommas, getProfileAnimalType } from 'utils';
+import { numberWithCommas } from 'utils';
+import { Animals } from 'components/profile';
 
 const Wrap = styled.div`
   width: 100%;
@@ -30,7 +31,7 @@ const flexBox = css`
 
 interface LogProps {
   expender: string;
-  profile: string;
+  profile: keyof typeof Animals;
   amount: number;
   desc: string;
 }
@@ -39,7 +40,7 @@ export default function Log({ expender, profile, amount, desc }: LogProps) {
   return (
     <Wrap>
       <div css={flexBox}>
-        <Profile iconColor={IconColors.Gray} type={getProfileAnimalType(profile)} />
+        <Profile iconColor={IconColors.Gray} type={Animals[profile]} />
         <Name>{expender}</Name>
       </div>
       <div

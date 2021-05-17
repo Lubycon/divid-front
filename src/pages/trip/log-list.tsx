@@ -2,18 +2,28 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Graph from 'components/graph';
 import { GiveNTakeAmountProps } from 'components/graph';
+import { Animals } from 'components/profile';
 import Log from './log';
 
-const DUMMY = [
-  { id: 1, expender: '지형', profile: 'puppy', amount: 20000, desc: '휴게소', date: '2021-04-16' },
-  { id: 2, expender: '주예', profile: 'hamster', amount: 8000, desc: '아메리카노', date: '2021-04-16' },
-  { id: 3, expender: '유진', profile: 'rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-16' },
-  { id: 4, expender: '유진', profile: 'rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
-  { id: 5, expender: '유진', profile: 'rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
-  { id: 6, expender: '유진', profile: 'unicorn', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
-  { id: 7, expender: '유진', profile: 'rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
-  { id: 8, expender: '유진', profile: 'bear', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
-  { id: 9, expender: '유진', profile: 'rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' }
+interface Dummy {
+  id: number;
+  expender: string;
+  profile: keyof typeof Animals;
+  amount: number;
+  desc: string;
+  date: string;
+}
+
+const DUMMY: Dummy[] = [
+  { id: 1, expender: '지형', profile: 'Puppy', amount: 20000, desc: '휴게소', date: '2021-04-16' },
+  { id: 2, expender: '주예', profile: 'Hamster', amount: 8000, desc: '아메리카노', date: '2021-04-16' },
+  { id: 3, expender: '유진', profile: 'Rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-16' },
+  { id: 4, expender: '유진', profile: 'Rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
+  { id: 5, expender: '유진', profile: 'Rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
+  { id: 6, expender: '유진', profile: 'Unicorn', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
+  { id: 7, expender: '유진', profile: 'Rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
+  { id: 8, expender: '유진', profile: 'Bear', amount: 180000, desc: '게스트하우스', date: '2021-04-15' },
+  { id: 9, expender: '유진', profile: 'Rabbit', amount: 180000, desc: '게스트하우스', date: '2021-04-15' }
 ];
 
 const Wrap = styled.div`
