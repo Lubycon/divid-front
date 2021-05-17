@@ -13,6 +13,7 @@ const CardWrap = styled.div<{ isCurrent: boolean }>`
   border-radius: 8px;
   padding: 24px 16px;
   box-sizing: border-box;
+  box-shadow: ${({ isCurrent }) => isCurrent && '0px 4px 16px rgba(88, 90, 241, 0.2)'};
 `;
 
 const More = styled.div`

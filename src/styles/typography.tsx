@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from './media';
+import color from './colors';
 
 export const title1 = css`
   font-weight: bold;
@@ -16,6 +17,7 @@ export const title1 = css`
 export const Heading = styled.h1`
   font-family: 'NanumSquare', sans-serif;
   line-height: 1.5;
+  color: ${color.grayscale.gray01};
 `;
 
 export const Heading1 = styled(Heading)`
@@ -97,5 +99,5 @@ export const Caption = styled.p`
 
 export const Badge = styled.span`
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
 `;

@@ -11,6 +11,7 @@ import Kakao from './pages/oauth/kakao';
 import Signin from './pages/signin';
 import Create from './pages/create';
 import ProjectList from './pages/project-list';
+import Trip from './pages/trip';
 
 interface RouteProps {
   path: string;
@@ -41,6 +42,10 @@ const routes: RouteProps[] = [
   {
     path: '/projects',
     component: ProjectList
+  },
+  {
+    path: '/projects/trip/:tripSeq',
+    component: Trip
   }
 ];
 
