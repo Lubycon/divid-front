@@ -4,17 +4,25 @@ import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
 
 const inputText = css`
-  width: ${pxToVw(296)};
-  height: ${pxToVw(48)};
+  width: 100%;
+  height: 40px;
   border: none;
   border-bottom: 1px solid ${color.grayscale.gray05};
   padding: ${pxToVw(14)} 0;
   box-sizing: border-box;
-  font-size: ${pxToVw(28)};
+  margin: 9px 0;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.5;
 
   &:focus {
     outline: none;
     border-bottom: 2px solid ${color.primary};
+  }
+
+  &::placeholder {
+    color: ${color.grayscale.gray01};
+    opacity: 0.3;
   }
 
   ${mediaQuery(640)} {
