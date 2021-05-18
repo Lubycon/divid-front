@@ -31,7 +31,7 @@ const flexBox = css`
 
 interface LogProps {
   expender: string;
-  profile: keyof typeof Animals;
+  profile: Animals;
   amount: number;
   desc: string;
 }
@@ -40,7 +40,7 @@ export default function Log({ expender, profile, amount, desc }: LogProps) {
   return (
     <Wrap>
       <div css={flexBox}>
-        <Profile iconColor={IconColors.Gray} type={Animals[profile]} />
+        <Profile iconColor={IconColors.Gray} type={profile} />
         <Name>{expender}</Name>
       </div>
       <div

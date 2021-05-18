@@ -74,14 +74,21 @@ export enum IconColors {
   Gray = 'gray'
 }
 
-interface ProfileProps {
+export interface ProfileProps {
   iconColor?: IconColors;
+  name?: string;
   type: Animals;
   isMe?: boolean;
   hasName?: boolean;
 }
 
-export default function Profile({ iconColor = IconColors.White, type, isMe = false, hasName = false }: ProfileProps) {
+export default function Profile({
+  iconColor = IconColors.White,
+  name,
+  type,
+  isMe = false,
+  hasName = false
+}: ProfileProps) {
   return (
     <div
       css={css`
@@ -93,7 +100,7 @@ export default function Profile({ iconColor = IconColors.White, type, isMe = fal
       </Wrap>
       {hasName ? (
         <NameWrap>
-          <Tag>지형</Tag>
+          <Tag>{name}</Tag>
           {isMe ? (
             <CircleTag>
               <Badge>나</Badge>
