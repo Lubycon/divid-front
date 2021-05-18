@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
 
-const Button = styled.div`
+const Button = styled.a`
   position: fixed;
   width: 72px;
   height: 72px;
