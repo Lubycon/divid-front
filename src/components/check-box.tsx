@@ -21,11 +21,12 @@ const Wrap = styled.div`
   }
 `;
 
-export default function CheckBox({ id }: { id: string }) {
+export default function CheckBox() {
   return (
     <Wrap>
-      <input type="checkbox" id={id} />
-      <label htmlFor={id} />
+      <label>
+        <input type="checkbox" />
+      </label>
     </Wrap>
   );
 }

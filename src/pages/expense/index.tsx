@@ -70,8 +70,7 @@ export default function Expense() {
           </PayerButton>
 
           <Caption>쓴 사람</Caption>
-          {MEMBERS &&
-            MEMBERS.map &&
+          {Array.isArray(MEMBERS) &&
             MEMBERS.map(({ name, type, isMe }) => <UserCheckbox name={name} type={type} isMe={isMe} />)}
         </SelectWrap>
       </FormWrap>

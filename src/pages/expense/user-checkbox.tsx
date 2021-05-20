@@ -14,7 +14,7 @@ export default function UserCheckbox({ name, type, isMe }: ProfileProps) {
   return (
     <Wrap>
       <Profile name={name} type={type} isMe={isMe} hasName />
-      <CheckBox id="random" />
+      <CheckBox />
     </Wrap>
   );
 }
