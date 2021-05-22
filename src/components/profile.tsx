@@ -4,8 +4,41 @@ import { flexAlignCenter, flexCenter } from 'styles/containers';
 import { css } from '@emotion/react';
 import color from 'styles/colors';
 import { Heading7 as Tag, Badge as BadgeCommon } from 'styles/typography';
+import { typeToEmoji } from 'utils';
 
-const Wrap = styled.div<{ iconColor: IconColors; isMe: boolean }>`
+const smallWrap = css`
+  width: 40px;
+  height: 40px;
+  background-color: ${color.grayscale.gray07};
+  border: 1px solid ${color.grayscale.gray06};
+  font-size: 20px;
+`;
+
+const mediumWrap = css`
+  width: 44px;
+  height: 44px;
+  background-color: ${color.white};
+  border: 2px solid ${color.grayscale.gray06};
+  font-size: 24px;
+`;
+
+const largeWrap = css`
+  width: 80px;
+  height: 80px;
+  background-color: ${color.grayscale.gray07};
+  border: 2px solid ${color.grayscale.gray05};
+  font-size: 40px;
+`;
+
+const xLargeWrap = css`
+  width: 100px;
+  height: 100px;
+  background-color: ${color.grayscale.gray07};
+  border: 2px solid ${color.grayscale.gray05};
+  font-size: 44px;
+`;
+
+const Wrap = styled.div<{ iconSize: IconSize; isMe: boolean }>`
   width: 44px;
   height: 44px;
   display: flex;
@@ -13,30 +46,29 @@ const Wrap = styled.div<{ iconColor: IconColors; isMe: boolean }>`
   align-items: center;
   border-radius: 100%;
   box-sizing: border-box;
+  background-color: ${color.grayscale.gray07};
+  border: 1px solid ${color.grayscale.gray06};
 
-  ${({ iconColor }) =>
-    iconColor === 'white'
-      ? css`
-          background-color: ${color.white};
-          border: 2px solid ${color.grayscale.gray06};
-        `
-      : css`
-          background-color: ${color.grayscale.gray07};
-          border: 1px solid ${color.grayscale.gray06};
-        `}
+  ${({ iconSize }) => {
+    switch (iconSize) {
+      case IconSize.SM:
+        return smallWrap;
+      case IconSize.ME:
+        return mediumWrap;
+      case IconSize.LG:
+        return largeWrap;
+      case IconSize.XL:
+        return xLargeWrap;
+      default:
+        return mediumWrap;
+    }
+  }}
 
   ${({ isMe }) =>
     isMe &&
     css`
       border-color: ${color.primary};
     `}
-`;
-
-const AnimalImg = styled.div<{ type: string }>`
-  width: 24px;
-  height: 24px;
-  background: url('${window.location.origin}/images/ico_${({ type }) => type}.png') center no-repeat;
-  background-size: contain;
 `;
 
 const NameWrap = styled.div`
@@ -69,34 +101,30 @@ export enum Animals {
   Rabbit = 'rabbit'
 }
 
-export enum IconColors {
-  White = 'white',
-  Gray = 'gray'
+export enum IconSize {
+  SM = 'small',
+  ME = 'medium',
+  LG = 'large',
+  XL = 'extraLarge'
 }
 
 export interface ProfileProps {
-  iconColor?: IconColors;
+  iconSize?: IconSize;
   name?: string;
   type: Animals;
   isMe?: boolean;
   hasName?: boolean;
 }
 
-export default function Profile({
-  iconColor = IconColors.White,
-  name,
-  type,
-  isMe = false,
-  hasName = false
-}: ProfileProps) {
+export default function Profile({ iconSize = IconSize.ME, name, type, isMe = false, hasName = false }: ProfileProps) {
   return (
     <div
       css={css`
         display: flex;
       `}
     >
-      <Wrap iconColor={iconColor} isMe={isMe}>
-        <AnimalImg type={type} />
+      <Wrap iconSize={iconSize} isMe={isMe}>
+        {typeToEmoji(type)}
       </Wrap>
       {hasName ? (
         <NameWrap>
