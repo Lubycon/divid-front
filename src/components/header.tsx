@@ -49,7 +49,7 @@ export default function Header() {
       {isToggleHamburger ? (
         <Navigation isNaviOpened={isToggleHamburger} onRequestClose={() => setIsToggleHamburger(false)} />
       ) : null}
-      {title ? <Title>{title}</Title> : null}
+      {title && <Title>{title}</Title>}
     </Wrap>
   );
 }
