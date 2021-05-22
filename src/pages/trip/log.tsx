@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
-import Profile, { IconColors } from 'components/profile';
+import Profile, { IconSize } from 'components/profile';
 import { Heading7, Heading5 as Amount, CaptionBold, Badge } from 'styles/typography';
 import { numberWithCommas } from 'utils';
 import { Animals } from 'components/profile';
@@ -40,7 +40,7 @@ export default function Log({ expender, profile, amount, desc }: LogProps) {
   return (
     <Wrap>
       <div css={flexBox}>
-        <Profile iconColor={IconColors.Gray} type={profile} />
+        <Profile iconSize={IconSize.SM} type={profile} />
         <Name>{expender}</Name>
       </div>
       <div

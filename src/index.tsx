@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
 
 import 'reset-css';
+import Header from 'components/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
@@ -45,11 +46,11 @@ const routes: RouteProps[] = [
     component: ProjectList
   },
   {
-    path: '/projects/trip/:tripSeq',
+    path: '/trip/:tripSeq',
     component: Trip
   },
   {
-    path: '/projects/trip/:tripSeq/expense',
+    path: '/trip/:tripSeq/expense',
     component: Expense
   }
 ];
@@ -58,12 +59,15 @@ function App() {
   const location = useLocation();
 
   return (
-    <Switch location={location}>
-      <Route exact path="/" render={() => <Redirect to="login" />} />
-      {routes.map((route) => (
-        <Route key={route.path} path={route.path} component={route.component} exact />
-      ))}
-    </Switch>
+    <>
+      <Header />
+      <Switch location={location}>
+        <Route exact path="/" render={() => <Redirect to="login" />} />
+        {routes.map((route) => (
+          <Route key={route.path} path={route.path} component={route.component} exact />
+        ))}
+      </Switch>
+    </>
   );
 }
 
