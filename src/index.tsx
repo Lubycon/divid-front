@@ -14,6 +14,7 @@ import Create from './pages/create';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
 import Expense from './pages/expense';
+import Myinfo from './pages/myinfo';
 
 interface RouteProps {
   path: string;
@@ -52,6 +53,10 @@ const routes: RouteProps[] = [
   {
     path: '/trip/:tripSeq/expense',
     component: Expense
+  },
+  {
+    path: '/myinfo',
+    component: Myinfo
   }
 ];
 
