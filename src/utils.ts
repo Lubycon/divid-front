@@ -41,19 +41,17 @@ export function useScroll() {
 }
 
 export function usePageInfo() {
-  const pages = [
-    {
-      path: '/create',
-      title: '여행 추가'
-    },
-    {
-      path: '/trip/[0-9]+/expense',
-      title: '쓴 돈 추가'
+ const pages = [
+   {
+     pathRegEx: /\/create/,
+     title: '여행 추가'
+   },
+   {
+     pathRegEx: /\/trip\/[0-9]+\/expense/,
+     title: '쓴 돈 추가'
     }
-  ];
-
-  const currentUrl = window.location.href;
-  const result = pages.find((p) => currentUrl.match(p.path));
+ ];
+ const result = pages.find(page => page.pathRegEx.test(window.location.href));
 
   if (result === undefined) {
     return;
