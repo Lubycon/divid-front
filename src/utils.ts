@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { parse, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { Animals } from 'components/profile';
 import _ from 'lodash';
 
 export function useQuery() {
@@ -60,7 +61,7 @@ export function usePageInfo() {
   return result.title;
 }
 
-export function typeToEmoji(type: string) {
+export function typeToEmoji(type: Animals) {
   switch (type) {
     case 'bear':
       return '🐻';

@@ -14,6 +14,12 @@ const Wrap = styled.div`
   bottom: 0;
 `;
 
+const Border = styled.div`
+  width: 232px;
+  height: 1px;
+  background: ${color.grayscale.gray06};
+`;
+
 export const naviStyle = {
   content: {
     outline: 'none',
@@ -48,6 +54,7 @@ export default function Navigation({ isNaviOpened, onRequestClose }: NavigationP
     >
       <Wrap>
         <Welcome />
+        <Border />
       </Wrap>
     </ReactModal>
   );
