@@ -66,7 +66,7 @@ export default function InputBox({ label, note, onChangeInput, ...rest }: InputB
   return (
     <div css={container}>
       {label && <p css={labelStyle}>{label}</p>}
-      <input css={inputText} type="text" onChange={(e) => handleChange(e)} {...rest} />
+      <input css={inputText} type="text" onChange={handleChange} {...rest} />
       {note && <p css={subtext}>{note}</p>}
     </div>
   );
