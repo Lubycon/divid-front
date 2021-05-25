@@ -60,7 +60,7 @@ interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export default function InputBox({ label, note, onChangeInput, ...rest }: InputBoxProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
-    onChangeInput && onChangeInput(e.target.value);
+    onChangeInput?.(e.target.value);
   };
 
   return (
