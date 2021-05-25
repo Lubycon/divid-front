@@ -79,7 +79,7 @@ export default function Login() {
         ourney에서 쉽게!
       </h1>
       <div css={blank}>slider</div>
-      <Button label="카카오로 계속하기" onClick={handleClickLogin} customStyle={button} />
+      <Button onClick={handleClickLogin} customStyle={button}>카카오로 계속하기</Button>
       <p css={subText}>
         “카카오로 계속하기”를 누름으로써 <br />
         <a href="/#">개인정보처리방침</a>과 <a href="/#">이용약관</a>에 동의합니다.

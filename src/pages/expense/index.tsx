@@ -78,8 +78,7 @@ export default function Expense() {
         css={css`
           margin-top: 16px;
         `}
-        label="저장"
-      />
+      >저장</Button>
     </div>
   );
 }

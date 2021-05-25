@@ -51,25 +51,25 @@ export enum ButtonType {
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label?: string;
   customStyle?: SerializedStyles;
   buttonType?: ButtonType;
+  children?: JSX.Element | string;
 }
 
-export default function Button({ label = '확인', customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {
+export default function Button({ children, customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {
   const buttonStyle = buttonType === ButtonType.Round ? roundButton : squareButton;
 
   return (
     <button type="button" css={[buttonStyle, customStyle]} {...rest}>
-      <CaptionBold>{label}</CaptionBold>
+      <CaptionBold>{children}</CaptionBold>
     </button>
   );
 }
 
-export function TextButton({ label = '확인', customStyle, ...rest }: ButtonProps) {
+export function TextButton({ children, ...rest }: ButtonProps) {
   return (
-    <button type="button" css={[textButtonStyle, customStyle]} {...rest}>
-      <Caption>{label}</Caption>
+    <button type="button" css={[textButtonStyle]} {...rest}>
+      <Caption>{children}</Caption>
     </button>
   );
 }

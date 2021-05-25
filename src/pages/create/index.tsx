@@ -21,7 +21,7 @@ export default function Create() {
     <div css={basicWrap}>
       <TextInput placeholder="여행 이름 입력" note="이름은 최소 0자, 최대 00자까지 입력 가능해요" />
       <DateSelector defaultDate={defaultDate} />
-      <Button label="다음" customStyle={button} />
+      <Button customStyle={button}>다음</Button>
     </div>
   );
 }

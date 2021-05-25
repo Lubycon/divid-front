@@ -8,16 +8,7 @@ import color from 'styles/colors';
 import InputBox from 'components/input-box';
 import Button, { TextButton as TextButtonCommon } from 'components/button';
 
-const OPTIONS = [
-  Animals.Hamster,
-  Animals.Puppy,
-  Animals.Rabbit,
-  Animals.Unicorn,
-  Animals.Fox,
-  Animals.Bear,
-  Animals.Panda,
-  Animals.Tiger
-];
+const OPTIONS = Object.values(Animals);
 
 const IconSelector = styled.div`
   padding: 23px 0 19px;
@@ -70,15 +61,15 @@ export default function Myinfo() {
         <Profile type={selected} iconSize={IconSize.XL} />
         <Icons>
           {OPTIONS.map((option) => (
-            <ProfileWrap selected={selected === option} onClick={() => setSelected(option)}>
+            <ProfileWrap key={option} selected={selected === option} onClick={() => setSelected(option)}>
               <Profile type={option} />
             </ProfileWrap>
           ))}
         </Icons>
       </IconSelector>
-      <InputBox label="이름" note="최소 2자 최대 8자 입력가능해요." defaultValue="주예" onChangeInput={handleChange} />
+      <InputBox label="이름" note="최소 2자 최대 8자 입력가능해요." defaultValue={nickname} onChangeInput={handleChange} />
       <ButtonWrap>
-        <Button label="저장" />
+        <Button>저장</Button>
       </ButtonWrap>
       <div
         css={[
@@ -88,9 +79,9 @@ export default function Myinfo() {
           `
         ]}
       >
-        <TextButton label="회원탈퇴" />
+        <TextButton>회원탈퇴</TextButton>
         <Divider />
-        <TextButton label="로그아웃" />
+        <TextButton>로그아웃</TextButton>
       </div>
     </div>
   );
