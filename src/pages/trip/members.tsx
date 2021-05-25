@@ -23,7 +23,7 @@ export default function Members() {
         <Profile type={Animals.Puppy} />
       </div>
       <div css={overlapIcon}>
-        <Button buttonType={ButtonType.Round} label="친구초대" />
+        <Button buttonType={ButtonType.Round}>친구초대</Button>
       </div>
     </MembersWrap>
   );

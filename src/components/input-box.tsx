@@ -6,10 +6,10 @@ import color from 'styles/colors';
 const container = css`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const inputText = css`
-  width: ${pxToVw(296)};
   height: ${pxToVw(48)};
   border-radius: ${pxToVw(8)};
   border: 1px solid ${color.grayscale.gray05};
@@ -21,7 +21,6 @@ const inputText = css`
   }
 
   ${mediaQuery(640)} {
-    width: 560px;
     height: 48px;
     border-radius: 8px;
     padding: 14px 16px;
@@ -43,7 +42,7 @@ const labelStyle = css`
 
 const subtext = css`
   font-size: ${pxToVw(14)};
-  color: ${color.font.gray10};
+  color: ${color.grayscale.gray04};
   margin-top: 1.6vw;
 
   ${mediaQuery(640)} {
@@ -55,13 +54,18 @@ const subtext = css`
 interface InputBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   note?: string;
+  onChangeInput?: (value: string) => void;
 }
 
-export default function InputBox({ label, note, ...rest }: InputBoxProps) {
+export default function InputBox({ label, note, onChangeInput, ...rest }: InputBoxProps) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChangeInput?.(e.target.value);
+  };
+
   return (
     <div css={container}>
       {label && <p css={labelStyle}>{label}</p>}
-      <input css={inputText} type="text" {...rest} />
+      <input css={inputText} type="text" onChange={handleChange} {...rest} />
       {note && <p css={subtext}>{note}</p>}
     </div>
   );

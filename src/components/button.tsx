@@ -2,7 +2,7 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
-import { CaptionBold } from 'styles/typography';
+import { CaptionBold, Caption } from 'styles/typography';
 
 export const squareButton = css`
   width: 100%;
@@ -38,23 +38,38 @@ export const roundButton = css`
   padding: 0 14px;
 `;
 
+const textButtonStyle = css`
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+`;
+
 export enum ButtonType {
   Square = 'square',
   Round = 'round'
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label?: string;
   customStyle?: SerializedStyles;
   buttonType?: ButtonType;
+  children?: JSX.Element | string;
 }
 
-export default function Button({ label = '확인', customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {
+export default function Button({ children, customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {
   const buttonStyle = buttonType === ButtonType.Round ? roundButton : squareButton;
 
   return (
     <button type="button" css={[buttonStyle, customStyle]} {...rest}>
-      <CaptionBold>{label}</CaptionBold>
+      <CaptionBold>{children}</CaptionBold>
+    </button>
+  );
+}
+
+export function TextButton({ children, ...rest }: ButtonProps) {
+  return (
+    <button type="button" css={[textButtonStyle]} {...rest}>
+      <Caption>{children}</Caption>
     </button>
   );
 }
