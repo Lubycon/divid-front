@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { parse, format } from 'date-fns';
+import { useMediaQuery } from 'react-responsive';
 import { ko } from 'date-fns/locale';
 import { Animals } from 'components/profile';
 import _ from 'lodash';
 
 export function useQuery() {
   return new URLSearchParams(useLocation().search);
+}
+
+export function useCheckDesktop() {
+  return useMediaQuery({ query: '(min-width: 640px)' });
 }
 
 export function changeStringToDate(dateString: string) {
@@ -27,7 +32,7 @@ export function useScroll() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = _.debounce(() => {
+    const handleScroll = _.throttle(() => {
       setIsScrolled(!!window.scrollY);
     }, 100);
 
@@ -35,9 +40,13 @@ export function useScroll() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   });
-  console.log(isScrolled);
 
   return isScrolled;
+}
+
+export function checkIsHome() {
+  const homePath = /\/projects/;
+  return homePath.test(window.location.href);
 }
 
 export function getPageInfo() {
@@ -53,6 +62,10 @@ export function getPageInfo() {
     {
       pathRegEx: /\/myinfo/,
       title: '내 프로필 수정'
+    },
+    {
+      pathRegEx: /\/modify/,
+      title: '여행 정보 수정'
     }
   ];
   const result = pages.find(({ pathRegEx }) => pathRegEx.test(window.location.href));
@@ -64,13 +77,11 @@ export function getPageInfo() {
 }
 
 export function getHeaderButton() {
-  const pages: { pathRegEx: RegExp; label: string; onClick: () => any }[] = [
+  const pages: { pathRegEx: RegExp; label: string; link: string }[] = [
     {
       pathRegEx: /\/projects/,
       label: '여행 추가',
-      onClick: () => {
-        console.log('clicked');
-      }
+      link: '/create'
     }
   ];
 
@@ -80,7 +91,7 @@ export function getHeaderButton() {
     return;
   }
 
-  const button = { label: result.label, onClick: result.onClick };
+  const button = { label: result.label, link: result.link };
   return button;
 }
 

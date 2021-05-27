@@ -9,11 +9,12 @@ import Header from 'components/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
-import Create from './pages/create';
+import Create from './pages/create-trip';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
 import Expense from './pages/expense';
 import Myinfo from './pages/myinfo';
+import Modify from './pages/modify-trip';
 
 interface RouteProps {
   path: string;
@@ -52,6 +53,10 @@ const routes: RouteProps[] = [
   {
     path: '/myinfo',
     component: Myinfo
+  },
+  {
+    path: '/modify',
+    component: Modify
   }
 ];
 

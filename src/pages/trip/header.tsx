@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import color from 'styles/colors';
 import { Heading3 as Title, Body3 as Desc } from 'styles/typography';
 import { changeStringToDate, makeDateFormat } from 'utils';
-import Members from './members';
+// import Members from 'components/members';
 
 interface HeaderProps {
   name: string;
@@ -26,7 +26,7 @@ export default function Header({ name, startDate, endDate }: HeaderProps) {
       >
         {`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}`}
       </Desc>
-      <Members />
+      {/* <Members /> */}
     </>
   );
 }

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { mediaQuery } from 'styles/media';
+
+import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
-import { getPageInfo, getHeaderButton, useScroll } from 'utils';
+import { getPageInfo, getHeaderButton, checkIsHome, useScroll } from 'utils';
 import color from 'styles/colors';
 import Navigation from './navigation';
 
@@ -19,6 +22,11 @@ const Wrap = styled.div<{ isScrolled: boolean }>`
   transition: box-shadow ease-in-out 0.2s;
 
   ${({ isScrolled }) => (isScrolled ? scrolled : unscrolled)};
+
+  ${mediaQuery(640)} {
+    width: 640px;
+    margin: 0 auto;
+  }
 `;
 
 const scrolled = css`
@@ -30,18 +38,30 @@ const unscrolled = css`
   box-shadow: none;
 `;
 
-const Hamburger = styled.div`
+const Icon = styled.div`
   width: 44px;
   height: 44px;
-  background: url('/images/ico_menu.svg') center no-repeat;
   background-size: contain;
   position: absolute;
   left: 20px;
 `;
 
-const OptionalButton = styled(Title)`
+const Hamburger = styled(Icon)`
+  background: url('/images/ico_menu.svg') center no-repeat;
+`;
+
+const BackButton = styled(Icon)`
+  background: url('/images/ico_back.svg') center no-repeat;
+`;
+
+const OptionalButton = styled(Link)`
   position: absolute;
   right: 20px;
+  text-decoration: none;
+`;
+
+const ButtonLabel = styled(Title)`
+  color: ${color.grayscale.gray03};
 `;
 
 export default function Header() {
@@ -49,16 +69,27 @@ export default function Header() {
   const isScrolled = useScroll();
   const title = getPageInfo();
   const button = getHeaderButton();
-  console.log(button);
 
   return (
     <Wrap isScrolled={isScrolled}>
-      <Hamburger onClick={() => setIsToggleHamburger(true)} />
+      {checkIsHome() ? (
+        <Hamburger onClick={() => setIsToggleHamburger(true)} />
+      ) : (
+        <BackButton
+          onClick={() => {
+            window.history.back();
+          }}
+        />
+      )}
       {isToggleHamburger ? (
         <Navigation isNaviOpened={isToggleHamburger} onRequestClose={() => setIsToggleHamburger(false)} />
       ) : null}
       {title && <Title>{title}</Title>}
-      {button && <OptionalButton onClick={button.onClick}>{button.label}</OptionalButton>}
+      {button && (
+        <OptionalButton to={button.link}>
+          <ButtonLabel>{button.label}</ButtonLabel>
+        </OptionalButton>
+      )}
     </Wrap>
   );
 }
