@@ -32,12 +32,13 @@
 #rainbowDatePicker_modal {
   font-family: Apple SD Gothic Neo;
   font-weight: normal;
-  background: none;
   backdrop-filter: none;
   transition: none;
+  background-color: #F7F7F7;
 
   @media (min-width: 640px) {
     align-items: flex-start;
+    background: none;
   }
   
   & > section {
@@ -92,7 +93,7 @@
       #rainbowDatePicker_modal_calendar {
         margin-top: 58px;
         position: relative;
-        padding: 0 16px;
+        padding: 0 16px 16px;
 
         & > div {
           width: calc(100% - 32px);
