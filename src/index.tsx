@@ -9,7 +9,6 @@ import Header from 'components/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
-import Signin from './pages/signin';
 import Create from './pages/create';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
@@ -33,10 +32,6 @@ const routes: RouteProps[] = [
   {
     path: '/oauth/kakao/result',
     component: Kakao
-  },
-  {
-    path: '/signin',
-    component: Signin
   },
   {
     path: '/create',

@@ -54,7 +54,7 @@ export default function Expense() {
       ]}
     >
       <FormWrap>
-        <Button buttonType={ButtonType.Round} label="04.16" />
+        <Button buttonType={ButtonType.Round}>04.16</Button>
         <div
           css={css`
             margin: 0 5px;
@@ -78,7 +78,9 @@ export default function Expense() {
         css={css`
           margin-top: 16px;
         `}
-      >저장</Button>
+      >
+        저장
+      </Button>
     </div>
   );
 }

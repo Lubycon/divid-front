@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import color from 'styles/colors';
 import { mediaQuery, pxToVw } from './media';
 
 export const basicWrap = css`
@@ -25,4 +26,8 @@ export const flexCenter = css`
 export const flexAlignCenter = css`
   display: flex;
   align-items: center;
+`;
+
+export const grayBackground = css`
+  background-color: ${color.grayscale.gray07};
 `;

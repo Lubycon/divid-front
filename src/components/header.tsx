@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
-import { usePageInfo, useScroll } from 'utils';
+import { getPageInfo, getHeaderButton, useScroll } from 'utils';
 import color from 'styles/colors';
 import Navigation from './navigation';
 
@@ -31,25 +31,34 @@ const unscrolled = css`
 `;
 
 const Hamburger = styled.div`
-  width: 40px;
-  height: 40px;
-  border: 1px solid red;
+  width: 44px;
+  height: 44px;
+  background: url('/images/ico_menu.svg') center no-repeat;
+  background-size: contain;
   position: absolute;
   left: 20px;
+`;
+
+const OptionalButton = styled(Title)`
+  position: absolute;
+  right: 20px;
 `;
 
 export default function Header() {
   const [isToggleHamburger, setIsToggleHamburger] = useState(false);
   const isScrolled = useScroll();
-  const title = usePageInfo();
+  const title = getPageInfo();
+  const button = getHeaderButton();
+  console.log(button);
 
   return (
     <Wrap isScrolled={isScrolled}>
-      <Hamburger onClick={() => setIsToggleHamburger(true)}>햄버거</Hamburger>
+      <Hamburger onClick={() => setIsToggleHamburger(true)} />
       {isToggleHamburger ? (
         <Navigation isNaviOpened={isToggleHamburger} onRequestClose={() => setIsToggleHamburger(false)} />
       ) : null}
       {title && <Title>{title}</Title>}
+      {button && <OptionalButton onClick={button.onClick}>{button.label}</OptionalButton>}
     </Wrap>
   );
 }

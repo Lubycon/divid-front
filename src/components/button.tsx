@@ -2,23 +2,22 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
-import { CaptionBold, Caption } from 'styles/typography';
+import { Caption } from 'styles/typography';
+import { flexCenter } from 'styles/containers';
 
 export const squareButton = css`
   width: 100%;
   height: ${pxToVw(58)};
-  border-radius: ${pxToVw(8)};
-  font-size: ${pxToVw(16)};
+  border-radius: 8px;
   font-weight: bold;
   outline: none;
   border: none;
   background: ${color.primary};
   color: ${color.white};
+  ${flexCenter}
 
   ${mediaQuery(640)} {
     height: 58px;
-    border-radius: 8px;
-    font-size: 16px;
   }
 
   &:disabled {
@@ -61,7 +60,7 @@ export default function Button({ children, customStyle, buttonType = ButtonType.
 
   return (
     <button type="button" css={[buttonStyle, customStyle]} {...rest}>
-      <CaptionBold>{children}</CaptionBold>
+      {children}
     </button>
   );
 }

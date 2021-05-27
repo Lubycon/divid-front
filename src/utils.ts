@@ -40,7 +40,7 @@ export function useScroll() {
   return isScrolled;
 }
 
-export function usePageInfo() {
+export function getPageInfo() {
   const pages: { pathRegEx: RegExp; title: string }[] = [
     {
       pathRegEx: /\/create/,
@@ -61,6 +61,27 @@ export function usePageInfo() {
     return;
   }
   return result.title;
+}
+
+export function getHeaderButton() {
+  const pages: { pathRegEx: RegExp; label: string; onClick: () => any }[] = [
+    {
+      pathRegEx: /\/projects/,
+      label: '여행 추가',
+      onClick: () => {
+        console.log('clicked');
+      }
+    }
+  ];
+
+  const result = pages.find(({ pathRegEx }) => pathRegEx.test(window.location.href));
+
+  if (result === undefined) {
+    return;
+  }
+
+  const button = { label: result.label, onClick: result.onClick };
+  return button;
 }
 
 export function typeToEmoji(type: Animals) {
