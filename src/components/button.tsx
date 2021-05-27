@@ -16,6 +16,10 @@ export const squareButton = css`
   color: ${color.white};
   ${flexCenter}
 
+  h1 {
+    color: ${color.white};
+  }
+
   ${mediaQuery(640)} {
     height: 58px;
   }
