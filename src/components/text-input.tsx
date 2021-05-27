@@ -1,19 +1,28 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
+import { Badge as CommonBadge } from 'styles/typography';
 
 const inputText = css`
-  width: 100%;
+  width: 286px;
   height: 40px;
   border: none;
   border-bottom: 1px solid ${color.grayscale.gray05};
   padding: ${pxToVw(14)} 0;
   box-sizing: border-box;
-  margin: 9px 0;
+  font-size: ${pxToVw(26)};
   font-weight: 500;
-  font-size: 26px;
   line-height: 1.5;
+  background: transparent;
+
+  ${mediaQuery(640)} {
+    width: 544px;
+    height: 48px;
+    padding: 14px 0;
+    font-size: 26px;
+  }
 
   &:focus {
     outline: none;
@@ -22,25 +31,24 @@ const inputText = css`
 
   &::placeholder {
     color: ${color.grayscale.gray01};
+    font-size: ${pxToVw(26)};
+    font-weight: 500;
+    line-height: 1.5;
     opacity: 0.3;
-  }
 
-  ${mediaQuery(640)} {
-    width: 560px;
-    height: 48px;
-    padding: 14px 0;
-    font-size: 28px;
+    ${mediaQuery(640)} {
+      font-size: 26px;
+    }
   }
 `;
 
-const subtext = css`
-  font-size: ${pxToVw(12)};
+const Badge = styled(CommonBadge)`
   color: ${color.font.gray05};
-  margin-top: 1.6vw;
+  margin-top: 4px;
   align-self: flex-start;
+  line-height: 1.3;
 
   ${mediaQuery(640)} {
-    font-size: 12px;
     margin-bottom: 6px;
   }
 `;
@@ -54,7 +62,7 @@ export default function TextInput({ label, note, ...rest }: InputBoxProps) {
   return (
     <>
       <input css={inputText} type="text" {...rest} />
-      {note ? <p css={subtext}>{note}</p> : null}
+      {note ? <Badge>{note}</Badge> : null}
     </>
   );
 }
