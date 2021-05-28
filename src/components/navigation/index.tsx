@@ -2,11 +2,13 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
+import { Link } from 'react-router-dom';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { flexAlignCenter, flexCenter } from 'styles/containers';
-import { Heading7, CaptionBold } from 'styles/typography';
-import { ArrowRight, Close } from 'styles/icon';
+import { CaptionBold } from 'styles/typography';
+import { Close } from 'styles/icon';
 import Welcome from './welcome';
+import ArrowTab from '../arrow-tab';
 
 const Wrap = styled.div`
   background: ${color.white};
@@ -45,18 +47,7 @@ const Divider = styled.div`
   background: ${color.grayscale.gray06};
 `;
 
-const HomeButton = styled.div`
-  ${flexAlignCenter};
-  justify-content: space-between;
-  height: ${pxToVw(60)};
-  border-top: 1px solid ${color.grayscale.gray06};
-
-  ${mediaQuery(640)} {
-    height: 60px;
-  }
-`;
-
-const Tab = styled.div`
+const Tab = styled(Link)`
   ${flexAlignCenter};
   height: ${pxToVw(60)};
 
@@ -117,17 +108,14 @@ export default function Navigation({ isNaviOpened, onRequestClose }: NavigationP
         </CloseButton>
         <UpperWrap>
           <Welcome />
-          <HomeButton>
-            <Heading7>홈</Heading7>
-            <ArrowRight theme={color.grayscale.gray03} />
-          </HomeButton>
+          <ArrowTab onClick={onRequestClose} label="홈" isBorderTop />
         </UpperWrap>
         <LowerWrap>
-          <Tab>
+          <Tab to="/service" onClick={onRequestClose}>
             <CaptionBold>서비스 정보</CaptionBold>
           </Tab>
           <Divider />
-          <Tab>
+          <Tab to="/#" onClick={onRequestClose}>
             <CaptionBold>건의하기</CaptionBold>
           </Tab>
         </LowerWrap>

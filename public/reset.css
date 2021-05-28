@@ -48,5 +48,11 @@ table {
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
+	outline: none;
+	color: #1A1D22;
+}
+a:hover, a:active {
+	text-decoration: none;
+	color: #1A1D22; 
 }

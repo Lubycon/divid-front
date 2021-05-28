@@ -66,6 +66,18 @@ export function getPageInfo() {
     {
       pathRegEx: /\/modify/,
       title: '여행 정보 수정'
+    },
+    {
+      pathRegEx: /\/service/,
+      title: '서비스 정보'
+    },
+    {
+      pathRegEx: /\/privacy/,
+      title: '개인정보처리방침'
+    },
+    {
+      pathRegEx: /\/terms/,
+      title: '이용약관'
     }
   ];
   const result = pages.find(({ pathRegEx }) => pathRegEx.test(window.location.href));
@@ -121,4 +133,12 @@ export function typeToEmoji(type: Animals) {
     default:
       return '🐹';
   }
+}
+
+export function convertNewlineToBr(text: string) {
+  return text.replace(/\n/g, '<br />');
+}
+
+export function createMarkup(text: string) {
+  return { __html: text };
 }
