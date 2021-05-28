@@ -21,14 +21,14 @@ const DUMMY: TripInfo = {
 export default function Trip() {
   const RESPONSE_DUMMY = 200;
 
-  if (RESPONSE_DUMMY === 200) {
+  if (RESPONSE_DUMMY !== 200) {
     // 로그인 상태이고, 링크로 접근했으나, 여행에 조인하지 않은 경우
     return <Join />;
   }
 
   return (
     <div css={[basicWrap, grayBackground]}>
-      <Header name={DUMMY.tripName} startDate={DUMMY.startDate} endDate={DUMMY.endDate} />
+      <Header trip={DUMMY} />
       <TripLog trip={DUMMY} />
       <FloatingActionButton />
     </div>

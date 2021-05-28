@@ -82,6 +82,11 @@ export function getHeaderButton() {
       pathRegEx: /\/projects/,
       label: '여행 추가',
       link: '/create'
+    },
+    {
+      pathRegEx: /\/trips/,
+      label: '수정',
+      link: '/modify'
     }
   ];
 

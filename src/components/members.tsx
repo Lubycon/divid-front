@@ -3,6 +3,7 @@ import Profile from 'components/profile';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button, { ButtonType } from 'components/button';
+import { CaptionBold } from 'styles/typography';
 import { MemberInfo } from 'api/types';
 
 const MembersWrap = styled.div`
@@ -14,12 +15,25 @@ const overlapIcon = css`
   margin-left: -14px;
 `;
 
+const PlusIcon = styled.span`
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: url('/images/ico_plus_sm.svg') no-repeat center;
+  background-size: contain;
+`;
+
+const Label = styled(CaptionBold)`
+  display: inline-block;
+  margin: 0 4px;
+`;
+
 interface MembersProps {
   members: MemberInfo[];
-  isInvitable?: boolean;
+  inviteCode?: number | undefined;
 }
 
-export default function Members({ members, isInvitable = false }: MembersProps) {
+export default function Members({ members, inviteCode = undefined }: MembersProps) {
   const me = members.filter((member) => member.me)[0];
   const others = members.filter((member) => !member.me);
 
@@ -32,9 +46,14 @@ export default function Members({ members, isInvitable = false }: MembersProps) 
           <Profile type={member.profile} />
         </div>
       ))}
-      {isInvitable && (
+      {inviteCode && (
         <div css={overlapIcon}>
-          <Button buttonType={ButtonType.Round}>친구초대</Button>
+          <Button buttonType={ButtonType.Round} onClick={() => console.log(inviteCode)}>
+            <>
+              <PlusIcon />
+              <Label>친구초대</Label>
+            </>
+          </Button>
         </div>
       )}
     </MembersWrap>
