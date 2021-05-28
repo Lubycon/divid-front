@@ -43,11 +43,11 @@ const routes: RouteProps[] = [
     component: ProjectList
   },
   {
-    path: '/trip/:tripSeq',
+    path: '/trips',
     component: Trip
   },
   {
-    path: '/trip/:tripSeq/expense',
+    path: '/expense',
     component: Expense
   },
   {

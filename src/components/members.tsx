@@ -1,8 +1,9 @@
 import React from 'react';
-import Profile, { Animals } from 'components/profile';
+import Profile from 'components/profile';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button, { ButtonType } from 'components/button';
+import { MemberInfo } from 'api/types';
 
 const MembersWrap = styled.div`
   display: flex;
@@ -12,13 +13,6 @@ const MembersWrap = styled.div`
 const overlapIcon = css`
   margin-left: -14px;
 `;
-
-export interface MemberInfo {
-  userId: number;
-  nickName: string;
-  profile: Animals;
-  me: boolean;
-}
 
 interface MembersProps {
   members: MemberInfo[];

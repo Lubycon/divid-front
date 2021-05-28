@@ -31,3 +31,7 @@ export const flexAlignCenter = css`
 export const grayBackground = css`
   background-color: ${color.grayscale.gray07};
 `;
+
+export const blueBackground = css`
+  background-color: #6172f9;
+`;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Graph from 'components/graph';
 import { GiveNTakeAmountProps } from 'components/graph';
-import { Animals } from 'components/profile';
+import { Animals } from 'api/types';
 import Log from './log';
 
 interface Dummy {

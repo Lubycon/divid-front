@@ -1,42 +1,35 @@
 import React from 'react';
-import { basicWrap } from 'styles/containers';
-import { css } from '@emotion/react';
-import color from 'styles/colors';
+import { basicWrap, grayBackground } from 'styles/containers';
 import FloatingActionButton from 'components/floating-action-button';
-
-import LogList from './log-list';
-import Empty from './empty';
+import { TripInfo, Animals } from 'api/types';
+import Join from 'pages/join';
+import TripLog from './trip-log';
 import Header from './header';
 
-const DUMMY = {
-  id: 1,
-  name: '강원도 우정여행',
-  startDate: '2021-05-13',
-  endDate: '2021-05-13',
-  memberCount: 2,
-  hasLog: false,
-  give: 200000,
-  take: 400000,
-  endYn: false
+const DUMMY: TripInfo = {
+  tripId: '244ba584-099d-4eb3-954e-0766132ac9e1',
+  tripName: '강원도 우정여행',
+  inviteCode: 75,
+  startDate: '2021-05-25',
+  endDate: '2021-06-30',
+  userInfoResponseList: [
+    { userId: 2, nickName: '지형', profile: Animals.Bear, me: true },
+    { userId: 3, nickName: '주예', profile: Animals.Unicorn, me: false }
+  ]
 };
 
 export default function Trip() {
-  return (
-    <div
-      css={[
-        basicWrap,
-        css`
-          background-color: ${color.grayscale.gray07};
-        `
-      ]}
-    >
-      <Header name={DUMMY.name} startDate={DUMMY.startDate} endDate={DUMMY.endDate} />
-      {DUMMY.hasLog ? (
-        <Empty memberCount={DUMMY.memberCount} />
-      ) : (
-        <LogList giveMoneyAmount={DUMMY.give} takeMoneyAmount={DUMMY.take} />
-      )}
+  const RESPONSE_DUMMY = 200;
 
+  if (RESPONSE_DUMMY === 200) {
+    // 로그인 상태이고, 링크로 접근했으나, 여행에 조인하지 않은 경우
+    return <Join />;
+  }
+
+  return (
+    <div css={[basicWrap, grayBackground]}>
+      <Header name={DUMMY.tripName} startDate={DUMMY.startDate} endDate={DUMMY.endDate} />
+      <TripLog trip={DUMMY} />
       <FloatingActionButton />
     </div>
   );

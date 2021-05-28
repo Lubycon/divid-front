@@ -2,22 +2,11 @@ import React from 'react';
 import { basicWrap } from 'styles/containers';
 import styled from '@emotion/styled';
 import { Heading4 } from 'styles/typography';
-import { MemberInfo } from 'components/members';
-import { Animals } from 'components/profile';
+import { TripCard, Animals } from 'api/types';
 import Empty from './empty';
 import Card from './card';
 
-interface DUMMYProps {
-  tripId: string;
-  tripName: string;
-  startDate: string;
-  endDate: string;
-  memberCnt: number;
-  end: boolean;
-  userInfoResponseList: MemberInfo[];
-}
-
-const DUMMY: DUMMYProps[] = [
+const DUMMY: TripCard[] = [
   {
     tripId: '244ba584-099d-4eb3-954e-0766132ac9e1',
     tripName: '강원도 우정여행',
@@ -64,6 +53,7 @@ export default function ProjectList() {
           {currentTrip.map(({ tripId, tripName, startDate, endDate, memberCnt, userInfoResponseList, end }) => (
             <Card
               key={tripId}
+              tripId={tripId}
               tripName={tripName}
               startDate={startDate}
               endDate={endDate}
@@ -80,6 +70,7 @@ export default function ProjectList() {
           {pastTrip.map(({ tripId, tripName, startDate, endDate, memberCnt, userInfoResponseList, end }) => (
             <Card
               key={tripId}
+              tripId={tripId}
               tripName={tripName}
               startDate={startDate}
               endDate={endDate}

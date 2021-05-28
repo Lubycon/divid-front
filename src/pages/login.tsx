@@ -20,7 +20,7 @@ const Title = styled(Heading3)`
 const MainImg = styled.div`
   width: ${pxToVw(280)};
   height: ${pxToVw(280)};
-  background: url('/images/login.svg') center no-repeat;
+  background: url('/images/img_login.svg') center no-repeat;
   background-size: contain;
 
   ${mediaQuery(640)} {

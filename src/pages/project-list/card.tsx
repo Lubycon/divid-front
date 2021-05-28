@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { mediaQuery } from 'styles/media';
 import { changeStringToDate, makeDateFormat } from 'utils';
 import { Heading4 as Title, Heading7 } from 'styles/typography';
 import color from 'styles/colors';
-import Members, { MemberInfo } from 'components/members';
+import { MemberInfo } from 'api/types';
+import Members from 'components/members';
 
 const CardWrap = styled.div<{ isCurrent: boolean }>`
+  position: relative;
+  display: flex;
   width: 100%;
   margin-bottom: 16px;
   border: ${({ isCurrent }) => (isCurrent ? `2px solid ${color.primary}` : `1px solid ${color.grayscale.gray05}`)};
   border-radius: 8px;
-  padding: 24px 16px;
   box-sizing: border-box;
   box-shadow: ${({ isCurrent }) => isCurrent && '0px 4px 16px rgba(88, 90, 241, 0.2)'};
 `;
 
+const CardLink = styled(Link)`
+  z-index: 0;
+  width: 100%;
+  padding: 24px 16px;
+`;
+
 const MoreWrap = styled.div`
+  margin: 24px 16px 0 0;
   position: relative;
+  z-index: 1;
 `;
 
 const More = styled.div`
@@ -34,7 +45,7 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const Desc = styled(Heading7)`
@@ -56,7 +67,7 @@ const MoreModal = styled.div`
   box-sizing: border-box;
   background: url('/images/modal_sm.svg') center no-repeat;
   background-size: auto;
-  z-index: 2;
+  z-index: 3;
 `;
 
 const MoreButton = styled(Heading7)`
@@ -69,6 +80,7 @@ const MoreButton = styled(Heading7)`
 `;
 
 interface CardProps {
+  tripId: string;
   tripName: string;
   startDate: string;
   endDate: string;
@@ -77,33 +89,55 @@ interface CardProps {
   isCurrent?: boolean;
 }
 
-export default function Card({ tripName, startDate, endDate, memberCnt, isCurrent = false, members }: CardProps) {
+export default function Card({
+  tripId,
+  tripName,
+  startDate,
+  endDate,
+  memberCnt,
+  isCurrent = false,
+  members
+}: CardProps) {
   const [openMore, setOpenMore] = useState(false);
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
 
   return (
-    <CardWrap isCurrent={isCurrent}>
-      <div
-        css={css`
-          display: flex;
-          justify-content: space-between;
-        `}
-      >
-        <Title>{tripName}</Title>
+    <>
+      <CardWrap isCurrent={isCurrent}>
+        <CardLink to={`/trips?tripId=${tripId}`}>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
+            <Title>{tripName}</Title>
+          </div>
+          <Desc>{`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}, ${memberCnt}명`}</Desc>
+          <Members members={members} />
+        </CardLink>
         <MoreWrap>
-          <More onClick={() => setOpenMore(true)} />
+          <More
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenMore(true);
+            }}
+          />
           {openMore ? (
             <>
-              <Overlay onClick={() => setOpenMore(false)} />
+              <Overlay
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenMore(false);
+                }}
+              />
               <ActionModal />
             </>
           ) : null}
         </MoreWrap>
-      </div>
-      <Desc>{`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}, ${memberCnt}명`}</Desc>
-      <Members members={members} />
-    </CardWrap>
+      </CardWrap>
+    </>
   );
 }
 
