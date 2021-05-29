@@ -1,8 +1,11 @@
-import React, { useCallback, useState, isValidElement, cloneElement } from 'react';
+import React, { useCallback, useState, cloneElement } from 'react';
 import Modal from 'components/modal';
 
+interface ChildProps {
+  closeModal: () => void;
+}
 interface UseModal {
-  children: React.ReactNode;
+  children: React.ReactElement<ChildProps>;
 }
 
 export default function useModal({ children }: UseModal) {
@@ -18,11 +21,9 @@ export default function useModal({ children }: UseModal) {
 
   const renderModal = () => (
     <Modal isOpen={isOpen} onRequestClose={handleClose}>
-      {isValidElement(children)
-        ? cloneElement(children, {
-            closeModal: handleClose
-          })
-        : children}
+      {cloneElement(children, {
+        closeModal: handleClose
+      })}
     </Modal>
   );
 
