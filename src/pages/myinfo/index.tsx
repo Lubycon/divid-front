@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import useModal from 'hooks/useModal';
+import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import _ from 'lodash';
@@ -56,43 +58,97 @@ export default function Myinfo() {
     console.log(nickname);
   }, 500);
 
+  const LogoutModalContents = (
+    <ButtonModal
+      title="로그아웃"
+      body="정말 로그아웃 하시겠어요?"
+      buttons={{
+        left: {
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+          }
+        },
+        right: {
+          label: '로그아웃',
+          handleClick: () => {
+            console.log('로그아웃 클릭');
+          }
+        }
+      }}
+    />
+  );
+
+  const WithdrawModalContents = (
+    <ButtonModal
+      type="logout"
+      title="정말 탈퇴하시겠어요?"
+      body="디빗을 탈퇴하면 나의 여행정산내역이 모두 사라져요. 그래도 탈퇴하시겠어요?"
+      buttons={{
+        left: {
+          label: '탈퇴',
+          handleClick: () => {
+            console.log('탈퇴 클릭');
+          }
+        },
+        right: {
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+          }
+        }
+      }}
+    />
+  );
+
+  const { handleOpen: openLogoutModal, renderModal: renderLogoutModal } = useModal({
+    children: LogoutModalContents
+  });
+  const { handleOpen: openWithdrawModal, renderModal: renderWithdrawModal } = useModal({
+    children: WithdrawModalContents
+  });
+
   return (
-    <div css={basicWrap}>
-      <IconSelector>
-        <Profile type={selected} iconSize={IconSize.XL} />
-        <Icons>
-          {OPTIONS.map((option) => (
-            <ProfileWrap key={option} selected={selected === option} onClick={() => setSelected(option)}>
-              <Profile type={option} />
-            </ProfileWrap>
-          ))}
-        </Icons>
-      </IconSelector>
-      <InputBox
-        label="이름"
-        note="최소 2자 최대 8자 입력가능해요."
-        defaultValue={nickname}
-        onChangeInput={handleChange}
-      />
-      <ButtonWrap>
-        <Button>저장</Button>
-      </ButtonWrap>
-      <div
-        css={[
-          flexAlignCenter,
-          css`
-            margin-top: 57px;
-          `
-        ]}
-      >
-        <Button buttonType={ButtonType.Text}>
-          <Caption>회원탈퇴</Caption>
-        </Button>
-        <Divider />
-        <Button buttonType={ButtonType.Text}>
-          <Caption>로그아웃</Caption>
-        </Button>
+    <>
+      {renderLogoutModal()}
+      {renderWithdrawModal()}
+      <div css={basicWrap}>
+        <IconSelector>
+          <Profile type={selected} iconSize={IconSize.XL} />
+          <Icons>
+            {OPTIONS.map((option) => (
+              <ProfileWrap key={option} selected={selected === option} onClick={() => setSelected(option)}>
+                <Profile type={option} />
+              </ProfileWrap>
+            ))}
+          </Icons>
+        </IconSelector>
+        <InputBox
+          label="이름"
+          note="최소 2자 최대 8자 입력가능해요."
+          defaultValue={nickname}
+          onChangeInput={handleChange}
+        />
+        <ButtonWrap>
+          <Button>저장</Button>
+        </ButtonWrap>
+        <div
+          css={[
+            flexAlignCenter,
+            css`
+              margin-top: 57px;
+            `
+          ]}
+        >
+          <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
+            <Caption>회원탈퇴</Caption>
+          </Button>
+          <Divider />
+          <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
+            <Caption>로그아웃</Caption>
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

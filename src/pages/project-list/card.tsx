@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import useModal from 'hooks/useModal';
+import ButtonModal from 'components/modal/button-modal';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -73,6 +75,7 @@ const MoreModal = styled.div`
 const MoreButton = styled(Heading7)`
   padding: 10px 0;
   line-height: 1;
+  cursor: pointer;
 
   &:first-of-type {
     margin-top: 36px;
@@ -102,8 +105,34 @@ export default function Card({
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
 
+  const GetoutModalContents = (
+    <ButtonModal
+      title="정말 여행에서 나가시겠어요?"
+      body="여행 정산 내역을 더 이상 볼 수 없어요"
+      buttons={{
+        left: {
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+          }
+        },
+        right: {
+          label: '나가기',
+          handleClick: () => {
+            console.log('나가기 클릭');
+          }
+        }
+      }}
+    />
+  );
+
+  const { handleOpen: openGetoutModal, renderModal: renderGetoutModal } = useModal({
+    children: GetoutModalContents
+  });
+
   return (
     <>
+      {renderGetoutModal()}
       <CardWrap isCurrent={isCurrent}>
         <CardLink to={`/trips?tripId=${tripId}`}>
           <div
@@ -132,27 +161,21 @@ export default function Card({
                   setOpenMore(false);
                 }}
               />
-              <ActionModal />
+              <MoreModal>
+                <MoreButton onClick={() => console.log('수정')}>여행정보수정</MoreButton>
+                <MoreButton
+                  onClick={openGetoutModal}
+                  css={css`
+                    color: ${color.red};
+                  `}
+                >
+                  나가기
+                </MoreButton>
+              </MoreModal>
             </>
           ) : null}
         </MoreWrap>
       </CardWrap>
     </>
-  );
-}
-
-function ActionModal() {
-  return (
-    <MoreModal>
-      <MoreButton onClick={() => console.log('수정')}>여행정보수정</MoreButton>
-      <MoreButton
-        onClick={() => console.log('나가기')}
-        css={css`
-          color: ${color.red};
-        `}
-      >
-        나가기
-      </MoreButton>
-    </MoreModal>
   );
 }

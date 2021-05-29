@@ -44,7 +44,7 @@ export function useScroll() {
   return isScrolled;
 }
 
-export function checkIsHome() {
+export function isHome() {
   const homePath = /\/projects/;
   return homePath.test(window.location.href);
 }

@@ -91,7 +91,7 @@ export const naviStyle = {
     backgroundColor: 'white'
   },
   overlay: {
-    zIndex: 2000000,
+    zIndex: 100,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     transition: 'opacity 0.3s'
   }
