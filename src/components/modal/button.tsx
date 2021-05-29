@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
-import { Heading7 } from 'styles/typography';
+import { Heading7 as Label } from 'styles/typography';
 import { mediaQuery, pxToVw } from 'styles/media';
 
 const Button = styled.button<{ kind: ButtonKind }>`
@@ -37,7 +37,7 @@ interface ModalButtonProps {
 export default function ModalButton({ kind = ButtonKind.Primary, onClick, children = '확인' }: ModalButtonProps) {
   return (
     <Button kind={kind} onClick={onClick}>
-      <Heading7>{children}</Heading7>
+      <Label>{children}</Label>
     </Button>
   );
 }
