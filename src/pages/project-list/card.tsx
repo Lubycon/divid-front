@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import ButtonModal, { modalState } from 'components/modal/button-modal';
+import useModal from 'hooks/useModal';
+import ButtonModal from 'components/modal/button-modal';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -101,31 +101,39 @@ export default function Card({
   members
 }: CardProps) {
   const [openMore, setOpenMore] = useState(false);
-  const [modal, setModal] = useRecoilState(modalState);
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
 
-  function openGetoutModal() {
-    setModal({
-      ...modal,
-      type: 'getout',
-      title: '정말 여행에서 나가시겠어요?',
-      body: '여행 정산 내역을 더 이상 볼 수 없어요',
-      leftButton: {
-        label: '취소',
-        handleClick: () => console.log('취소 클릭')
-      },
-      rightButton: {
-        label: '나가기',
-        handleClick: () => console.log('나가기 클릭')
-      },
-      isOpen: true
-    });
-  }
+  const GetoutModalContents = (
+    <ButtonModal
+      title="정말 여행에서 나가시겠어요?"
+      body="여행 정산 내역을 더 이상 볼 수 없어요"
+      buttons={{
+        left: {
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+            closeGetoutModal();
+          }
+        },
+        right: {
+          label: '나가기',
+          handleClick: () => {
+            console.log('나가기 클릭');
+            closeGetoutModal();
+          }
+        }
+      }}
+    />
+  );
+
+  const { handleOpen: openGetoutModal, handleClose: closeGetoutModal, renderModal: renderGetoutModal } = useModal({
+    children: GetoutModalContents
+  });
 
   return (
     <>
-      <ButtonModal />
+      {renderGetoutModal()}
       <CardWrap isCurrent={isCurrent}>
         <CardLink to={`/trips?tripId=${tripId}`}>
           <div

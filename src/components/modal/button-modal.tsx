@@ -1,13 +1,10 @@
 import React from 'react';
-import { atom, useRecoilState } from 'recoil';
-import ReactModal from 'react-modal';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { flexAlignCenter } from 'styles/containers';
 import { Heading4, Body4 } from 'styles/typography';
 import color from 'styles/colors';
 import Button, { ButtonTheme } from './button';
-import Modal from './index';
 
 const Wrap = styled.div`
   width: ${pxToVw(326)};
@@ -80,58 +77,33 @@ export const modalStyle = {
   }
 };
 
-ReactModal.setAppElement('body');
+interface ModalButton {
+  label?: string;
+  handleClick?: () => void;
+}
 
-export const modalState = atom({
-  key: 'modalState',
-  default: {
-    type: '',
-    isOpen: false,
-    title: '',
-    body: '',
-    leftButton: { label: '취소', handleClick: () => {} },
-    rightButton: { label: '확인', handleClick: () => {} }
-  }
-});
+interface ButtonModalProps {
+  type?: string;
+  title: string;
+  body: string;
+  buttons: {
+    left: ModalButton;
+    right: ModalButton;
+  };
+}
 
-export default function ButtonModal() {
-  const [modal, setModal] = useRecoilState(modalState);
-  const handleClose = () =>
-    setModal({
-      type: '',
-      isOpen: false,
-      title: '',
-      body: '',
-      leftButton: { label: '취소', handleClick: () => {} },
-      rightButton: { label: '확인', handleClick: () => {} }
-    });
-
+export default function ButtonModal({ type, title, body, buttons }: ButtonModalProps) {
   return (
-    <Modal isOpen={modal.isOpen} onRequestClose={handleClose}>
-      <Wrap style={modalStyle.content}>
-        {modal.type === 'withdraw' && <SadImg />}
-        <Title>{modal.title}</Title>
-        <Body>{modal.body}</Body>
-        <ButtonWrap>
-          <Button
-            theme={ButtonTheme.Secondary}
-            onClick={() => {
-              modal.leftButton.handleClick();
-              handleClose();
-            }}
-          >
-            {modal?.leftButton?.label}
-          </Button>
-          <Button
-            onClick={() => {
-              modal.rightButton.handleClick();
-              handleClose();
-            }}
-          >
-            {modal?.rightButton?.label}
-          </Button>
-        </ButtonWrap>
-      </Wrap>
-    </Modal>
+    <Wrap style={modalStyle.content}>
+      {type === 'withdraw' && <SadImg />}
+      <Title>{title}</Title>
+      <Body>{body}</Body>
+      <ButtonWrap>
+        <Button theme={ButtonTheme.Secondary} onClick={() => buttons.left.handleClick?.()}>
+          {buttons.left.label || '취소'}
+        </Button>
+        <Button onClick={() => buttons.right.handleClick?.()}>{buttons.right.label || '확인'}</Button>
+      </ButtonWrap>
+    </Wrap>
   );
 }

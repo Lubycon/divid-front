@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import ButtonModal, { modalState } from 'components/modal/button-modal';
+import useModal from 'hooks/useModal';
+import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import _ from 'lodash';
@@ -50,7 +50,6 @@ const Divider = styled.div`
 `;
 
 export default function Myinfo() {
-  const [modal, setModal] = useRecoilState(modalState);
   const [selected, setSelected] = useState(Animals.Hamster);
   const [nickname, setNickname] = useState('주예');
 
@@ -59,45 +58,66 @@ export default function Myinfo() {
     console.log(nickname);
   }, 500);
 
-  function openLogoutModal() {
-    setModal({
-      ...modal,
-      type: 'logout',
-      title: '로그아웃',
-      body: '정말 로그아웃 하시겠어요?',
-      leftButton: {
-        label: '취소',
-        handleClick: () => console.log('취소 클릭')
-      },
-      rightButton: {
-        label: '로그아웃',
-        handleClick: () => console.log('로그아웃 클릭')
-      },
-      isOpen: true
-    });
-  }
+  const LogoutModalContents = (
+    <ButtonModal
+      title="로그아웃"
+      body="정말 로그아웃 하시겠어요?"
+      buttons={{
+        left: {
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+            closeLogoutModal();
+          }
+        },
+        right: {
+          label: '로그아웃',
+          handleClick: () => {
+            console.log('로그아웃 클릭');
+            closeLogoutModal();
+          }
+        }
+      }}
+    />
+  );
 
-  function openWithdrawModal() {
-    setModal({
-      ...modal,
-      type: 'withdraw',
-      title: '정말 탈퇴하시겠어요?',
-      body: '디빗을 탈퇴하면 나의 여행정산내역이 모두 사라져요. 그래도 탈퇴하시겠어요?',
-      leftButton: {
-        label: '탈퇴',
-        handleClick: () => console.log('탈퇴 클릭')
-      },
-      rightButton: {
-        label: '취소',
-        handleClick: () => console.log('취소 클릭')
-      },
-      isOpen: true
-    });
-  }
+  const WithdrawModalContents = (
+    <ButtonModal
+      type="logout"
+      title="정말 탈퇴하시겠어요?"
+      body="디빗을 탈퇴하면 나의 여행정산내역이 모두 사라져요. 그래도 탈퇴하시겠어요?"
+      buttons={{
+        left: {
+          label: '탈퇴',
+          handleClick: () => {
+            console.log('탈퇴 클릭');
+            closeWithdrawModal();
+          }
+        },
+        right: {
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+            closeWithdrawModal();
+          }
+        }
+      }}
+    />
+  );
+
+  const { handleOpen: openLogoutModal, handleClose: closeLogoutModal, renderModal: renderLogoutModal } = useModal({
+    children: LogoutModalContents
+  });
+  const { handleOpen: openWithdrawModal, handleClose: closeWithdrawModal, renderModal: renderWithdrawModal } = useModal(
+    {
+      children: WithdrawModalContents
+    }
+  );
 
   return (
     <>
-      <ButtonModal />
+      {renderLogoutModal()}
+      {renderWithdrawModal()}
       <div css={basicWrap}>
         <IconSelector>
           <Profile type={selected} iconSize={IconSize.XL} />
@@ -126,11 +146,11 @@ export default function Myinfo() {
             `
           ]}
         >
-          <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
+          <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
             <Caption>회원탈퇴</Caption>
           </Button>
           <Divider />
-          <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
+          <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
             <Caption>로그아웃</Caption>
           </Button>
         </div>
