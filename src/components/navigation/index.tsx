@@ -10,6 +10,9 @@ import { Close } from 'styles/icon';
 import Welcome from './welcome';
 import ArrowTab from '../arrow-tab';
 
+const emailFormat =
+  '디빗팀에게 건의하고 싶으신 아이디어가 있으신가요?🙂 %0D%0A자유롭게 메일로 남겨주시면 더 나은 디빗 서비스를 만드는데 큰 도움이 될 것 같아요🌷 %0D%0A— 디빗팀 —';
+
 const Wrap = styled.div`
   background: ${color.white};
   height: 100vh;
@@ -48,6 +51,15 @@ const Divider = styled.div`
 `;
 
 const Tab = styled(Link)`
+  ${flexAlignCenter};
+  height: ${pxToVw(60)};
+
+  ${mediaQuery(640)} {
+    height: 60px;
+  }
+`;
+
+const TabMail = styled.a`
   ${flexAlignCenter};
   height: ${pxToVw(60)};
 
@@ -106,18 +118,22 @@ export default function Navigation({ isNaviOpened, onRequestClose }: NavigationP
         <CloseButton onClick={onRequestClose}>
           <Close />
         </CloseButton>
-        <UpperWrap>
-          <Welcome />
-          <ArrowTab onClick={onRequestClose} label="홈" isBorderTop />
+        <UpperWrap onClick={onRequestClose}>
+          <Link to="/myinfo">
+            <Welcome />
+          </Link>
+          <ArrowTab label="홈" isBorderTop />
         </UpperWrap>
-        <LowerWrap>
-          <Tab to="/service" onClick={onRequestClose}>
+        <LowerWrap onClick={onRequestClose}>
+          <Tab to="/service">
             <CaptionBold>서비스 정보</CaptionBold>
           </Tab>
           <Divider />
-          <Tab to="/#" onClick={onRequestClose}>
+          <TabMail
+            href={`mailto:4divid.official@gmail.com?body=${emailFormat}&subject=[디빗팀에게 건의하기]&bcc=hyounga9595@gmail.com`}
+          >
             <CaptionBold>건의하기</CaptionBold>
-          </Tab>
+          </TabMail>
         </LowerWrap>
       </Wrap>
     </ReactModal>
