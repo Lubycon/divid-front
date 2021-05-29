@@ -8,7 +8,8 @@ import { basicWrap, flexAlignCenter } from 'styles/containers';
 import Profile, { Animals, IconSize } from 'components/profile';
 import color from 'styles/colors';
 import InputBox from 'components/input-box';
-import Button, { TextButton as TextButtonCommon } from 'components/button';
+import { Caption as CommonCaption } from 'styles/typography';
+import Button, { ButtonType } from 'components/button';
 import {API, useApi} from 'api'
 
 const OPTIONS = Object.values(Animals);
@@ -38,7 +39,7 @@ const ButtonWrap = styled.div`
   margin-top: 32px;
 `;
 
-const TextButton = styled(TextButtonCommon)`
+const Caption = styled(CommonCaption)`
   color: ${color.grayscale.gray03};
 `;
 
@@ -85,7 +86,12 @@ export default function Myinfo() {
           ))}
         </Icons>
       </IconSelector>
-      <InputBox label="이름" note="최소 2자 최대 8자 입력가능해요." defaultValue={nickname} onChangeInput={handleChange} />
+      <InputBox
+        label="이름"
+        note="최소 2자 최대 8자 입력가능해요."
+        defaultValue={nickname}
+        onChangeInput={handleChange}
+      />
       <ButtonWrap>
         <Button>저장</Button>
       </ButtonWrap>
@@ -97,9 +103,13 @@ export default function Myinfo() {
           `
         ]}
       >
-        <TextButton>회원탈퇴</TextButton>
+        <Button buttonType={ButtonType.Text}>
+          <Caption>회원탈퇴</Caption>
+        </Button>
         <Divider />
-        <TextButton>로그아웃</TextButton>
+        <Button buttonType={ButtonType.Text}>
+          <Caption>로그아웃</Caption>
+        </Button>
       </div>
     </div>
   );

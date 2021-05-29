@@ -2,23 +2,25 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
-import { CaptionBold, Caption } from 'styles/typography';
+import { flexCenter } from 'styles/containers';
 
-export const squareButton = css`
+const squareButton = css`
   width: 100%;
   height: ${pxToVw(58)};
-  border-radius: ${pxToVw(8)};
-  font-size: ${pxToVw(16)};
+  border-radius: 8px;
   font-weight: bold;
   outline: none;
   border: none;
   background: ${color.primary};
   color: ${color.white};
+  ${flexCenter};
+
+  h1 {
+    color: ${color.white};
+  }
 
   ${mediaQuery(640)} {
     height: 58px;
-    border-radius: 8px;
-    font-size: 16px;
   }
 
   &:disabled {
@@ -30,24 +32,27 @@ export const squareButton = css`
   }
 `;
 
-export const roundButton = css`
+const roundButton = css`
   height: 44px;
   border-radius: 100px;
   background: ${color.white};
   border: 2px solid ${color.grayscale.gray06};
-  padding: 0 14px;
+  padding: 0 10px;
+  ${flexCenter};
 `;
 
-const textButtonStyle = css`
+const textButton = css`
   outline: none;
   border: none;
   background-color: transparent;
   padding: 0;
+  ${flexCenter};
 `;
 
 export enum ButtonType {
   Square = 'square',
-  Round = 'round'
+  Round = 'round',
+  Text = 'text'
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -57,19 +62,21 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function Button({ children, customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {
-  const buttonStyle = buttonType === ButtonType.Round ? roundButton : squareButton;
-
+  const buttonStyle = () => {
+    switch (buttonType) {
+      case ButtonType.Square:
+        return squareButton;
+      case ButtonType.Round:
+        return roundButton;
+      case ButtonType.Text:
+        return textButton;
+      default:
+        return squareButton;
+    }
+  };
   return (
     <button type="button" css={[buttonStyle, customStyle]} {...rest}>
-      <CaptionBold>{children}</CaptionBold>
-    </button>
-  );
-}
-
-export function TextButton({ children, ...rest }: ButtonProps) {
-  return (
-    <button type="button" css={[textButtonStyle]} {...rest}>
-      <Caption>{children}</Caption>
+      {children}
     </button>
   );
 }

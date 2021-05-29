@@ -9,12 +9,14 @@ import Header from 'components/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
-import Signin from './pages/signin';
-import Create from './pages/create';
+import Create from './pages/create-trip';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
 import Expense from './pages/expense';
 import Myinfo from './pages/myinfo';
+import Modify from './pages/modify-trip';
+import ServiceInfo from './pages/service-info';
+import Information from './pages/service-info/information';
 
 interface RouteProps {
   path: string;
@@ -35,10 +37,6 @@ const routes: RouteProps[] = [
     component: Kakao
   },
   {
-    path: '/signin',
-    component: Signin
-  },
-  {
     path: '/create',
     component: Create
   },
@@ -47,16 +45,32 @@ const routes: RouteProps[] = [
     component: ProjectList
   },
   {
-    path: '/trip/:tripSeq',
+    path: '/trips',
     component: Trip
   },
   {
-    path: '/trip/:tripSeq/expense',
+    path: '/expense',
     component: Expense
   },
   {
     path: '/myinfo',
     component: Myinfo
+  },
+  {
+    path: '/modify',
+    component: Modify
+  },
+  {
+    path: '/service',
+    component: ServiceInfo
+  },
+  {
+    path: '/privacy',
+    component: Information
+  },
+  {
+    path: '/terms',
+    component: Information
   }
 ];
 

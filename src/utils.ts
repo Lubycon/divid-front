@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { parse, format } from 'date-fns';
+import { useMediaQuery } from 'react-responsive';
 import { ko } from 'date-fns/locale';
 import { Animals } from 'components/profile';
 import _ from 'lodash';
 
 export function useQuery() {
   return new URLSearchParams(useLocation().search);
+}
+
+export function useCheckDesktop() {
+  return useMediaQuery({ query: '(min-width: 640px)' });
 }
 
 export function changeStringToDate(dateString: string) {
@@ -27,7 +32,7 @@ export function useScroll() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = _.debounce(() => {
+    const handleScroll = _.throttle(() => {
       setIsScrolled(!!window.scrollY);
     }, 100);
 
@@ -35,12 +40,16 @@ export function useScroll() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   });
-  console.log(isScrolled);
 
   return isScrolled;
 }
 
-export function usePageInfo() {
+export function checkIsHome() {
+  const homePath = /\/projects/;
+  return homePath.test(window.location.href);
+}
+
+export function getPageInfo() {
   const pages: { pathRegEx: RegExp; title: string }[] = [
     {
       pathRegEx: /\/create/,
@@ -53,6 +62,22 @@ export function usePageInfo() {
     {
       pathRegEx: /\/myinfo/,
       title: '내 프로필 수정'
+    },
+    {
+      pathRegEx: /\/modify/,
+      title: '여행 정보 수정'
+    },
+    {
+      pathRegEx: /\/service/,
+      title: '서비스 정보'
+    },
+    {
+      pathRegEx: /\/privacy/,
+      title: '개인정보처리방침'
+    },
+    {
+      pathRegEx: /\/terms/,
+      title: '이용약관'
     }
   ];
   const result = pages.find(({ pathRegEx }) => pathRegEx.test(window.location.href));
@@ -61,6 +86,30 @@ export function usePageInfo() {
     return;
   }
   return result.title;
+}
+
+export function getHeaderButton() {
+  const pages: { pathRegEx: RegExp; label: string; link: string }[] = [
+    {
+      pathRegEx: /\/projects/,
+      label: '여행 추가',
+      link: '/create'
+    },
+    {
+      pathRegEx: /\/trips/,
+      label: '수정',
+      link: '/modify'
+    }
+  ];
+
+  const result = pages.find(({ pathRegEx }) => pathRegEx.test(window.location.href));
+
+  if (result === undefined) {
+    return;
+  }
+
+  const button = { label: result.label, link: result.link };
+  return button;
 }
 
 export function typeToEmoji(type: Animals) {
@@ -84,4 +133,12 @@ export function typeToEmoji(type: Animals) {
     default:
       return '🐹';
   }
+}
+
+export function convertNewlineToBr(text: string) {
+  return text.replace(/\n/g, '<br />');
+}
+
+export function createMarkup(text: string) {
+  return { __html: text };
 }

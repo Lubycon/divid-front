@@ -1,25 +1,27 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
-import { basicWrap } from 'styles/containers';
-import { title1 } from 'styles/typography';
+import { basicWrap, flexAlignCenter, grayBackground } from 'styles/containers';
+import { Heading3, Heading7, Caption } from 'styles/typography';
 import Button from 'components/button';
 
-const title = css`
-  ${title1}
-  margin-bottom: ${pxToVw(24)};
+const Title = styled(Heading3)`
+  margin-bottom: 24px;
+  text-align: center;
 
   ${mediaQuery(640)} {
     margin-bottom: 58px;
+    font-size: 32px;
   }
 `;
 
-const blank = css`
-  width: ${pxToVw(300)};
-  height: ${pxToVw(300)};
-  background-color: #e0e0e0;
-  border-radius: 100%;
+const MainImg = styled.div`
+  width: ${pxToVw(280)};
+  height: ${pxToVw(280)};
+  background: url('/images/img_login.svg') center no-repeat;
+  background-size: contain;
 
   ${mediaQuery(640)} {
     width: 480px;
@@ -30,30 +32,38 @@ const blank = css`
 const button = css`
   background-color: ${color.kakaoYellow};
   color: rgb(0, 0, 0, 0.85);
-  margin-top: ${pxToVw(63)};
+  margin-top: 36px;
 
   ${mediaQuery(640)} {
-    margin-top: 126px;
+    margin-top: 60px;
   }
 `;
 
-const subText = css`
-  font-size: ${pxToVw(14)};
+const Text = styled(Heading7)`
+  display: inline-block;
+`;
+
+const SubText = styled(Caption)`
   line-height: 1.57;
   color: #4f4f4f;
-  letter-spacing: ${pxToVw(-0.41)};
   text-align: center;
-  margin-top: ${pxToVw(7)};
+  margin-top: 12px;
 
   ${mediaQuery(640)} {
-    font-size: 14px;
-    letter-spacing: -0.41px;
-    margin-top: 7px;
+    margin-top: 24px;
   }
 
   a {
     color: #4f4f4f;
   }
+`;
+
+const KakaoIcon = styled.span`
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  background: url('/images/ico_kakaotalk.svg') center no-repeat;
+  background-size: contain;
 `;
 
 export default function Login() {
@@ -73,17 +83,23 @@ export default function Login() {
   };
 
   return (
-    <div css={basicWrap}>
-      <h1 css={title}>
-        복잡한 정산은 <br />
-        ourney에서 쉽게!
-      </h1>
-      <div css={blank}>slider</div>
-      <Button onClick={handleClickLogin} customStyle={button}>카카오로 계속하기</Button>
-      <p css={subText}>
-        “카카오로 계속하기”를 누름으로써 <br />
-        <a href="/#">개인정보처리방침</a>과 <a href="/#">이용약관</a>에 동의합니다.
-      </p>
+    <div css={[basicWrap, flexAlignCenter, grayBackground]}>
+      <Title>
+        복잡한 정산은
+        <br />
+        디빗에서 쉽게!
+      </Title>
+      <MainImg />
+      <Button onClick={handleClickLogin} customStyle={button}>
+        <>
+          <KakaoIcon />
+          <Text>카카오로 계속하기</Text>
+        </>
+      </Button>
+      <SubText>
+        “카카오로 계속하기”를 누름으로써 <a href="/#">개인정보처리방침</a>과
+        <br /> <a href="/#">이용약관</a>에 동의합니다.
+      </SubText>
     </div>
   );
 }

@@ -14,7 +14,7 @@ const button = css`
   }
 `;
 
-export default function Create() {
+export default function Modify() {
   const defaultDate = new Date();
 
   return (

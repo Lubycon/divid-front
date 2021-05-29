@@ -5,7 +5,7 @@ import color from 'styles/colors';
 import Profile, { IconSize } from 'components/profile';
 import { Heading7, Heading5 as Amount, CaptionBold, Badge } from 'styles/typography';
 import { numberWithCommas } from 'utils';
-import { Animals } from 'components/profile';
+import { Animals } from 'api/types';
 
 const Wrap = styled.div`
   width: 100%;

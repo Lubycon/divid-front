@@ -1,32 +1,30 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import color from 'styles/colors';
-import { Heading3 as Title, Body3 as Desc } from 'styles/typography';
+import { Heading3, Body3 } from 'styles/typography';
 import { changeStringToDate, makeDateFormat } from 'utils';
-import Members from './members';
+import { TripInfo } from 'api/types';
 
-interface HeaderProps {
-  name: string;
-  startDate: string;
-  endDate: string;
-}
+import Members from 'components/members';
 
-export default function Header({ name, startDate, endDate }: HeaderProps) {
-  const sDate = changeStringToDate(startDate);
-  const eDate = changeStringToDate(endDate);
+const Title = styled(Heading3)`
+  line-height: 1;
+`;
+
+const Desc = styled(Body3)`
+  color: ${color.grayscale.gray02};
+  margin-top: 8px;
+`;
+
+export default function Header({ trip }: { trip: TripInfo }) {
+  const sDate = changeStringToDate(trip.startDate);
+  const eDate = changeStringToDate(trip.endDate);
 
   return (
     <>
-      <Title>{name}</Title>
-      <Desc
-        css={css`
-          color: ${color.grayscale.gray02};
-          margin-top: 8px;
-        `}
-      >
-        {`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}`}
-      </Desc>
-      <Members />
+      <Title>{trip.tripName}</Title>
+      <Desc>{`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}`}</Desc>
+      <Members inviteCode={trip.inviteCode} members={trip.userInfoResponseList} />
     </>
   );
 }

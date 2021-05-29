@@ -7,7 +7,7 @@ import Profile, { IconSize, Animals } from '../profile';
 
 const Wrap = styled.div`
   ${flexAlignCenter}
-  padding: 90px 0 32px 24px;
+  padding: 90px 0 32px 0;
 `;
 
 const Title = styled(Heading4)`

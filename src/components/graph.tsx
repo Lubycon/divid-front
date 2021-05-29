@@ -15,7 +15,6 @@ const GraphContainer = styled.div`
   display: flex;
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 24px;
 `;
 
 const ColorBar = styled.div<{ percent: number; type: LogType }>`
@@ -48,16 +47,26 @@ export default function Graph({ giveMoneyAmount, takeMoneyAmount }: GiveNTakeAmo
   const giveMoneyPercent = calcRate(giveMoneyAmount, totalAmount);
   const takeMoneyPercent = calcRate(takeMoneyAmount, totalAmount);
 
+  const setPercentRange = (percent: number) => {
+    if (percent < 35) {
+      return 35;
+    }
+    if (percent > 65) {
+      return 65;
+    }
+    return percent;
+  };
+
   return (
     <GraphContainer>
       {giveMoneyAmount !== 0 && (
-        <ColorBar type={LogType.Give} percent={giveMoneyPercent}>
+        <ColorBar type={LogType.Give} percent={setPercentRange(giveMoneyPercent)}>
           <Badge>갚을 돈</Badge>
           <Amount>{numberWithCommas(giveMoneyAmount)}</Amount>
         </ColorBar>
       )}
       {takeMoneyAmount !== 0 && (
-        <ColorBar type={LogType.Take} percent={takeMoneyPercent}>
+        <ColorBar type={LogType.Take} percent={setPercentRange(takeMoneyPercent)}>
           <Badge>받을 돈</Badge>
           <Amount>{numberWithCommas(takeMoneyAmount)}</Amount>
         </ColorBar>
