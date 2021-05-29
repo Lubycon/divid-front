@@ -13,7 +13,7 @@ const Button = styled.button<{ kind: ButtonKind }>`
   height: ${pxToVw(48)};
   width: 100%;
 
-  h1 {
+  p {
     color: ${({ kind }) => (kind === ButtonKind.Primary ? color.white : color.grayscale.gray01)};
   }
 
@@ -30,8 +30,8 @@ export enum ButtonKind {
 
 interface ModalButtonProps {
   kind?: ButtonKind;
-  onClick: () => any;
-  children?: JSX.Element | string;
+  onClick: () => void;
+  children?: React.ReactNode;
 }
 
 export default function ModalButton({ kind = ButtonKind.Primary, onClick, children = '확인' }: ModalButtonProps) {

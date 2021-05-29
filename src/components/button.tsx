@@ -15,7 +15,7 @@ const squareButton = css`
   color: ${color.white};
   ${flexCenter};
 
-  h1 {
+  p {
     color: ${color.white};
   }
 

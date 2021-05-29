@@ -113,11 +113,11 @@ export default function Card({
       body: '여행 정산 내역을 더 이상 볼 수 없어요',
       leftButton: {
         label: '취소',
-        onClick: () => console.log('취소 클릭')
+        handleClick: () => console.log('취소 클릭')
       },
       rightButton: {
         label: '나가기',
-        onClick: () => console.log('나가기 클릭')
+        handleClick: () => console.log('나가기 클릭')
       },
       isOpen: true
     });

@@ -8,6 +8,7 @@ import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
 import { getPageInfo, getHeaderButton, checkIsHome, useScroll } from 'utils';
 import color from 'styles/colors';
+import Modal from 'components/modal';
 import Navigation from './navigation';
 
 const Wrap = styled.div<{ isScrolled: boolean }>`
@@ -83,25 +84,30 @@ export default function Header() {
   const button = getHeaderButton();
 
   return (
-    <Wrap isScrolled={isScrolled}>
-      {checkIsHome() ? (
-        <Hamburger onClick={() => setIsToggleHamburger(true)} />
-      ) : (
-        <BackButton
-          onClick={() => {
-            window.history.back();
-          }}
-        />
-      )}
-      {isToggleHamburger ? (
-        <Navigation isNaviOpened={isToggleHamburger} onRequestClose={() => setIsToggleHamburger(false)} />
-      ) : null}
-      {title && <Title>{title}</Title>}
-      {button && (
-        <OptionalButton to={button.link}>
-          <ButtonLabel>{button.label}</ButtonLabel>
-        </OptionalButton>
-      )}
-    </Wrap>
+    <>
+      <Wrap isScrolled={isScrolled}>
+        {checkIsHome() ? (
+          <Hamburger onClick={() => setIsToggleHamburger(true)} />
+        ) : (
+          <BackButton
+            onClick={() => {
+              window.history.back();
+            }}
+          />
+        )}
+        {isToggleHamburger ? (
+          <Navigation isNaviOpened={isToggleHamburger} onRequestClose={() => setIsToggleHamburger(false)} />
+        ) : null}
+        {title && <Title>{title}</Title>}
+        {button && (
+          <OptionalButton to={button.link}>
+            <ButtonLabel>{button.label}</ButtonLabel>
+          </OptionalButton>
+        )}
+      </Wrap>
+
+      {/* 공통 모달 */}
+      <Modal />
+    </>
   );
 }

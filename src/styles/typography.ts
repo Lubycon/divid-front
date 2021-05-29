@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from './media';
 import color from './colors';
 
-export const Heading = styled.h1`
+export const Heading = styled.p`
   font-family: 'NanumSquare', sans-serif;
   line-height: 1.5;
   color: ${color.grayscale.gray01};

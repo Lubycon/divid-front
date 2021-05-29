@@ -67,11 +67,11 @@ export default function Myinfo() {
       body: '정말 로그아웃 하시겠어요?',
       leftButton: {
         label: '취소',
-        onClick: () => console.log('취소 클릭')
+        handleClick: () => console.log('취소 클릭')
       },
       rightButton: {
         label: '로그아웃',
-        onClick: () => console.log('로그아웃 클릭')
+        handleClick: () => console.log('로그아웃 클릭')
       },
       isOpen: true
     });
@@ -85,11 +85,11 @@ export default function Myinfo() {
       body: '디빗을 탈퇴하면 나의 여행정산내역이 모두 사라져요. 그래도 탈퇴하시겠어요?',
       leftButton: {
         label: '탈퇴',
-        onClick: () => console.log('탈퇴 클릭')
+        handleClick: () => console.log('탈퇴 클릭')
       },
       rightButton: {
         label: '취소',
-        onClick: () => console.log('취소 클릭')
+        handleClick: () => console.log('취소 클릭')
       },
       isOpen: true
     });

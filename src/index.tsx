@@ -5,7 +5,6 @@ import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
 
 import 'reset-css';
-import Modal from 'components/modal';
 import Header from 'components/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
@@ -80,7 +79,6 @@ function App() {
 
   return (
     <>
-      <Modal />
       <Header />
       <Switch location={location}>
         <Route exact path="/" render={() => <Redirect to="login" />} />

@@ -88,8 +88,8 @@ export const modalState = atom({
     isOpen: false,
     title: '',
     body: '',
-    leftButton: { label: '취소', onClick: () => {} },
-    rightButton: { label: '확인', onClick: () => {} }
+    leftButton: { label: '취소', handleClick: () => {} },
+    rightButton: { label: '확인', handleClick: () => {} }
   }
 });
 
@@ -101,8 +101,8 @@ export default function Modal() {
       isOpen: false,
       title: '',
       body: '',
-      leftButton: { label: '취소', onClick: () => {} },
-      rightButton: { label: '확인', onClick: () => {} }
+      leftButton: { label: '취소', handleClick: () => {} },
+      rightButton: { label: '확인', handleClick: () => {} }
     });
 
   return (
@@ -121,7 +121,7 @@ export default function Modal() {
           <Button
             kind={ButtonKind.Secondary}
             onClick={() => {
-              modal.leftButton.onClick();
+              modal.leftButton.handleClick();
               handleClose();
             }}
           >
@@ -129,7 +129,7 @@ export default function Modal() {
           </Button>
           <Button
             onClick={() => {
-              modal.rightButton.onClick();
+              modal.rightButton.handleClick();
               handleClose();
             }}
           >
