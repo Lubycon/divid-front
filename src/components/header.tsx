@@ -8,7 +8,6 @@ import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
 import { getPageInfo, getHeaderButton, isHome, useScroll } from 'utils';
 import color from 'styles/colors';
-import Modal from 'components/modal';
 import Navigation from './navigation';
 
 const Wrap = styled.div<{ isScrolled: boolean }>`
@@ -105,9 +104,6 @@ export default function Header() {
           </OptionalButton>
         )}
       </Wrap>
-
-      {/* 공통 모달 */}
-      <Modal />
     </>
   );
 }

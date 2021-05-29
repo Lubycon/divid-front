@@ -1,63 +1,5 @@
 import React from 'react';
-import { atom, useRecoilState } from 'recoil';
 import ReactModal from 'react-modal';
-import styled from '@emotion/styled';
-import { mediaQuery, pxToVw } from 'styles/media';
-import { flexAlignCenter } from 'styles/containers';
-import { Heading4, Body4 } from 'styles/typography';
-import color from 'styles/colors';
-import Button, { ButtonTheme } from './button';
-
-const Wrap = styled.div`
-  width: ${pxToVw(326)};
-  min-height: auto;
-  padding: 40px 24px 24px;
-  flex-direction: column;
-  border-radius: 16px;
-  box-sizing: border-box;
-
-  ${mediaQuery(640)} {
-    width: 326px;
-    padding: 40px 24px 24px;
-  }
-`;
-
-const Title = styled(Heading4)`
-  margin-bottom: ${pxToVw(16)};
-
-  ${mediaQuery(640)} {
-    margin-bottom: 16px;
-  }
-`;
-
-const Body = styled(Body4)`
-  text-align: center;
-  color: ${color.grayscale.gray02};
-`;
-
-const ButtonWrap = styled.div`
-  ${flexAlignCenter}
-  margin-top: ${pxToVw(24)};
-  width: 100%;
-
-  ${mediaQuery(640)} {
-    margin-top: 24px;
-  }
-`;
-
-const SadImg = styled.div`
-  width: ${pxToVw(120)};
-  height: ${pxToVw(82)};
-  background: url('/images/img_sad.svg') center no-repeat;
-  background-size: contain;
-  margin-bottom: ${pxToVw(16)};
-
-  ${mediaQuery(640)} {
-    width: 120px;
-    height: 82px;
-    margin-bottom: 16px;
-  }
-`;
 
 export const modalStyle = {
   content: {
@@ -81,62 +23,22 @@ export const modalStyle = {
 
 ReactModal.setAppElement('body');
 
-export const modalState = atom({
-  key: 'modalState',
-  default: {
-    type: '',
-    isOpen: false,
-    title: '',
-    body: '',
-    leftButton: { label: '취소', handleClick: () => {} },
-    rightButton: { label: '확인', handleClick: () => {} }
-  }
-});
+interface ModalProps {
+  children: React.ReactNode;
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
 
-export default function Modal() {
-  const [modal, setModal] = useRecoilState(modalState);
-  const handleClose = () =>
-    setModal({
-      type: '',
-      isOpen: false,
-      title: '',
-      body: '',
-      leftButton: { label: '취소', handleClick: () => {} },
-      rightButton: { label: '확인', handleClick: () => {} }
-    });
-
+export default function Modal({ children, isOpen, onRequestClose }: ModalProps) {
   return (
     <ReactModal
-      isOpen={modal.isOpen}
-      onRequestClose={handleClose}
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
       className="ignore-default-style"
       style={modalStyle}
       shouldCloseOnOverlayClick
     >
-      <Wrap style={modalStyle.content}>
-        {modal.type === 'withdraw' && <SadImg />}
-        <Title>{modal.title}</Title>
-        <Body>{modal.body}</Body>
-        <ButtonWrap>
-          <Button
-            theme={ButtonTheme.Secondary}
-            onClick={() => {
-              modal.leftButton.handleClick();
-              handleClose();
-            }}
-          >
-            {modal?.leftButton?.label}
-          </Button>
-          <Button
-            onClick={() => {
-              modal.rightButton.handleClick();
-              handleClose();
-            }}
-          >
-            {modal?.rightButton?.label}
-          </Button>
-        </ButtonWrap>
-      </Wrap>
+      {children}
     </ReactModal>
   );
 }

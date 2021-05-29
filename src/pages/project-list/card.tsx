@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { modalState } from 'components/modal';
+import ButtonModal, { modalState } from 'components/modal/button-modal';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -125,6 +125,7 @@ export default function Card({
 
   return (
     <>
+      <ButtonModal />
       <CardWrap isCurrent={isCurrent}>
         <CardLink to={`/trips?tripId=${tripId}`}>
           <div

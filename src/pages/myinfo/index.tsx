@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { modalState } from 'components/modal';
+import ButtonModal, { modalState } from 'components/modal/button-modal';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import _ from 'lodash';
@@ -96,42 +96,45 @@ export default function Myinfo() {
   }
 
   return (
-    <div css={basicWrap}>
-      <IconSelector>
-        <Profile type={selected} iconSize={IconSize.XL} />
-        <Icons>
-          {OPTIONS.map((option) => (
-            <ProfileWrap key={option} selected={selected === option} onClick={() => setSelected(option)}>
-              <Profile type={option} />
-            </ProfileWrap>
-          ))}
-        </Icons>
-      </IconSelector>
-      <InputBox
-        label="이름"
-        note="최소 2자 최대 8자 입력가능해요."
-        defaultValue={nickname}
-        onChangeInput={handleChange}
-      />
-      <ButtonWrap>
-        <Button>저장</Button>
-      </ButtonWrap>
-      <div
-        css={[
-          flexAlignCenter,
-          css`
-            margin-top: 57px;
-          `
-        ]}
-      >
-        <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
-          <Caption>회원탈퇴</Caption>
-        </Button>
-        <Divider />
-        <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
-          <Caption>로그아웃</Caption>
-        </Button>
+    <>
+      <ButtonModal />
+      <div css={basicWrap}>
+        <IconSelector>
+          <Profile type={selected} iconSize={IconSize.XL} />
+          <Icons>
+            {OPTIONS.map((option) => (
+              <ProfileWrap key={option} selected={selected === option} onClick={() => setSelected(option)}>
+                <Profile type={option} />
+              </ProfileWrap>
+            ))}
+          </Icons>
+        </IconSelector>
+        <InputBox
+          label="이름"
+          note="최소 2자 최대 8자 입력가능해요."
+          defaultValue={nickname}
+          onChangeInput={handleChange}
+        />
+        <ButtonWrap>
+          <Button>저장</Button>
+        </ButtonWrap>
+        <div
+          css={[
+            flexAlignCenter,
+            css`
+              margin-top: 57px;
+            `
+          ]}
+        >
+          <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
+            <Caption>회원탈퇴</Caption>
+          </Button>
+          <Divider />
+          <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
+            <Caption>로그아웃</Caption>
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
