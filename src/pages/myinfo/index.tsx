@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { modalState } from 'components/modal';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import _ from 'lodash';
@@ -48,6 +50,7 @@ const Divider = styled.div`
 `;
 
 export default function Myinfo() {
+  const [modal, setModal] = useRecoilState(modalState);
   const [selected, setSelected] = useState(Animals.Hamster);
   const [nickname, setNickname] = useState('주예');
 
@@ -55,6 +58,42 @@ export default function Myinfo() {
     setNickname(value);
     console.log(nickname);
   }, 500);
+
+  function openLogoutModal() {
+    setModal({
+      ...modal,
+      type: 'logout',
+      title: '로그아웃',
+      body: '정말 로그아웃 하시겠어요?',
+      leftButton: {
+        label: '취소',
+        onClick: () => console.log('취소 클릭')
+      },
+      rightButton: {
+        label: '로그아웃',
+        onClick: () => console.log('로그아웃 클릭')
+      },
+      isOpen: true
+    });
+  }
+
+  function openWithdrawModal() {
+    setModal({
+      ...modal,
+      type: 'withdraw',
+      title: '정말 탈퇴하시겠어요?',
+      body: '디빗을 탈퇴하면 나의 여행정산내역이 모두 사라져요. 그래도 탈퇴하시겠어요?',
+      leftButton: {
+        label: '탈퇴',
+        onClick: () => console.log('탈퇴 클릭')
+      },
+      rightButton: {
+        label: '취소',
+        onClick: () => console.log('취소 클릭')
+      },
+      isOpen: true
+    });
+  }
 
   return (
     <div css={basicWrap}>
@@ -85,11 +124,11 @@ export default function Myinfo() {
           `
         ]}
       >
-        <Button buttonType={ButtonType.Text}>
+        <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
           <Caption>회원탈퇴</Caption>
         </Button>
         <Divider />
-        <Button buttonType={ButtonType.Text}>
+        <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
           <Caption>로그아웃</Caption>
         </Button>
       </div>

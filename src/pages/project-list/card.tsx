@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { modalState } from 'components/modal';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -99,8 +101,27 @@ export default function Card({
   members
 }: CardProps) {
   const [openMore, setOpenMore] = useState(false);
+  const [modal, setModal] = useRecoilState(modalState);
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
+
+  function openGetoutModal() {
+    setModal({
+      ...modal,
+      type: 'getout',
+      title: '정말 여행에서 나가시겠어요?',
+      body: '여행 정산 내역을 더 이상 볼 수 없어요',
+      leftButton: {
+        label: '취소',
+        onClick: () => console.log('취소 클릭')
+      },
+      rightButton: {
+        label: '나가기',
+        onClick: () => console.log('나가기 클릭')
+      },
+      isOpen: true
+    });
+  }
 
   return (
     <>
@@ -132,27 +153,21 @@ export default function Card({
                   setOpenMore(false);
                 }}
               />
-              <ActionModal />
+              <MoreModal>
+                <MoreButton onClick={() => console.log('수정')}>여행정보수정</MoreButton>
+                <MoreButton
+                  onClick={openGetoutModal}
+                  css={css`
+                    color: ${color.red};
+                  `}
+                >
+                  나가기
+                </MoreButton>
+              </MoreModal>
             </>
           ) : null}
         </MoreWrap>
       </CardWrap>
     </>
-  );
-}
-
-function ActionModal() {
-  return (
-    <MoreModal>
-      <MoreButton onClick={() => console.log('수정')}>여행정보수정</MoreButton>
-      <MoreButton
-        onClick={() => console.log('나가기')}
-        css={css`
-          color: ${color.red};
-        `}
-      >
-        나가기
-      </MoreButton>
-    </MoreModal>
   );
 }
