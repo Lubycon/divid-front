@@ -6,7 +6,7 @@ import { mediaQuery, pxToVw } from 'styles/media';
 import { flexAlignCenter } from 'styles/containers';
 import { Heading4, Body4 } from 'styles/typography';
 import color from 'styles/colors';
-import Button, { ButtonKind } from './button';
+import Button, { ButtonTheme } from './button';
 
 const Wrap = styled.div`
   width: ${pxToVw(326)};
@@ -119,7 +119,7 @@ export default function Modal() {
         <Body>{modal.body}</Body>
         <ButtonWrap>
           <Button
-            kind={ButtonKind.Secondary}
+            theme={ButtonTheme.Secondary}
             onClick={() => {
               modal.leftButton.handleClick();
               handleClose();
