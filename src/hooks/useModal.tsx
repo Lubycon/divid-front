@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, isValidElement, cloneElement } from 'react';
 import Modal from 'components/modal';
 
 interface UseModal {
@@ -18,7 +18,11 @@ export default function useModal({ children }: UseModal) {
 
   const renderModal = () => (
     <Modal isOpen={isOpen} onRequestClose={handleClose}>
-      {children}
+      {isValidElement(children)
+        ? cloneElement(children, {
+            closeModal: handleClose
+          })
+        : children}
     </Modal>
   );
 

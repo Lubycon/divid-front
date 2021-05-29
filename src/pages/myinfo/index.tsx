@@ -67,14 +67,12 @@ export default function Myinfo() {
           label: '취소',
           handleClick: () => {
             console.log('취소 클릭');
-            closeLogoutModal();
           }
         },
         right: {
           label: '로그아웃',
           handleClick: () => {
             console.log('로그아웃 클릭');
-            closeLogoutModal();
           }
         }
       }}
@@ -91,28 +89,24 @@ export default function Myinfo() {
           label: '탈퇴',
           handleClick: () => {
             console.log('탈퇴 클릭');
-            closeWithdrawModal();
           }
         },
         right: {
           label: '취소',
           handleClick: () => {
             console.log('취소 클릭');
-            closeWithdrawModal();
           }
         }
       }}
     />
   );
 
-  const { handleOpen: openLogoutModal, handleClose: closeLogoutModal, renderModal: renderLogoutModal } = useModal({
+  const { handleOpen: openLogoutModal, renderModal: renderLogoutModal } = useModal({
     children: LogoutModalContents
   });
-  const { handleOpen: openWithdrawModal, handleClose: closeWithdrawModal, renderModal: renderWithdrawModal } = useModal(
-    {
-      children: WithdrawModalContents
-    }
-  );
+  const { handleOpen: openWithdrawModal, renderModal: renderWithdrawModal } = useModal({
+    children: WithdrawModalContents
+  });
 
   return (
     <>

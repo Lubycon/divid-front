@@ -113,21 +113,19 @@ export default function Card({
           label: '취소',
           handleClick: () => {
             console.log('취소 클릭');
-            closeGetoutModal();
           }
         },
         right: {
           label: '나가기',
           handleClick: () => {
             console.log('나가기 클릭');
-            closeGetoutModal();
           }
         }
       }}
     />
   );
 
-  const { handleOpen: openGetoutModal, handleClose: closeGetoutModal, renderModal: renderGetoutModal } = useModal({
+  const { handleOpen: openGetoutModal, renderModal: renderGetoutModal } = useModal({
     children: GetoutModalContents
   });
 

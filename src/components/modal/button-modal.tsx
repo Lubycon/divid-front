@@ -90,19 +90,33 @@ interface ButtonModalProps {
     left: ModalButton;
     right: ModalButton;
   };
+  closeModal?: () => void;
 }
 
-export default function ButtonModal({ type, title, body, buttons }: ButtonModalProps) {
+export default function ButtonModal({ type, title, body, buttons, closeModal }: ButtonModalProps) {
   return (
     <Wrap style={modalStyle.content}>
       {type === 'withdraw' && <SadImg />}
       <Title>{title}</Title>
       <Body>{body}</Body>
       <ButtonWrap>
-        <Button theme={ButtonTheme.Secondary} onClick={() => buttons.left.handleClick?.()}>
+        <Button
+          theme={ButtonTheme.Secondary}
+          onClick={() => {
+            buttons.left.handleClick?.();
+            closeModal?.();
+          }}
+        >
           {buttons.left.label || '취소'}
         </Button>
-        <Button onClick={() => buttons.right.handleClick?.()}>{buttons.right.label || '확인'}</Button>
+        <Button
+          onClick={() => {
+            buttons.right.handleClick?.();
+            closeModal?.();
+          }}
+        >
+          {buttons.right.label || '확인'}
+        </Button>
       </ButtonWrap>
     </Wrap>
   );
