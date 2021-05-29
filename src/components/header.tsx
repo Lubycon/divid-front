@@ -20,7 +20,7 @@ const Wrap = styled.div<{ isScrolled: boolean }>`
   right: 0;
   transition: background-color ease-in-out 0.2s;
   transition: box-shadow ease-in-out 0.2s;
-  z-index: 1000;
+  z-index: 10;
 
   ${({ isScrolled }) => (isScrolled ? scrolled : unscrolled)};
 
@@ -56,10 +56,12 @@ const Icon = styled.div`
 
 const Hamburger = styled(Icon)`
   background: url('/images/ico_menu.svg') center no-repeat;
+  cursor: pointer;
 `;
 
 const BackButton = styled(Icon)`
   background: url('/images/ico_back.svg') center no-repeat;
+  cursor: pointer;
 `;
 
 const OptionalButton = styled(Link)`

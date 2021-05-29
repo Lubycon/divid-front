@@ -14,6 +14,7 @@ const squareButton = css`
   background: ${color.primary};
   color: ${color.white};
   ${flexCenter};
+  cursor: pointer;
 
   p {
     color: ${color.white};
@@ -39,6 +40,7 @@ const roundButton = css`
   border: 2px solid ${color.grayscale.gray06};
   padding: 0 10px;
   ${flexCenter};
+  cursor: pointer;
 `;
 
 const textButton = css`
@@ -47,6 +49,7 @@ const textButton = css`
   background-color: transparent;
   padding: 0;
   ${flexCenter};
+  cursor: pointer;
 `;
 
 export enum ButtonType {

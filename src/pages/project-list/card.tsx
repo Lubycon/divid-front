@@ -75,6 +75,7 @@ const MoreModal = styled.div`
 const MoreButton = styled(Heading7)`
   padding: 10px 0;
   line-height: 1;
+  cursor: pointer;
 
   &:first-of-type {
     margin-top: 36px;
