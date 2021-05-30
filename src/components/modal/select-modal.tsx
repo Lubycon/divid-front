@@ -100,7 +100,7 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
       </Header>
       <List>
         {members.map(({ userId, nickName, profile, me }, index) => (
-          <Option>
+          <Option key={userId}>
             <Input
               type="radio"
               id={nickName}
