@@ -4,12 +4,13 @@ import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import _ from 'lodash';
-import { basicWrap, flexAlignCenter } from 'styles/containers';
+import { basicWrap, flexAlignCenter, flexCenter } from 'styles/containers';
 import Profile, { Animals, IconSize } from 'components/profile';
 import color from 'styles/colors';
 import InputBox from 'components/input-box';
 import { Caption as CommonCaption } from 'styles/typography';
 import Button, { ButtonType } from 'components/button';
+import { CheckMark } from 'styles/icon';
 
 const OPTIONS = Object.values(Animals);
 
@@ -29,9 +30,19 @@ const Icons = styled.div`
   justify-content: space-between;
 `;
 
-const ProfileWrap = styled.div<{ selected: boolean }>`
-  background-color: ${({ selected }) => (selected ? color.primary : null)};
+const ProfileWrap = styled.div`
   margin-bottom: 8px;
+  z-index: 2;
+  position: relative;
+`;
+
+const MarkWrap = styled.div`
+  background-color: rgba(88, 90, 241, 0.4);
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  position: absolute;
+  ${flexCenter};
 `;
 
 const ButtonWrap = styled.div`
@@ -118,7 +129,12 @@ export default function Myinfo() {
           <Profile type={selected} iconSize={IconSize.XL} />
           <Icons>
             {OPTIONS.map((option) => (
-              <ProfileWrap key={option} selected={selected === option} onClick={() => setSelected(option)}>
+              <ProfileWrap key={option} onClick={() => setSelected(option)}>
+                {selected === option && (
+                  <MarkWrap>
+                    <CheckMark theme={color.white} />
+                  </MarkWrap>
+                )}
                 <Profile type={option} />
               </ProfileWrap>
             ))}

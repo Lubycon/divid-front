@@ -44,6 +44,20 @@ export const ArrowDown = styled.span<{ theme?: string }>`
   }
 `;
 
+export const CheckMark = styled.span<{ theme?: string }>`
+  display: inline-block;
+  width: ${pxToVw(24)};
+  height: ${pxToVw(24)};
+  background: url('/images/ico_check.svg') center no-repeat;
+  background-size: contain;
+  color: ${({ theme }) => theme || color.grayscale.gray01};
+
+  ${mediaQuery(640)} {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
 export const Menu = styled.span<{ theme?: string }>`
   display: inline-block;
   width: ${pxToVw(24)};
