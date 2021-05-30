@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { basicWrap, grayBackground } from 'styles/containers';
 import FloatingActionButton from 'components/floating-action-button';
 import { TripInfo, Animals } from 'api/types';
@@ -30,7 +31,9 @@ export default function Trip() {
     <div css={[basicWrap, grayBackground]}>
       <Header trip={DUMMY} />
       <TripLog trip={DUMMY} />
-      <FloatingActionButton />
+      <Link to="/expense">
+        <FloatingActionButton />
+      </Link>
     </div>
   );
 }

@@ -16,7 +16,6 @@ import Expense from './pages/expense';
 import Myinfo from './pages/myinfo';
 import Modify from './pages/modify-trip';
 import ServiceInfo from './pages/service-info';
-import Information from './pages/service-info/information';
 
 interface RouteProps {
   path: string;
@@ -61,16 +60,12 @@ const routes: RouteProps[] = [
     component: Modify
   },
   {
-    path: '/service',
+    path: '/privacy',
     component: ServiceInfo
   },
   {
-    path: '/privacy',
-    component: Information
-  },
-  {
     path: '/terms',
-    component: Information
+    component: ServiceInfo
   }
 ];
 

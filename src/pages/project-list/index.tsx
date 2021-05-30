@@ -42,7 +42,7 @@ export default function ProjectList() {
   const currentTrip = DUMMY.filter((trip) => !trip.end);
   const pastTrip = DUMMY.filter((trip) => trip.end);
 
-  if (DUMMY.length !== 0) {
+  if (DUMMY.length === 0) {
     return (
       <div css={basicWrap}>
         <Welcome />

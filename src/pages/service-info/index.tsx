@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { useLocation } from 'react-router-dom';
 import { basicWrap } from 'styles/containers';
-import ArrowTab from 'components/arrow-tab';
+import { Caption } from 'styles/typography';
+import { convertNewlineToBr, createMarkup } from 'utils';
+import { privacyParagraph, termsParagraph } from './data';
+
+const Paragraph = styled(Caption)`
+  margin-top: 8px;
+
+  span {
+    font-weight: 600;
+  }
+`;
 
 export default function ServiceInfo() {
+  const content = useLocation().pathname.includes('privacy') ? privacyParagraph : termsParagraph;
+  const newParagraph = convertNewlineToBr(content);
+
   return (
     <div css={basicWrap}>
-      <Link to="/privacy">
-        <ArrowTab label="개인정보처리방침" />
-      </Link>
-      <Link to="/terms">
-        <ArrowTab label="이용약관" isBorderTop />
-      </Link>
+      <Paragraph dangerouslySetInnerHTML={createMarkup(newParagraph)} />
     </div>
   );
 }
