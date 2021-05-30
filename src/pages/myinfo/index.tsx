@@ -81,7 +81,7 @@ export default function Myinfo() {
 
   const WithdrawModalContents = (
     <ButtonModal
-      type="logout"
+      type="withdraw"
       title="정말 탈퇴하시겠어요?"
       body="디빗을 탈퇴하면 나의 여행정산내역이 모두 사라져요. 그래도 탈퇴하시겠어요?"
       buttons={{
@@ -140,11 +140,11 @@ export default function Myinfo() {
             `
           ]}
         >
-          <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
+          <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
             <Caption>회원탈퇴</Caption>
           </Button>
           <Divider />
-          <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
+          <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
             <Caption>로그아웃</Caption>
           </Button>
         </div>
