@@ -85,16 +85,16 @@ const Option = styled.div`
 
 interface SelectModalProps {
   members: MemberInfo[];
-  closeModal?: () => void;
+  onClose?: () => void;
 }
 
-export default function SelectModal({ members, closeModal }: SelectModalProps) {
+export default function SelectModal({ members, onClose }: SelectModalProps) {
   const [checked, setChecked] = useState(0);
   return (
     <Wrap style={modalStyle.content}>
       <Header>
         <Title>낸 사람 선택</Title>
-        <CloseButton onClick={closeModal}>
+        <CloseButton onClick={onClose}>
           <Close />
         </CloseButton>
       </Header>
