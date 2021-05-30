@@ -104,6 +104,7 @@ export default function Myinfo() {
   const { handleOpen: openLogoutModal, renderModal: renderLogoutModal } = useModal({
     children: LogoutModalContents
   });
+
   const { handleOpen: openWithdrawModal, renderModal: renderWithdrawModal } = useModal({
     children: WithdrawModalContents
   });

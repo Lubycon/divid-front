@@ -110,13 +110,19 @@ export enum IconSize {
 
 export interface ProfileProps {
   iconSize?: IconSize;
-  name?: string;
+  nickName?: string;
   type: Animals;
   isMe?: boolean;
   hasName?: boolean;
 }
 
-export default function Profile({ iconSize = IconSize.ME, name, type, isMe = false, hasName = false }: ProfileProps) {
+export default function Profile({
+  iconSize = IconSize.ME,
+  nickName,
+  type,
+  isMe = false,
+  hasName = false
+}: ProfileProps) {
   return (
     <div
       css={css`
@@ -128,7 +134,7 @@ export default function Profile({ iconSize = IconSize.ME, name, type, isMe = fal
       </Wrap>
       {hasName ? (
         <NameWrap>
-          <Tag>{name}</Tag>
+          <Tag>{nickName}</Tag>
           {isMe ? (
             <CircleTag>
               <Badge>나</Badge>

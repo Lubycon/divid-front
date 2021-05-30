@@ -90,10 +90,10 @@ interface ButtonModalProps {
     left: ModalButton;
     right: ModalButton;
   };
-  closeModal?: () => void;
+  onClose?: () => void;
 }
 
-export default function ButtonModal({ type, title, body, buttons, closeModal }: ButtonModalProps) {
+export default function ButtonModal({ type, title, body, buttons, onClose }: ButtonModalProps) {
   return (
     <Wrap style={modalStyle.content}>
       {type === 'withdraw' && <SadImg />}
@@ -104,7 +104,7 @@ export default function ButtonModal({ type, title, body, buttons, closeModal }: 
           theme={ButtonTheme.Secondary}
           onClick={() => {
             buttons.left.handleClick?.();
-            closeModal?.();
+            onClose?.();
           }}
         >
           {buttons.left.label || '취소'}
@@ -112,7 +112,7 @@ export default function ButtonModal({ type, title, body, buttons, closeModal }: 
         <Button
           onClick={() => {
             buttons.right.handleClick?.();
-            closeModal?.();
+            onClose?.();
           }}
         >
           {buttons.right.label || '확인'}
