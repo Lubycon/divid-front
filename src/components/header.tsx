@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
 
@@ -8,7 +8,7 @@ import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
 import { getPageInfo, getHeaderButton, isHome, useScroll } from 'utils';
 import color from 'styles/colors';
-import Navigation from './navigation';
+// import Navigation from './navigation';
 
 const Wrap = styled.div<{ isScrolled: boolean }>`
   ${flexCenter}
@@ -54,8 +54,7 @@ const Icon = styled.div`
   }
 `;
 
-const Hamburger = styled(Icon)`
-  background: url('/images/ico_menu.svg') center no-repeat;
+const Logo = styled(Icon)`
   cursor: pointer;
 `;
 
@@ -79,7 +78,6 @@ const ButtonLabel = styled(Title)`
 `;
 
 export default function Header() {
-  const [isToggleHamburger, setIsToggleHamburger] = useState(false);
   const isScrolled = useScroll();
   const title = getPageInfo();
   const button = getHeaderButton();
@@ -88,7 +86,9 @@ export default function Header() {
     <>
       <Wrap isScrolled={isScrolled}>
         {isHome() ? (
-          <Hamburger onClick={() => setIsToggleHamburger(true)} />
+          <Link to="/projects">
+            <Logo>로고</Logo>
+          </Link>
         ) : (
           <BackButton
             onClick={() => {
@@ -96,9 +96,6 @@ export default function Header() {
             }}
           />
         )}
-        {isToggleHamburger ? (
-          <Navigation isNaviOpened={isToggleHamburger} onRequestClose={() => setIsToggleHamburger(false)} />
-        ) : null}
         {title && <Title>{title}</Title>}
         {button && (
           <OptionalButton to={button.link}>
