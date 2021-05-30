@@ -10,10 +10,10 @@ const Wrap = styled.div`
   margin-bottom: 4px;
 `;
 
-export default function UserCheckbox({ name, type, isMe }: ProfileProps) {
+export default function UserCheckbox({ nickName, type, isMe }: ProfileProps) {
   return (
     <Wrap>
-      <Profile name={name} type={type} isMe={isMe} hasName />
+      <Profile nickName={nickName} type={type} isMe={isMe} hasName />
       <CheckBox />
     </Wrap>
   );
