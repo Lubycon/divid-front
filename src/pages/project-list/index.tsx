@@ -5,6 +5,7 @@ import { Heading4 } from 'styles/typography';
 import { TripCard, Animals } from 'api/types';
 import Empty from './empty';
 import Card from './card';
+import Welcome from './hello-message';
 
 const DUMMY: TripCard[] = [
   {
@@ -41,12 +42,18 @@ export default function ProjectList() {
   const currentTrip = DUMMY.filter((trip) => !trip.end);
   const pastTrip = DUMMY.filter((trip) => trip.end);
 
-  if (DUMMY.length === 0) {
-    return <Empty />;
+  if (DUMMY.length !== 0) {
+    return (
+      <div css={basicWrap}>
+        <Welcome />
+        <Empty />
+      </div>
+    );
   }
 
   return (
     <div css={basicWrap}>
+      <Welcome />
       {currentTrip.length > 0 ? (
         <>
           <Title>여행 중</Title>

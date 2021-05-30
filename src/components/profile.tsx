@@ -23,11 +23,11 @@ const mediumWrap = css`
 `;
 
 const largeWrap = css`
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   background-color: ${color.grayscale.gray07};
   border: 2px solid ${color.grayscale.gray05};
-  font-size: 40px;
+  font-size: 28px;
 `;
 
 const xLargeWrap = css`

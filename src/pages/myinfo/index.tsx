@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import useModal from 'hooks/useModal';
 import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import _ from 'lodash';
-import { basicWrap, flexAlignCenter, flexCenter } from 'styles/containers';
+import { basicWrap, flexCenter } from 'styles/containers';
 import Profile, { Animals, IconSize } from 'components/profile';
 import color from 'styles/colors';
 import InputBox from 'components/input-box';
-import { Caption as CommonCaption } from 'styles/typography';
 import Button, { ButtonType } from 'components/button';
+import Footer from 'components/footer';
 import { CheckMark } from 'styles/icon';
+import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
 
 const OPTIONS = Object.values(Animals);
 
@@ -49,15 +49,8 @@ const ButtonWrap = styled.div`
   margin-top: 32px;
 `;
 
-const Caption = styled(CommonCaption)`
-  color: ${color.grayscale.gray03};
-`;
-
-const Divider = styled.div`
-  width: 1px;
-  height: 16px;
-  background-color: ${color.grayscale.gray05};
-  margin: 0 16px;
+const SubButtonWrap = styled(CommonButtonWrap)`
+  margin-top: 57px;
 `;
 
 export default function Myinfo() {
@@ -149,14 +142,7 @@ export default function Myinfo() {
         <ButtonWrap>
           <Button>저장</Button>
         </ButtonWrap>
-        <div
-          css={[
-            flexAlignCenter,
-            css`
-              margin-top: 57px;
-            `
-          ]}
-        >
+        <SubButtonWrap>
           <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>
             <Caption>회원탈퇴</Caption>
           </Button>
@@ -164,8 +150,9 @@ export default function Myinfo() {
           <Button buttonType={ButtonType.Text} onClick={openLogoutModal}>
             <Caption>로그아웃</Caption>
           </Button>
-        </div>
+        </SubButtonWrap>
       </div>
+      <Footer />
     </>
   );
 }

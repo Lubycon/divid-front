@@ -3,9 +3,20 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useCheckDesktop } from 'utils';
 
-import { basicWrap, flexCenter } from 'styles/containers';
+import { flexCenter } from 'styles/containers';
+import { mediaQuery, pxToVw } from 'styles/media';
 import { Caption, Body3 } from 'styles/typography';
 import color from 'styles/colors';
+
+const EmptyWrap = styled.div`
+  ${flexCenter};
+  flex-direction: column;
+  margin-top: ${pxToVw(124)};
+
+  ${mediaQuery(640)} {
+    margin-top: 200px;
+  }
+`;
 
 const EmptyImg = styled.div`
   width: 160px;
@@ -18,7 +29,7 @@ export default function Empty() {
   const Description = useCheckDesktop() ? Body3 : Caption;
 
   return (
-    <div css={[basicWrap, flexCenter]}>
+    <EmptyWrap>
       <EmptyImg />
       <Description
         css={css`
@@ -30,6 +41,6 @@ export default function Empty() {
         <br />
         상단의 여행 추가를 눌러 여행을 만들어보세요.
       </Description>
-    </div>
+    </EmptyWrap>
   );
 }
