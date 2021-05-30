@@ -10,6 +10,7 @@ import Button, { ButtonType } from 'components/button';
 import color from 'styles/colors';
 
 const FooterWrap = styled.footer`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -51,7 +52,26 @@ const RightsNotice = styled(Heading)`
   font-weight: 400;
   color: ${color.grayscale.gray04};
   font-size: 12px;
-  margin: 36px 0;
+  margin: ${pxToVw(36)} 0;
+
+  ${mediaQuery(640)} {
+    margin: 36px 0;
+  }
+`;
+
+const LubyconLogo = styled.div`
+  position: absolute;
+  right: ${pxToVw(24)};
+  bottom: ${pxToVw(60)};
+  width: 80px;
+  height: 25px;
+  background: url('/images/logo_lubycon.svg') center no-repeat;
+  background-size: contain;
+
+  ${mediaQuery(640)} {
+    right: 24px;
+    bottom: 60px;
+  }
 `;
 
 export default function Footer() {
@@ -73,6 +93,7 @@ export default function Footer() {
         </Link>
       </SubButtonWrap>
       <RightsNotice>© 2021. divid. all rights reserved.</RightsNotice>
+      <LubyconLogo />
     </FooterWrap>
   );
 }
