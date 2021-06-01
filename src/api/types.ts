@@ -9,11 +9,29 @@ export enum Animals {
   Rabbit = 'rabbit'
 }
 
+export interface MyInfo {
+  nickName: string;
+  profile: Animals;
+}
+
 export interface MemberInfo {
   userId: number;
   nickName: string;
   profile: Animals;
   me: boolean;
+}
+
+export interface TripEditInfo {
+  tripName: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface TripMinInfo {
+  tripId: string;
+  tripName: string;
+  startDate: string;
+  endDate: string;
 }
 
 export interface TripInfo {
@@ -33,4 +51,24 @@ export interface TripCard {
   memberCnt: number;
   end: boolean;
   userInfoResponseList: MemberInfo[];
+}
+
+export interface ExpenseAssignee {
+  userId: number;
+  nickname: string;
+  profileImg: Animals;
+  me: boolean;
+  price: number;
+}
+
+export interface ExpenseInfo {
+  expenseId: number,
+  payDate: string,
+  totalPrice: number,
+  title: string,
+  payerId: number,
+  profileImg: Animals,
+  nickName: string,
+  individual: boolean,
+  getExpenseDetails: ExpenseAssignee[]
 }
