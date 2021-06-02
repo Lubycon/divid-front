@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 import 'reset-css';
 import Header from 'components/header';
@@ -69,18 +70,22 @@ const routes: RouteProps[] = [
   }
 ];
 
+const queryClient = new QueryClient();
+
 function App() {
   const location = useLocation();
 
   return (
     <>
-      <Header />
-      <Switch location={location}>
-        <Route exact path="/" render={() => <Redirect to="login" />} />
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} component={route.component} exact />
-        ))}
-      </Switch>
+      <QueryClientProvider client={queryClient}>
+        <Header />
+        <Switch location={location}>
+          <Route exact path="/" render={() => <Redirect to="login" />} />
+          {routes.map((route) => (
+            <Route key={route.path} path={route.path} component={route.component} exact />
+          ))}
+        </Switch>
+      </QueryClientProvider>
     </>
   );
 }

@@ -1,3 +1,15 @@
+export interface RequestHeader {
+  contentType: string;
+  jwtAccessToken: string;
+}
+
+export interface Token {
+  exp: number;
+  id: number;
+  issuer: string;
+  subject: string;
+}
+
 export enum Animals {
   Bear = 'bear',
   Puppy = 'puppy',
@@ -62,13 +74,13 @@ export interface ExpenseAssignee {
 }
 
 export interface ExpenseInfo {
-  expenseId: number,
-  payDate: string,
-  totalPrice: number,
-  title: string,
-  payerId: number,
-  profileImg: Animals,
-  nickName: string,
-  individual: boolean,
-  getExpenseDetails: ExpenseAssignee[]
+  expenseId: number;
+  payDate: string;
+  totalPrice: number;
+  title: string;
+  payerId: number;
+  profileImg: Animals;
+  nickName: string;
+  individual: boolean;
+  getExpenseDetails: ExpenseAssignee[];
 }

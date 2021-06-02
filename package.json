@@ -19,6 +19,7 @@
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "node-sass": "^6.0.0",
     "prettier": "^2.2.1",
@@ -26,6 +27,7 @@
     "react-datepicker": "^3.8.0",
     "react-dom": "^17.0.2",
     "react-modal": "^3.13.1",
+    "react-query": "^3.16.0",
     "react-rainbow-components": "^1.25.0",
     "react-responsive": "^8.2.0",
     "react-router": "^5.2.0",
@@ -39,7 +41,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "export PORT=8081 && craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

@@ -6,7 +6,7 @@ import { ko } from 'date-fns/locale';
 import { Animals } from 'components/profile';
 import _ from 'lodash';
 
-export function useQuery() {
+export function useQueryString() {
   return new URLSearchParams(useLocation().search);
 }
 
@@ -142,3 +142,14 @@ export function convertNewlineToBr(text: string) {
 export function createMarkup(text: string) {
   return { __html: text };
 }
+
+export const getLocalStorage = (key: string) => {
+  const value = localStorage.getItem(key);
+  if (value !== null) {
+    return JSON.parse(value);
+  }
+};
+
+export const setLocalStorage = (key: string, value: string) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
