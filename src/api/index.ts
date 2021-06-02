@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 
-const axiosInstance = axios.create({ baseURL: 'http://localhost' }) 
+const axiosInstance = axios.create({ baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:3000' }) 
 
 type DefaultRequestParams = 'headers' | 'params' | 'paramsSerializer' | 'timeout';
 type WithoutRequestBodyConfig = Pick<AxiosRequestConfig, DefaultRequestParams >
