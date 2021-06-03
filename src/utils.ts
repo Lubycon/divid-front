@@ -150,11 +150,11 @@ export function getLocalStorage<T>(key: string) {
   } else {
     return null;
   }
-};
+}
 
 export function setLocalStorage<T>(key: string, value: T) {
   localStorage.setItem(key, JSON.stringify(value));
-};
+}
 
 export function getKeys<T>(data: T): Array<keyof typeof data> {
   return Object.keys(data) as Array<keyof typeof data>;

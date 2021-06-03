@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { getKeys } from 'utils'
+import { getKeys } from 'utils';
 import http, { RequestBodyConfig } from 'api';
 import { useQuery } from 'react-query';
 
@@ -36,7 +36,7 @@ export default function useKakaoToken(code: string) {
         const queryString = getKeys(data)
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
-        const result = await http.post<any, string>('https://kauth.kakao.com/oauth/token', queryString);
+        const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString);
         setAccessToken(result.data.access_token);
         return result;
       } catch (e) {

@@ -11,6 +11,8 @@ import Button, { ButtonType } from 'components/button';
 import Footer from 'components/footer';
 import { CheckMark } from 'styles/icon';
 import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
+import { useEditMyPage } from 'hooks/data/useMyPage';
+// import axios from 'axios';
 
 const OPTIONS = Object.values(Animals);
 
@@ -56,6 +58,24 @@ const SubButtonWrap = styled(CommonButtonWrap)`
 export default function Myinfo() {
   const [selected, setSelected] = useState(Animals.Hamster);
   const [nickname, setNickname] = useState('주예');
+
+  // const { data } = useGetMyPage();
+  // console.log(data);
+
+  useEditMyPage({
+    nickName: '신유진',
+    profileImg: Animals.Bear
+  });
+
+  // async function test() {
+  //   const result = await axios.post('http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081/users/mypage', {
+  //     headers: getRequestHeader()
+  //   });
+  //   return result;
+  // }
+
+  // const result = test();
+  // console.log(result);
 
   const handleChange = _.debounce((value: string) => {
     setNickname(value);
