@@ -9,9 +9,6 @@ interface Response {
   message: string;
 }
 
-interface SimpleObject {
-  [key: string]: string;
-}
 interface KakaoAuthQuery {
   grant_type: 'authorization_code';
   client_id: string;
@@ -39,7 +36,7 @@ export default function useKakaoToken(code: string) {
         const queryString = getKeys(data)
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
-        const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString);
+        const result = await http.post<any, string>('https://kauth.kakao.com/oauth/token', queryString);
         setAccessToken(result.data.access_token);
         return result;
       } catch (e) {
