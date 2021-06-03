@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { getKeys } from 'utils'
 import http, { RequestBodyConfig } from 'api';
 import { useQuery } from 'react-query';
 
 interface Response {
   message: string;
+}
+
+interface SimpleObject {
+  [key: string]: string;
+}
+interface KakaoAuthQuery {
+  grant_type: 'authorization_code';
+  client_id: string;
+  redirect_uri: string;
+  code: string;
 }
 
 function postKakaoToken(config: RequestBodyConfig) {
@@ -19,13 +30,13 @@ export default function useKakaoToken(code: string) {
   useEffect(() => {
     const getKakaoToken = async (codeString: string) => {
       try {
-        const data: { [index: string]: string } = {
+        const data: KakaoAuthQuery = {
           grant_type: 'authorization_code',
           client_id: apiKey || '',
           redirect_uri: 'http://localhost:8081/oauth/kakao/result',
           code: codeString
         };
-        const queryString = Object.keys(data)
+        const queryString = getKeys(data)
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
         const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString);
