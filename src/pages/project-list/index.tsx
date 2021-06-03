@@ -2,7 +2,8 @@ import React from 'react';
 import { basicWrap } from 'styles/containers';
 import styled from '@emotion/styled';
 import { Heading4 } from 'styles/typography';
-import { TripCard, Animals } from 'api/types';
+import {  Animals } from 'api/types';
+import { TripCard } from 'model/trip'
 import Empty from './empty';
 import Card from './card';
 import Welcome from './hello-message';

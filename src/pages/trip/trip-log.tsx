@@ -1,5 +1,5 @@
 import React from 'react';
-import { TripInfo } from 'api/types';
+import { TripInfo } from 'model/trip';
 import LogList from './log-list';
 import Empty from './empty';
 

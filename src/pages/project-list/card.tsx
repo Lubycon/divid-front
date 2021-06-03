@@ -8,7 +8,7 @@ import { mediaQuery } from 'styles/media';
 import { changeStringToDate, makeDateFormat } from 'utils';
 import { Heading4 as Title, Heading7 } from 'styles/typography';
 import color from 'styles/colors';
-import { MemberInfo } from 'api/types';
+import { MemberInfo } from 'model/members';
 import Members from 'components/members';
 
 const CardWrap = styled.div<{ isCurrent: boolean }>`

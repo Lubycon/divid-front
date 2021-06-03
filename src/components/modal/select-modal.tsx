@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
-import { MemberInfo } from 'api/types';
+import { MemberInfo } from 'model/members';
 import Profile from 'components/profile';
 import { Heading4 } from 'styles/typography';
 // import color from 'styles/colors';

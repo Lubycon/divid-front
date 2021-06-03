@@ -1,10 +1,20 @@
 import React from 'react';
-import { useQuery } from 'utils';
+import { Token } from 'api/types';
+import jwt_decode from 'jwt-decode';
+import { useQueryString } from 'utils';
+import useKakaoToken from 'hooks/data/useKakaoToken';
 
-export default function Kakao() {
-  const code = useQuery().get('code');
+export default function KakaoLogin() {
+  const code = useQueryString().get('code');
+  const { isLoading, data } = useKakaoToken(code || '');
 
-  console.log(code);
+  if (!isLoading && data) {
+    console.log(data);
+
+    const decodedAccessToken: Token = jwt_decode(data.headers.jwtaccesstoken);
+    const decodedRefreshToken: Token = jwt_decode(data.headers.jwtrefreshtoken);
+    console.log({ decodedAccessToken, decodedRefreshToken });
+  }
 
   return <div>카카오 로그인 중</div>;
 }

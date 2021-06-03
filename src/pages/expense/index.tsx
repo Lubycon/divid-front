@@ -3,7 +3,8 @@ import { basicWrap } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
-import { MemberInfo, Animals } from 'api/types';
+import { Animals } from 'api/types';
+import { MemberInfo } from 'model/members';
 
 import SelectModal from 'components/modal/select-modal';
 import color from 'styles/colors';

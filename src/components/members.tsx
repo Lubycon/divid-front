@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button, { ButtonType } from 'components/button';
 import { CaptionBold } from 'styles/typography';
-import { MemberInfo } from 'api/types';
+import { MemberInfo } from 'model/members';
 
 const MembersWrap = styled.div`
   display: flex;
