@@ -1,5 +1,7 @@
 import http from 'api';
-import * as Type from 'api/types';
+import { MyInfo } from 'model/me'
+import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip'
+import { ExpenseInfo } from 'model/expense'
 import { useQuery } from 'react-query';
 
 interface Response {
@@ -7,11 +9,11 @@ interface Response {
 }
 
 function getMyPage() {
-  return http.get<Type.MyInfo>('/users/mypage');
+  return http.get<MyInfo>('/users/mypage');
 }
 
-function editMyPage(data: Type.MyInfo) {
-  return http.put<Response, Type.MyInfo>('/users/mypage', data);
+function editMyPage(data: MyInfo) {
+  return http.put<Response, MyInfo>('/users/mypage', data);
 }
 
 function postWithdrawal() {
@@ -19,20 +21,20 @@ function postWithdrawal() {
   return http.post<Response, undefined>('/users/withdrawal');
 }
 
-function postTrip(data: Type.TripMinInfo) {
-  return http.post<Response, Type.TripMinInfo>('/trips', data);
+function postTrip(data: TripMinInfo) {
+  return http.post<Response, TripMinInfo>('/trips', data);
 }
 
 function getTripLists() {
-  return http.get<Type.TripInfo>('/trips/all');
+  return http.get<TripInfo>('/trips/all');
 }
 
 function getDetailTripInfo(tripId: string) {
-  return http.get<Type.TripInfo>(`/trips?tripId=${tripId}`);
+  return http.get<TripInfo>(`/trips?tripId=${tripId}`);
 }
 
 function editTripInfo(tripId: string) {
-  return http.put<Response, Type.TripEditInfo>(`/trips?tripId=${tripId}`);
+  return http.put<Response, TripEditInfo>(`/trips?tripId=${tripId}`);
 }
 
 function exitTrip(tripId: string) {
@@ -44,30 +46,30 @@ function deleteTrip(tripId: string) {
 }
 
 function getTripMembers(tripId: string) {
-  return http.get<Type.TripInfo>(`/trips/members?tripId=${tripId}`);
+  return http.get<TripInfo>(`/trips/members?tripId=${tripId}`);
 }
 
 function getExpenseInfo(tripId: string, expenseId: number) {
-  return http.get<Type.ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
+  return http.get<ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
 }
 
 function editExpenseInfo(tripId: string, expenseId: number) {
-  return http.put<Response, Type.ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
+  return http.put<Response, ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
 }
 
-function postExpense(data: Type.ExpenseInfo) {
-  return http.post<Response, Type.ExpenseInfo>('/expenses', data);
+function postExpense(data: ExpenseInfo) {
+  return http.post<Response, ExpenseInfo>('/expenses', data);
 }
 
 function deleteExpense(tripId: string, expenseId: number) {
-  return http.post<Response, Type.ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
+  return http.post<Response, ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
 }
 
 export function useGetMyPage() {
   return useQuery('getMyPage', getMyPage);
 }
 
-export function useEditMyPage(data: Type.MyInfo) {
+export function useEditMyPage(data: MyInfo) {
   return useQuery('putMyPage', () => editMyPage(data));
 }
 
@@ -75,7 +77,7 @@ export function usePostWithdrawal() {
   return useQuery('postWithdrawal', postWithdrawal);
 }
 
-export function usePostTrip(data: Type.TripMinInfo) {
+export function usePostTrip(data: TripMinInfo) {
   return useQuery('postTrip', () => postTrip(data));
 }
 
@@ -111,7 +113,7 @@ export function useEditExpenseInfo(tripId: string, expenseId: number) {
   return useQuery('getExpenseInfo', () => editExpenseInfo(tripId, expenseId));
 }
 
-export function usePostExpense(data: Type.ExpenseInfo) {
+export function usePostExpense(data: ExpenseInfo) {
   return useQuery('postExpense', () => postExpense(data));
 }
 

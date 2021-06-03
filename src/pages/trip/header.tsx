@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import color from 'styles/colors';
 import { Heading3, Body3 } from 'styles/typography';
 import { changeStringToDate, makeDateFormat } from 'utils';
-import { TripInfo } from 'api/types';
+import { TripInfo } from 'model/trip';
 
 import Members from 'components/members';
 
