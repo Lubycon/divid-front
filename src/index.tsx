@@ -76,17 +76,15 @@ function App() {
   const location = useLocation();
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <Header />
-        <Switch location={location}>
-          <Route exact path="/" render={() => <Redirect to="login" />} />
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path} component={route.component} exact />
-          ))}
-        </Switch>
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Header />
+      <Switch location={location}>
+        <Route exact path="/" render={() => <Redirect to="login" />} />
+        {routes.map((route) => (
+          <Route key={route.path} path={route.path} component={route.component} exact />
+        ))}
+      </Switch>
+    </QueryClientProvider>
   );
 }
 
