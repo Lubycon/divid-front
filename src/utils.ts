@@ -143,10 +143,12 @@ export function createMarkup(text: string) {
   return { __html: text };
 }
 
-export const getLocalStorage = (key: string) => {
+export function getLocalStorage<T>(key: string) {
   const value = localStorage.getItem(key);
   if (value !== null) {
-    return JSON.parse(value);
+    return JSON.parse(value) as T;
+  } else {
+    return null;
   }
 };
 
