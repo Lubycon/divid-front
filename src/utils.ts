@@ -152,6 +152,6 @@ export function getLocalStorage<T>(key: string) {
   }
 };
 
-export const setLocalStorage = (key: string, value: string) => {
+export function setLocalStorage<T>(key: string, value: T) {
   localStorage.setItem(key, JSON.stringify(value));
 };
