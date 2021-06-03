@@ -13,7 +13,7 @@ function postKakaoToken(config: RequestBodyConfig) {
 }
 
 export default function useKakaoToken(code: string) {
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const apiKey = process.env.REACT_APP_KAKAO_REST_API_KEY;
 
   useEffect(() => {
