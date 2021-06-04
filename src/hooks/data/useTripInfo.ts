@@ -1,7 +1,6 @@
 import http from 'api';
 import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
 import { useQuery } from 'react-query';
-import { getRequestHeader } from './useMyPage';
 
 interface Response {
   message: string;
@@ -12,7 +11,7 @@ function postTrip(data: TripMinInfo) {
 }
 
 function getTripLists() {
-  return http.get<TripInfo>('/trips/all', { headers: getRequestHeader() });
+  return http.get<TripInfo>('/trips/all');
 }
 
 function getDetailTripInfo(tripId: string) {

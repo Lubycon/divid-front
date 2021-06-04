@@ -1,6 +1,34 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { getLocalStorage } from 'utils';
+import jwt_decode from 'jwt-decode';
+import { Token } from './types';
 
-const axiosInstance = axios.create({ baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081' });
+const axiosInstance = axios.create({
+  baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
+  headers: {
+    JwtAccessToken: getLocalStorage('accessToken')
+  }
+});
+
+async function checkToken(config: AxiosRequestConfig) {
+  let accessToken = getLocalStorage<string>('accessToken');
+  if (accessToken === null) return config;
+
+  const decode: Token = jwt_decode(accessToken);
+  const currentTime = Date.now() / 1000;
+
+  if (decode.exp < currentTime) {
+    const refreshToken = getLocalStorage<string>('refreshToken');
+    accessToken = refreshToken;
+  }
+
+  config.headers['JwtAccessToken'] = accessToken;
+  console.log({ config });
+  return config;
+}
+
+axiosInstance.interceptors.request.use(checkToken);
+axiosInstance.interceptors.response.use();
 
 type DefaultRequestParams = 'headers' | 'params' | 'paramsSerializer' | 'timeout';
 export type WithoutRequestBodyConfig = Pick<AxiosRequestConfig, DefaultRequestParams>;
