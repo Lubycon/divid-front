@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import useModal from 'hooks/useModal';
 import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
@@ -11,7 +12,7 @@ import Button, { ButtonType } from 'components/button';
 import Footer from 'components/footer';
 import { CheckMark } from 'styles/icon';
 import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
-import { useGetMyPage, useEditMyPage } from 'hooks/data/useMyPage';
+import { useGetMyPage, useEditMyPage, usePostWithdrawal } from 'hooks/data/useMyPage';
 
 const IconSelector = styled.div`
   padding: 23px 0 19px;
@@ -55,12 +56,14 @@ const SubButtonWrap = styled(CommonButtonWrap)`
 export default function MyPage() {
   const [selected, setSelected] = useState<Animals>(Animals.Hamster);
   const [nickname, setNickname] = useState('');
+  const history = useHistory();
 
   const { data, isLoading } = useGetMyPage();
-  const { refetch } = useEditMyPage({
+  const { refetch: modifyMyinfo } = useEditMyPage({
     nickName: nickname,
     profileImg: selected
   });
+  const { refetch: postWithdrawal } = usePostWithdrawal();
 
   useEffect(() => {
     if (data) {
@@ -75,7 +78,7 @@ export default function MyPage() {
   }, 500);
 
   const handleSubmit = () => {
-    refetch();
+    modifyMyinfo();
   };
 
   const LogoutModalContents = (
@@ -92,7 +95,9 @@ export default function MyPage() {
         right: {
           label: '로그아웃',
           handleClick: () => {
-            console.log('로그아웃 클릭');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            history.push('/login');
           }
         }
       }}
@@ -108,7 +113,7 @@ export default function MyPage() {
         left: {
           label: '탈퇴',
           handleClick: () => {
-            console.log('탈퇴 클릭');
+            postWithdrawal();
           }
         },
         right: {

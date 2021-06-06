@@ -28,5 +28,5 @@ export function useEditMyPage(data: MyInfo) {
 }
 
 export function usePostWithdrawal() {
-  return useQuery('postWithdrawal', postWithdrawal);
+  return useQuery('postWithdrawal', postWithdrawal, { enabled: false });
 }
