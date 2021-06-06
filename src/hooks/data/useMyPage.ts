@@ -7,7 +7,6 @@ interface Response {
 }
 
 function getMyPage() {
-  console.log();
   return http.get<MyInfo>('/users/mypage');
 }
 
