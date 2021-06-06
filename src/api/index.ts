@@ -19,7 +19,7 @@ async function checkToken(config: AxiosRequestConfig) {
 
   if (decode.exp < currentTime) {
     const refreshToken = getLocalStorage<string>('refreshToken');
-    accessToken = refreshToken;
+    config.headers['JwtRefreshToken'] = refreshToken;
   }
 
   config.headers['JwtAccessToken'] = accessToken;
