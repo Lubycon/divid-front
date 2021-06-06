@@ -1,5 +1,5 @@
 import http from 'api';
-import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip'
+import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
 import { useQuery } from 'react-query';
 
 interface Response {

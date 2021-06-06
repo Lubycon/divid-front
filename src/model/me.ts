@@ -1,6 +1,6 @@
-import { Animals } from 'api/types'
+import { Animals } from 'api/types';
 
 export interface MyInfo {
   nickName: string;
-  profile: Animals;
+  profileImg: Animals;
 }

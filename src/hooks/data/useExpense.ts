@@ -1,9 +1,11 @@
 import http from 'api';
-import { ExpenseInfo } from 'model/expense'
+import { ExpenseInfo } from 'model/expense';
 import { useQuery } from 'react-query';
 
 interface Response {
   message: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 function getExpenseInfo(tripId: string, expenseId: number) {

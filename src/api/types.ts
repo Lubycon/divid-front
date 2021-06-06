@@ -1,6 +1,6 @@
 export interface RequestHeader {
   contentType: string;
-  jwtAccessToken: string;
+  accessToken: string;
 }
 
 export interface Token {

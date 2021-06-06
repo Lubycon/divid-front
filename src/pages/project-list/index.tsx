@@ -2,8 +2,9 @@ import React from 'react';
 import { basicWrap } from 'styles/containers';
 import styled from '@emotion/styled';
 import { Heading4 } from 'styles/typography';
-import {  Animals } from 'api/types';
-import { TripCard } from 'model/trip'
+import { Animals } from 'api/types';
+import { TripCard } from 'model/trip';
+import { useGetTripLists } from 'hooks/data/useTripInfo';
 import Empty from './empty';
 import Card from './card';
 import Welcome from './hello-message';
@@ -42,6 +43,9 @@ const Title = styled(Heading4)`
 export default function ProjectList() {
   const currentTrip = DUMMY.filter((trip) => !trip.end);
   const pastTrip = DUMMY.filter((trip) => trip.end);
+
+  const { data } = useGetTripLists();
+  console.log(data);
 
   if (DUMMY.length === 0) {
     return (

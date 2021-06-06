@@ -1,5 +1,5 @@
 import http from 'api';
-import { MyInfo } from 'model/me'
+import { MyInfo } from 'model/me';
 import { useQuery } from 'react-query';
 
 interface Response {

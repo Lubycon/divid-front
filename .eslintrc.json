@@ -38,6 +38,7 @@
         "@typescript-eslint/indent": "off",
         "implicit-arrow-linebreak": "off",
         "no-confusing-arrow": "off",
+        "@typescript-eslint/dot-notation": "off",
         // "max-len": "off",
         "indent": "off",
         "react/prefer-stateless-function": [0, { "ignorePureComponents": false }],

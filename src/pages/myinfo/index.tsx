@@ -11,6 +11,7 @@ import Button, { ButtonType } from 'components/button';
 import Footer from 'components/footer';
 import { CheckMark } from 'styles/icon';
 import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
+import { useGetMyPage } from 'hooks/data/useMyPage';
 
 const OPTIONS = Object.values(Animals);
 
@@ -56,6 +57,14 @@ const SubButtonWrap = styled(CommonButtonWrap)`
 export default function Myinfo() {
   const [selected, setSelected] = useState(Animals.Hamster);
   const [nickname, setNickname] = useState('주예');
+
+  const { data } = useGetMyPage();
+  console.log(data);
+
+  // useEditMyPage({
+  //   nickName: '신유진',
+  //   profileImg: Animals.Bear
+  // });
 
   const handleChange = _.debounce((value: string) => {
     setNickname(value);

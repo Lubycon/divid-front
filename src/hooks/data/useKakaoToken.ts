@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-import { getKeys } from 'utils'
+import { getKeys } from 'utils';
 import http, { RequestBodyConfig } from 'api';
 import { useQuery } from 'react-query';
 
 interface Response {
   message: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 interface KakaoAuthQuery {
@@ -16,8 +16,13 @@ interface KakaoAuthQuery {
   code: string;
 }
 
-function postKakaoToken(config: RequestBodyConfig) {
-  return http.post<Response, undefined>('/auth/login', undefined, config);
+interface InitialToken {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  refresh_token_expires_in: number;
+  scope: string;
+  token_type: string;
 }
 
 export default function useKakaoToken(code: string) {
@@ -36,8 +41,8 @@ export default function useKakaoToken(code: string) {
         const queryString = getKeys(data)
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
-        const result = await http.post<any, string>('https://kauth.kakao.com/oauth/token', queryString);
-        setAccessToken(result.data.access_token);
+        const result = await http.post<InitialToken, string>('https://kauth.kakao.com/oauth/token', queryString);
+        setAccessToken(result.access_token);
         return result;
       } catch (e) {
         return e;
@@ -48,6 +53,10 @@ export default function useKakaoToken(code: string) {
   }, []);
 
   console.log(accessToken);
+
+  function postKakaoToken(config: RequestBodyConfig) {
+    return http.post<Response, undefined>('/auth/login', undefined, config);
+  }
 
   return useQuery('postKakaoToken', () => postKakaoToken({ headers: { accessToken } }), {
     enabled: !!accessToken

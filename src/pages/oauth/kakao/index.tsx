@@ -1,7 +1,5 @@
 import React from 'react';
-import { Token } from 'api/types';
-import jwt_decode from 'jwt-decode';
-import { useQueryString } from 'utils';
+import { setLocalStorage, useQueryString } from 'utils';
 import useKakaoToken from 'hooks/data/useKakaoToken';
 
 export default function KakaoLogin() {
@@ -9,11 +7,9 @@ export default function KakaoLogin() {
   const { isLoading, data } = useKakaoToken(code || '');
 
   if (!isLoading && data) {
-    console.log(data);
-
-    const decodedAccessToken: Token = jwt_decode(data.headers.jwtaccesstoken);
-    const decodedRefreshToken: Token = jwt_decode(data.headers.jwtrefreshtoken);
-    console.log({ decodedAccessToken, decodedRefreshToken });
+    const { accessToken, refreshToken } = data;
+    setLocalStorage('accessToken', accessToken);
+    setLocalStorage('refreshToken', refreshToken);
   }
 
   return <div>카카오 로그인 중</div>;
