@@ -38,7 +38,7 @@ export default function useKakaoToken(code: string) {
           redirect_uri: 'http://localhost:8081/oauth/kakao/result',
           code: codeString
         };
-        const queryString: string = getKeys(data)
+        const queryString = getKeys(data)
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
         const result = await http.post<InitialToken, string>('https://kauth.kakao.com/oauth/token', queryString);
