@@ -5,8 +5,8 @@ import { useQuery } from 'react-query';
 
 interface Response {
   message: string;
-  jwtAccessToken: string;
-  jwtRefreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 interface KakaoAuthQuery {
