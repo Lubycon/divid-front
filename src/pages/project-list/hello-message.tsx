@@ -54,7 +54,7 @@ const Title = styled(Heading)`
 
 export default function Welcome() {
   return (
-    <Link to="/myinfo">
+    <Link to="/mypage">
       <Wrap>
         <Profile iconSize={IconSize.LG} type={Animals.Hamster} />
         <Title>

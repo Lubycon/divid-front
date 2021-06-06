@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useModal from 'hooks/useModal';
 import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
@@ -11,9 +11,7 @@ import Button, { ButtonType } from 'components/button';
 import Footer from 'components/footer';
 import { CheckMark } from 'styles/icon';
 import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
-import { useGetMyPage } from 'hooks/data/useMyPage';
-
-const OPTIONS = Object.values(Animals);
+import { useGetMyPage, useEditMyPage } from 'hooks/data/useMyPage';
 
 const IconSelector = styled.div`
   padding: 23px 0 19px;
@@ -54,22 +52,31 @@ const SubButtonWrap = styled(CommonButtonWrap)`
   margin-top: 57px;
 `;
 
-export default function Myinfo() {
-  const [selected, setSelected] = useState(Animals.Hamster);
-  const [nickname, setNickname] = useState('주예');
+export default function MyPage() {
+  const [selected, setSelected] = useState<Animals>(Animals.Hamster);
+  const [nickname, setNickname] = useState('');
 
-  const { data } = useGetMyPage();
-  console.log(data);
+  const { data, isLoading } = useGetMyPage();
+  const { refetch } = useEditMyPage({
+    nickName: nickname,
+    profileImg: selected
+  });
 
-  // useEditMyPage({
-  //   nickName: '신유진',
-  //   profileImg: Animals.Bear
-  // });
+  useEffect(() => {
+    if (data) {
+      setNickname(data.nickName);
+      setSelected(data.profileImg);
+    }
+  }, [data]);
 
   const handleChange = _.debounce((value: string) => {
     setNickname(value);
     console.log(nickname);
   }, 500);
+
+  const handleSubmit = () => {
+    refetch();
+  };
 
   const LogoutModalContents = (
     <ButtonModal
@@ -122,6 +129,10 @@ export default function Myinfo() {
     children: WithdrawModalContents
   });
 
+  if (isLoading) {
+    <div>로딩중</div>;
+  }
+
   return (
     <>
       {renderLogoutModal()}
@@ -130,7 +141,7 @@ export default function Myinfo() {
         <IconSelector>
           <Profile type={selected} iconSize={IconSize.XL} />
           <Icons>
-            {OPTIONS.map((option) => (
+            {Object.values(Animals).map((option) => (
               <ProfileWrap key={option} onClick={() => setSelected(option)}>
                 {selected === option && (
                   <MarkWrap>
@@ -149,7 +160,7 @@ export default function Myinfo() {
           onChangeInput={handleChange}
         />
         <ButtonWrap>
-          <Button>저장</Button>
+          <Button onClick={handleSubmit}>저장</Button>
         </ButtonWrap>
         <SubButtonWrap>
           <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>

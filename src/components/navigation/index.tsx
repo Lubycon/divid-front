@@ -119,7 +119,7 @@ export default function Navigation({ isNaviOpened, onRequestClose }: NavigationP
           <Close />
         </CloseButton>
         <UpperWrap onClick={onRequestClose}>
-          <Link to="/myinfo">
+          <Link to="/mypage">
             <Welcome />
           </Link>
           <ArrowTab label="홈" isBorderTop />

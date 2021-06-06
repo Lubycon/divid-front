@@ -24,7 +24,7 @@ export function useGetMyPage() {
 }
 
 export function useEditMyPage(data: MyInfo) {
-  return useQuery('putMyPage', () => editMyPage(data));
+  return useQuery('putMyPage', () => editMyPage(data), { enabled: false });
 }
 
 export function usePostWithdrawal() {
