@@ -11,20 +11,23 @@ const axiosInstance = axios.create({
 });
 
 async function checkToken(config: AxiosRequestConfig) {
-  let accessToken = getLocalStorage<string>('accessToken');
+  const accessToken = getLocalStorage<string>('accessToken');
   if (accessToken === null) return config;
 
   const decode: Token = jwt_decode(accessToken);
   const currentTime = Date.now() / 1000;
 
   if (decode.exp < currentTime) {
-    const refreshToken = getLocalStorage<string>('refreshToken');
-    config.headers['JwtRefreshToken'] = refreshToken;
+    return {
+      ...config,
+      JwtRefreshToken: getLocalStorage<string>('refreshToken')
+    };
   }
 
-  config.headers['JwtAccessToken'] = accessToken;
-  console.log({ config });
-  return config;
+  return {
+    ...config,
+    JwtAccessToken: getLocalStorage<string>('accessToken')
+  };
 }
 
 axiosInstance.interceptors.request.use(checkToken);
