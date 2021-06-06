@@ -7,8 +7,9 @@ export default function KakaoLogin() {
   const { isLoading, data } = useKakaoToken(code || '');
 
   if (!isLoading && data) {
-    setLocalStorage('accessToken', data.accessToken);
-    setLocalStorage('refreshToken', data.refreshToken);
+    const { accessToken, refreshToken } = data;
+    setLocalStorage('accessToken', accessToken);
+    setLocalStorage('refreshToken', refreshToken);
   }
 
   return <div>카카오 로그인 중</div>;

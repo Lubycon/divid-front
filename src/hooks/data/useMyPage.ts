@@ -20,7 +20,7 @@ function postWithdrawal() {
 }
 
 export function useGetMyPage() {
-  return useQuery('getMyPage', () => getMyPage());
+  return useQuery('getMyPage', getMyPage);
 }
 
 export function useEditMyPage(data: MyInfo) {
