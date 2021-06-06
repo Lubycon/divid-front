@@ -22,6 +22,10 @@ export function makeDateFormat(date: Date) {
   return format(date, 'M.ddeee', { locale: ko });
 }
 
+export function changeDateToString(date: Date) {
+  return format(date, 'yyyy-MM-dd');
+}
+
 export function numberWithCommas(number: number) {
   return number.toLocaleString();
 }

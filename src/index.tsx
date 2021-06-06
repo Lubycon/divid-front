@@ -45,11 +45,11 @@ const routes: RouteProps[] = [
     component: ProjectList
   },
   {
-    path: '/trips',
+    path: '/trips/:tripId',
     component: Trip
   },
   {
-    path: '/expense',
+    path: '/expense/:tripId',
     component: Expense
   },
   {

@@ -19,6 +19,8 @@ const FooterWrap = styled.footer`
 
   ${mediaQuery(640)} {
     padding: 24px;
+    width: 640px;
+    margin: 0 auto;
   }
 `;
 

@@ -9,11 +9,11 @@ export default function KakaoLogin() {
   const { isLoading, data } = useKakaoToken(code || '');
 
   if (!isLoading && data) {
-    const decodedAccessToken: Token = jwt_decode(data.headers.jwtaccesstoken);
-    const decodedRefreshToken: Token = jwt_decode(data.headers.jwtrefreshtoken);
+    const decodedAccessToken: Token = jwt_decode(data.jwtAccessToken);
+    const decodedRefreshToken: Token = jwt_decode(data.jwtRefreshToken);
     console.log({ decodedAccessToken, decodedRefreshToken });
-    setLocalStorage('accessToken', data.headers.jwtaccesstoken);
-    setLocalStorage('refreshToken', data.headers.jwtrefreshtoken);
+    setLocalStorage('accessToken', data.jwtAccessToken);
+    setLocalStorage('refreshToken', data.jwtRefreshToken);
   }
 
   return <div>카카오 로그인 중</div>;

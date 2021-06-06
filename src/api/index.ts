@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import { Token } from './types';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
+  baseURL: 'http://www.divid.kr:8081',
   headers: {
     accessToken: getLocalStorage('accessToken')
   }
@@ -38,7 +38,7 @@ export type WithoutRequestBodyConfig = Pick<AxiosRequestConfig, DefaultRequestPa
 export type RequestBodyConfig = Pick<AxiosRequestConfig, DefaultRequestParams | 'data'>;
 
 function axiosResponseHandler<T>(response: AxiosResponse<T>) {
-  return { data: response.data, headers: response.headers };
+  return response.data;
 }
 
 async function get<ResponseBody>(path: string, config?: WithoutRequestBodyConfig) {

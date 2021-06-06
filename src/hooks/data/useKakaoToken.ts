@@ -5,6 +5,8 @@ import { useQuery } from 'react-query';
 
 interface Response {
   message: string;
+  jwtAccessToken: string;
+  jwtRefreshToken: string;
 }
 
 interface KakaoAuthQuery {
@@ -40,7 +42,7 @@ export default function useKakaoToken(code: string) {
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
         const result = await http.post<InitialToken, string>('https://kauth.kakao.com/oauth/token', queryString);
-        setAccessToken(result.data.access_token);
+        setAccessToken(result.access_token);
         return result;
       } catch (e) {
         return e;

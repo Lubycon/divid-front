@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { MemberInfo } from 'model/members';
 import Profile from 'components/profile';
 import { Heading4 } from 'styles/typography';
+import { useRecoilState } from 'recoil';
 // import color from 'styles/colors';
 import { Close } from 'styles/icon';
 import { flexCenter, flexAlignCenter } from 'styles/containers';
+import { expenseState, MEMBERS } from 'pages/expense';
 import { modalStyle } from './button-modal';
 
 const Wrap = styled.div`
@@ -23,7 +25,7 @@ const Wrap = styled.div`
   }
 `;
 
-const List = styled.form`
+const List = styled.div`
   width: 100%;
 `;
 
@@ -89,7 +91,11 @@ interface SelectModalProps {
 }
 
 export default function SelectModal({ members, onClose }: SelectModalProps) {
-  const [checked, setChecked] = useState(0);
+  const [newExpense, setNewExpense] = useRecoilState(expenseState);
+  const onChoosePayer = (index: number) => {
+    setNewExpense({ ...newExpense, payer: MEMBERS[index] });
+    setTimeout(() => onClose?.());
+  };
   return (
     <Wrap style={modalStyle.content}>
       <Header>
@@ -106,8 +112,8 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
               id={nickName}
               name="payer"
               value={userId}
-              checked={index === checked}
-              onClick={() => setChecked(index)}
+              defaultChecked={userId === newExpense.payer.userId}
+              onClick={() => onChoosePayer(index)}
             />
             <Label htmlFor={nickName}>
               <Profile nickName={nickName} type={profile} isMe={me} hasName />
