@@ -134,7 +134,7 @@ export default function Card({
     <>
       {renderGetoutModal()}
       <CardWrap isCurrent={isCurrent}>
-        <CardLink to={`/trips?tripId=${tripId}`}>
+        <CardLink to={`/trips/${tripId}`}>
           <div
             css={css`
               display: flex;
