@@ -6,7 +6,7 @@ import { Token } from './types';
 const axiosInstance = axios.create({
   baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
   headers: {
-    JwtAccessToken: getLocalStorage('accessToken')
+    accessToken: getLocalStorage('accessToken')
   }
 });
 
@@ -20,13 +20,13 @@ async function checkToken(config: AxiosRequestConfig) {
   if (decode.exp < currentTime) {
     return {
       ...config,
-      JwtRefreshToken: getLocalStorage<string>('refreshToken')
+      refreshToken: getLocalStorage<string>('refreshToken')
     };
   }
 
   return {
     ...config,
-    JwtAccessToken: getLocalStorage<string>('accessToken')
+    accessToken: getLocalStorage<string>('accessToken')
   };
 }
 
