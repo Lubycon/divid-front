@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getLocalStorage } from 'utils';
+import { getLocalStorage, setLocalStorage } from 'utils';
 import jwt_decode from 'jwt-decode';
 import { Token } from './types';
 
@@ -31,8 +31,18 @@ async function checkToken(config: AxiosRequestConfig) {
   };
 }
 
+async function changeToken(response: AxiosResponse) {
+  const newToken = response.data.accessToken;
+  const oldToken = getLocalStorage<string>('accessToken');
+  if (typeof newToken !== 'undefined' && newToken !== oldToken) {
+    setLocalStorage('accessToken', response.data.accessToken);
+    setLocalStorage('refreshToken', response.data.refreshToken);
+    return response;
+  }
+  return response;
+}
 axiosInstance.interceptors.request.use(checkToken);
-axiosInstance.interceptors.response.use();
+axiosInstance.interceptors.response.use(changeToken);
 
 type DefaultRequestParams = 'headers' | 'params' | 'paramsSerializer' | 'timeout';
 export type WithoutRequestBodyConfig = Pick<AxiosRequestConfig, DefaultRequestParams>;

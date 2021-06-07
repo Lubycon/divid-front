@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { basicWrap } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { Animals } from 'api/types';
-import { changeDateToString } from 'utils';
+import { changeDateToString, useQueryString } from 'utils';
 import { MemberInfo } from 'model/members';
 import { atom, useRecoilState } from 'recoil';
+import { useGetTripMembers } from 'hooks/data/useTripInfo';
 
 import SelectModal from 'components/modal/select-modal';
 import color from 'styles/colors';
@@ -50,23 +51,44 @@ export const MEMBERS: MemberInfo[] = [
   { userId: 4, nickName: '영진', profileImg: Animals.Panda, me: false }
 ];
 
+interface ExpenseInfo {
+  userId: number;
+  price: number;
+}
+
 export const expenseState = atom({
   key: 'expenseState',
   default: {
-    payer: MEMBERS[0],
+    payer: {} as MemberInfo,
     payDate: changeDateToString(new Date()),
     totalPrice: 0,
     title: '',
     individual: true,
-    expenseDetails: MEMBERS.map((m) => ({ ...m, price: 0 }))
+    expenseDetails: [] as ExpenseInfo[]
   }
 });
 
 export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
+  const tripId = useQueryString().get('tripId');
+  const { refetch, data: members } = useGetTripMembers(tripId || '');
+
+  useEffect(() => {
+    async function handleOnMount() {
+      await refetch();
+      members && setNewExpense({ ...newExpense, payer: members[0] });
+    }
+
+    handleOnMount();
+  }, []);
+
   const { handleOpen: openPayerModal, renderModal: renderPayerModal } = useModal({
-    children: <SelectModal members={MEMBERS} />
+    children: <SelectModal members={members || []} />
   });
+
+  if (!members) {
+    return <div>loading</div>;
+  }
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
@@ -85,7 +107,7 @@ export default function Expense() {
   const handleSubmit = () => {
     setNewExpense({
       ...newExpense,
-      expenseDetails: MEMBERS.map((m) => ({ ...m, price: newExpense.totalPrice / MEMBERS.length }))
+      expenseDetails: members.map((m) => ({ ...m, price: newExpense.totalPrice / members.length }))
     });
     return console.log(newExpense);
   };
@@ -114,16 +136,11 @@ export default function Expense() {
           <SelectWrap>
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
-              <Profile
-                nickName={newExpense.payer.nickName}
-                type={newExpense.payer.profileImg}
-                isMe={newExpense.payer.me}
-                hasName
-              />
+              <Profile nickName={members[0].nickName} type={members[0].profileImg} isMe={members[0].me} hasName />
             </PayerButton>
             <Caption>쓴 사람</Caption>
-            {Array.isArray(MEMBERS) &&
-              MEMBERS.map(({ userId, nickName, profileImg, me }) => (
+            {Array.isArray(members) &&
+              members.map(({ userId, nickName, profileImg, me }) => (
                 <UserCheckbox key={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>

@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 // import color from 'styles/colors';
 import { Close } from 'styles/icon';
 import { flexCenter, flexAlignCenter } from 'styles/containers';
-import { expenseState, MEMBERS } from 'pages/expense';
+import { expenseState } from 'pages/expense';
 import { modalStyle } from './button-modal';
 
 const Wrap = styled.div`
@@ -93,7 +93,7 @@ interface SelectModalProps {
 export default function SelectModal({ members, onClose }: SelectModalProps) {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const onChoosePayer = (index: number) => {
-    setNewExpense({ ...newExpense, payer: MEMBERS[index] });
+    setNewExpense({ ...newExpense, payer: members[index] });
     setTimeout(() => onClose?.());
   };
   return (

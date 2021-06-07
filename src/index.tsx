@@ -49,7 +49,7 @@ const routes: RouteProps[] = [
     component: Trip
   },
   {
-    path: '/expense/:tripId',
+    path: '/expense',
     component: Expense
   },
   {

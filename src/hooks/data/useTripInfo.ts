@@ -1,4 +1,5 @@
 import http from 'api';
+import { MemberInfo } from 'model/members';
 import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
 import { useQuery } from 'react-query';
 
@@ -31,7 +32,7 @@ function deleteTrip(tripId: string) {
 }
 
 function getTripMembers(tripId: string) {
-  return http.get<TripInfo>(`/trips/members?tripId=${tripId}`);
+  return http.get<MemberInfo[]>(`/trips/members?tripId=${tripId}`);
 }
 
 export function usePostTrip(data: TripMinInfo) {
@@ -60,5 +61,5 @@ export function useDeleteTrip(tripId: string) {
 }
 
 export function useGetTripMembers(tripId: string) {
-  return useQuery('getTripMembers', () => getTripMembers(tripId));
+  return useQuery('getTripMembers', () => getTripMembers(tripId), { enabled: false });
 }
