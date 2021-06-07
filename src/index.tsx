@@ -45,7 +45,7 @@ const routes: RouteProps[] = [
     component: ProjectList
   },
   {
-    path: '/trips/:tripId',
+    path: '/trips',
     component: Trip
   },
   {

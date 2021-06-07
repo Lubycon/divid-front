@@ -1,9 +1,9 @@
-import { Animals } from 'api/types'
+import { Animals } from 'api/types';
 
 export interface MemberInfo {
   userId: number;
   nickName: string;
-  profile: Animals;
+  profileImg: Animals;
   me: boolean;
 }
 

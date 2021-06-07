@@ -11,7 +11,7 @@ function postTrip(data: TripMinInfo) {
 }
 
 function getTripLists() {
-  return http.get<TripInfo>('/trips/all');
+  return http.get<TripInfo[]>('/trips/all');
 }
 
 function getDetailTripInfo(tripId: string) {
@@ -23,7 +23,7 @@ function editTripInfo(tripId: string) {
 }
 
 function exitTrip(tripId: string) {
-  return http.post<Response, undefined>(`/trips/exit?tripId=${tripId}`);
+  return http.post<Response, string>(`/trips/exit?tripId=${tripId}`);
 }
 
 function deleteTrip(tripId: string) {
@@ -35,7 +35,7 @@ function getTripMembers(tripId: string) {
 }
 
 export function usePostTrip(data: TripMinInfo) {
-  return useQuery('postTrip', () => postTrip(data));
+  return useQuery('postTrip', () => postTrip(data), { enabled: false });
 }
 
 export function useGetTripLists() {
@@ -43,15 +43,16 @@ export function useGetTripLists() {
 }
 
 export function useGetDetailTripInfo(tripId: string) {
+  console.log(tripId);
   return useQuery('getDetailTripInfo', () => getDetailTripInfo(tripId));
 }
 
 export function useEditTripInfo(tripId: string) {
-  return useQuery('editTripInfo', () => editTripInfo(tripId));
+  return useQuery('editTripInfo', () => editTripInfo(tripId), { enabled: false });
 }
 
 export function useExitTrip(tripId: string) {
-  return useQuery('exitTrip', () => exitTrip(tripId));
+  return useQuery('exitTrip', () => exitTrip(tripId), { enabled: false });
 }
 
 export function useDeleteTrip(tripId: string) {

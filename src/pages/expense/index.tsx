@@ -44,10 +44,10 @@ const SelectWrap = styled.div`
 `;
 
 export const MEMBERS: MemberInfo[] = [
-  { userId: 1, nickName: '지형', profile: Animals.Rabbit, me: true },
-  { userId: 2, nickName: '유진', profile: Animals.Bear, me: false },
-  { userId: 3, nickName: '주예', profile: Animals.Unicorn, me: false },
-  { userId: 4, nickName: '영진', profile: Animals.Panda, me: false }
+  { userId: 1, nickName: '지형', profileImg: Animals.Rabbit, me: true },
+  { userId: 2, nickName: '유진', profileImg: Animals.Bear, me: false },
+  { userId: 3, nickName: '주예', profileImg: Animals.Unicorn, me: false },
+  { userId: 4, nickName: '영진', profileImg: Animals.Panda, me: false }
 ];
 
 export const expenseState = atom({
@@ -116,15 +116,15 @@ export default function Expense() {
             <PayerButton onClick={openPayerModal}>
               <Profile
                 nickName={newExpense.payer.nickName}
-                type={newExpense.payer.profile}
+                type={newExpense.payer.profileImg}
                 isMe={newExpense.payer.me}
                 hasName
               />
             </PayerButton>
             <Caption>쓴 사람</Caption>
             {Array.isArray(MEMBERS) &&
-              MEMBERS.map(({ userId, nickName, profile, me }) => (
-                <UserCheckbox key={userId} nickName={nickName} type={profile} isMe={me} />
+              MEMBERS.map(({ userId, nickName, profileImg, me }) => (
+                <UserCheckbox key={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>
         </FormWrap>

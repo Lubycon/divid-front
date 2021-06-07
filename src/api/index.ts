@@ -4,8 +4,8 @@ import jwt_decode from 'jwt-decode';
 import { Token } from './types';
 
 const axiosInstance = axios.create({
-  // baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
-  baseURL: 'http://www.divid.kr:8081',
+  baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
+  // baseURL: 'http://www.divid.kr:8081',
   headers: {
     accessToken: getLocalStorage('accessToken')
   }

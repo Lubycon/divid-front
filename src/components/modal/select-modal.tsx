@@ -105,7 +105,7 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
         </CloseButton>
       </Header>
       <List>
-        {members.map(({ userId, nickName, profile, me }, index) => (
+        {members.map(({ userId, nickName, profileImg, me }, index) => (
           <Option key={userId}>
             <Input
               type="radio"
@@ -116,7 +116,7 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
               onClick={() => onChoosePayer(index)}
             />
             <Label htmlFor={nickName}>
-              <Profile nickName={nickName} type={profile} isMe={me} hasName />
+              <Profile nickName={nickName} type={profileImg} isMe={me} hasName />
             </Label>
           </Option>
         ))}
