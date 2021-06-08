@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { basicWrap } from 'styles/containers';
+import { basicWrap, flexCenter } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
@@ -16,6 +16,7 @@ import TextInput from 'components/text-input';
 import { CaptionBold } from 'styles/typography';
 import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
+import Toggle from './toggle';
 
 const FormWrap = styled.div`
   width: 100%;
@@ -43,6 +44,8 @@ const PayerButton = styled.button`
 const SelectWrap = styled.div`
   margin: 3px 5px;
 `;
+
+const ToggleWrap = styled.div``;
 
 export const MEMBERS: MemberInfo[] = [
   { userId: 1, nickName: '지형', profileImg: Animals.Rabbit, me: true },
@@ -112,6 +115,14 @@ export default function Expense() {
     return console.log(newExpense);
   };
 
+  const ToggleDutchPay = () => {
+    setNewExpense({
+      ...newExpense,
+      individual: !newExpense.individual
+    });
+    return console.log(newExpense);
+  };
+
   return (
     <>
       {renderPayerModal()}
@@ -138,7 +149,20 @@ export default function Expense() {
             <PayerButton onClick={openPayerModal}>
               <Profile nickName={members[0].nickName} type={members[0].profileImg} isMe={members[0].me} hasName />
             </PayerButton>
-            <Caption>쓴 사람</Caption>
+            <div
+              css={[
+                flexCenter,
+                css`
+                  justify-content: space-between;
+                `
+              ]}
+            >
+              <Caption>쓴 사람</Caption>
+              <ToggleWrap>
+                <Toggle isIndividual={newExpense.individual} onToggle={ToggleDutchPay} />
+              </ToggleWrap>
+            </div>
+
             {Array.isArray(members) &&
               members.map(({ userId, nickName, profileImg, me }) => (
                 <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
