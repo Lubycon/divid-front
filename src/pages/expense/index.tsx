@@ -141,7 +141,7 @@ export default function Expense() {
             <Caption>쓴 사람</Caption>
             {Array.isArray(members) &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <UserCheckbox key={userId} nickName={nickName} type={profileImg} isMe={me} />
+                <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>
         </FormWrap>

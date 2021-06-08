@@ -13,6 +13,7 @@ const axiosInstance = axios.create({
 
 async function checkToken(config: AxiosRequestConfig) {
   const accessToken = getLocalStorage<string>('accessToken');
+  const refreshToken = getLocalStorage<string>('refreshToken');
   if (accessToken === null) return config;
 
   const decode: Token = jwt_decode(accessToken);
@@ -21,14 +22,11 @@ async function checkToken(config: AxiosRequestConfig) {
   if (decode.exp < currentTime) {
     return {
       ...config,
-      refreshToken: getLocalStorage<string>('refreshToken')
+      headers: { ...config.headers, refreshToken }
     };
   }
 
-  return {
-    ...config,
-    accessToken: getLocalStorage<string>('accessToken')
-  };
+  return config;
 }
 
 async function changeToken(response: AxiosResponse) {

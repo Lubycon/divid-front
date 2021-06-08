@@ -10,23 +10,28 @@ const Wrap = styled.div`
     display: inline-block;
     width: 24px;
     height: 24px;
-    background: url('/images/check_off.png') center no-repeat;
+    background: url('/images/check_off.svg') center no-repeat;
     background-size: contain;
     cursor: pointer;
   }
 
   input[type='checkbox']:checked + label {
-    background: url('/images/check_on.png') center no-repeat;
+    background: url('/images/check_on.svg') center no-repeat;
     background-size: contain;
   }
 `;
 
-export default function CheckBox() {
+interface CheckBoxProps {
+  userId: number;
+  checked: boolean;
+  handleClick: () => void;
+}
+
+export default function CheckBox({ userId, checked, handleClick }: CheckBoxProps) {
   return (
     <Wrap>
-      <label>
-        <input type="checkbox" />
-      </label>
+      <input id={`${userId}`} type="checkbox" checked={checked} onChange={handleClick} />
+      <label htmlFor={`${userId}`} />
     </Wrap>
   );
 }
