@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { Animals } from 'api/types';
+import { usePostExpense } from 'hooks/data/useExpense';
 import { changeDateToString, useQueryString } from 'utils';
 import { MemberInfo } from 'model/members';
 import { atom, useRecoilState } from 'recoil';
@@ -62,7 +63,7 @@ interface ExpenseInfo {
 export const expenseState = atom({
   key: 'expenseState',
   default: {
-    payer: {} as MemberInfo,
+    payerId: 0,
     payDate: changeDateToString(new Date()),
     totalPrice: 0,
     title: '',
@@ -75,11 +76,13 @@ export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
+  const { refetch: postExpense } = usePostExpense(newExpense);
 
   useEffect(() => {
     async function handleOnMount() {
-      await refetch();
-      members && setNewExpense({ ...newExpense, payer: members[0] });
+      const { data } = await refetch();
+      console.log(data);
+      data && setNewExpense({ ...newExpense, payerId: data[0].userId });
     }
 
     handleOnMount();
@@ -96,7 +99,11 @@ export default function Expense() {
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
     if (typeof price === 'number') {
-      setNewExpense({ ...newExpense, totalPrice: price });
+      setNewExpense({
+        ...newExpense,
+        totalPrice: price,
+        expenseDetails: members.map((m) => ({ ...m, price: newExpense.totalPrice / members.length }))
+      });
     }
     console.log(newExpense);
   };
@@ -112,7 +119,7 @@ export default function Expense() {
       ...newExpense,
       expenseDetails: members.map((m) => ({ ...m, price: newExpense.totalPrice / members.length }))
     });
-    return console.log(newExpense);
+    return postExpense();
   };
 
   const ToggleDutchPay = () => {
@@ -120,7 +127,6 @@ export default function Expense() {
       ...newExpense,
       individual: !newExpense.individual
     });
-    return console.log(newExpense);
   };
 
   return (

@@ -93,7 +93,7 @@ interface SelectModalProps {
 export default function SelectModal({ members, onClose }: SelectModalProps) {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const onChoosePayer = (index: number) => {
-    setNewExpense({ ...newExpense, payer: members[index] });
+    setNewExpense({ ...newExpense, payerId: members[index].userId });
     setTimeout(() => onClose?.());
   };
   return (
@@ -112,7 +112,7 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
               id={nickName}
               name="payer"
               value={userId}
-              defaultChecked={userId === newExpense.payer.userId}
+              defaultChecked={userId === newExpense.payerId}
               onClick={() => onChoosePayer(index)}
             />
             <Label htmlFor={nickName}>
