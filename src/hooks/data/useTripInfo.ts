@@ -1,6 +1,6 @@
 import http from 'api';
 import { MemberInfo } from 'model/members';
-import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
+import { TripInfo, DetailTripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
 import { useQuery } from 'react-query';
 
 interface Response {
@@ -16,7 +16,7 @@ function getTripLists() {
 }
 
 function getDetailTripInfo(tripId: string) {
-  return http.get<TripInfo>(`/trips?tripId=${tripId}`);
+  return http.get<DetailTripInfo>(`/trips?tripId=${tripId}`);
 }
 
 function editTripInfo(tripId: string) {

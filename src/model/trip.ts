@@ -24,6 +24,19 @@ export interface TripInfo {
   userInfoResponseList: MemberInfo[];
 }
 
+export interface DetailTripInfo {
+  tripId: string;
+  tripName: string;
+  inviteCode: number;
+  startDate: string;
+  endDate: string;
+  amountResponse: {
+    giveAmount: number;
+    takeAmount: number;
+  };
+  userInfoResponseList: MemberInfo[];
+}
+
 export interface TripCard {
   tripId: string;
   tripName: string;
