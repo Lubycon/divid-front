@@ -7,9 +7,22 @@ div.react-datepicker {
   font-weight: normal;
   border-radius: 0;
   border: 0;
+
+  @media (min-width: 640px) {
+    width: 375px;
+    border-radius: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+  }
   
   div.react-datepicker__header, .react-datepicker__month-container, .react-datepicker__month {
     width: 100vw;
+
+    @media (min-width: 640px) {
+      width: 375px;
+    }
   }
 
   div.react-datepicker__header {
@@ -17,11 +30,19 @@ div.react-datepicker {
     background: white;
     border-bottom: none;
     position: relative;
+
+    @media (min-width: 640px) {
+      border-radius: 16px 16px 0 0;
+    }
   }
 
   .react-datepicker__month {
       background: #f7f7f7;
       margin: 70px 0;
+
+      @media (min-width: 640px) {
+        margin-bottom: 10px;
+      }
   }
 
   .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
