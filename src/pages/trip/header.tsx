@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import color from 'styles/colors';
 import { Heading3, Body3 } from 'styles/typography';
 import { changeStringToDate, makeDateFormat } from 'utils';
-import { TripInfo } from 'model/trip';
+import { DetailTripInfo } from 'model/trip';
 
 import Members from 'components/members';
 
@@ -16,7 +16,7 @@ const Desc = styled(Body3)`
   margin-top: 8px;
 `;
 
-export default function Header({ trip }: { trip: TripInfo }) {
+export default function Header({ trip }: { trip: DetailTripInfo }) {
   const sDate = changeStringToDate(trip.startDate);
   const eDate = changeStringToDate(trip.endDate);
 

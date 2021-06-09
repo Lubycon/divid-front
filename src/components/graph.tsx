@@ -48,10 +48,10 @@ export default function Graph({ giveMoneyAmount, takeMoneyAmount }: GiveNTakeAmo
   const takeMoneyPercent = calcRate(takeMoneyAmount, totalAmount);
 
   const setPercentRange = (percent: number) => {
-    if (percent < 35) {
+    if (percent > 0 && percent < 35) {
       return 35;
     }
-    if (percent > 65) {
+    if (percent > 65 && percent !== 100) {
       return 65;
     }
     return percent;

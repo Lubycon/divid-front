@@ -1,12 +1,14 @@
-import React from 'react';
-import { basicWrap } from 'styles/containers';
+import React, { useEffect } from 'react';
+import { basicWrap, flexCenter } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { Animals } from 'api/types';
-import { changeDateToString } from 'utils';
+import { usePostExpense } from 'hooks/data/useExpense';
+import { changeDateToString, useQueryString } from 'utils';
 import { MemberInfo } from 'model/members';
 import { atom, useRecoilState } from 'recoil';
+import { useGetTripMembers } from 'hooks/data/useTripInfo';
 
 import SelectModal from 'components/modal/select-modal';
 import color from 'styles/colors';
@@ -15,6 +17,7 @@ import TextInput from 'components/text-input';
 import { CaptionBold } from 'styles/typography';
 import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
+import Toggle from './toggle';
 
 const FormWrap = styled.div`
   width: 100%;
@@ -43,35 +46,65 @@ const SelectWrap = styled.div`
   margin: 3px 5px;
 `;
 
+const ToggleWrap = styled.div``;
+
 export const MEMBERS: MemberInfo[] = [
-  { userId: 1, nickName: '지형', profile: Animals.Rabbit, me: true },
-  { userId: 2, nickName: '유진', profile: Animals.Bear, me: false },
-  { userId: 3, nickName: '주예', profile: Animals.Unicorn, me: false },
-  { userId: 4, nickName: '영진', profile: Animals.Panda, me: false }
+  { userId: 1, nickName: '지형', profileImg: Animals.Rabbit, me: true },
+  { userId: 2, nickName: '유진', profileImg: Animals.Bear, me: false },
+  { userId: 3, nickName: '주예', profileImg: Animals.Unicorn, me: false },
+  { userId: 4, nickName: '영진', profileImg: Animals.Panda, me: false }
 ];
+
+interface ExpenseInfo {
+  userId: number;
+  price: number;
+}
 
 export const expenseState = atom({
   key: 'expenseState',
   default: {
-    payer: MEMBERS[0],
+    payerId: 0,
     payDate: changeDateToString(new Date()),
     totalPrice: 0,
     title: '',
     individual: true,
-    expenseDetails: MEMBERS.map((m) => ({ ...m, price: 0 }))
+    expenseDetails: [] as ExpenseInfo[],
+    tripId: ''
   }
 });
 
 export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
+  const tripId = useQueryString().get('tripId');
+  const { refetch, data: members } = useGetTripMembers(tripId || '');
+  const { refetch: postExpense } = usePostExpense(newExpense);
+
+  useEffect(() => {
+    async function handleOnMount() {
+      const { data } = await refetch();
+      console.log(data);
+      data && tripId && setNewExpense({ ...newExpense, payerId: data[0].userId, tripId });
+    }
+
+    handleOnMount();
+  }, []);
+
   const { handleOpen: openPayerModal, renderModal: renderPayerModal } = useModal({
-    children: <SelectModal members={MEMBERS} />
+    children: <SelectModal members={members || []} />
   });
+
+  if (!members) {
+    return <div>loading</div>;
+  }
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
     if (typeof price === 'number') {
-      setNewExpense({ ...newExpense, totalPrice: price });
+      setNewExpense({
+        ...newExpense,
+        totalPrice: price,
+        expenseDetails: members.map((m) => ({ userId: m.userId, price: newExpense.totalPrice / members.length }))
+      });
     }
     console.log(newExpense);
   };
@@ -85,9 +118,16 @@ export default function Expense() {
   const handleSubmit = () => {
     setNewExpense({
       ...newExpense,
-      expenseDetails: MEMBERS.map((m) => ({ ...m, price: newExpense.totalPrice / MEMBERS.length }))
+      expenseDetails: members.map((m) => ({ ...m, price: newExpense.totalPrice / members.length }))
     });
-    return console.log(newExpense);
+    return postExpense();
+  };
+
+  const ToggleDutchPay = () => {
+    setNewExpense({
+      ...newExpense,
+      individual: !newExpense.individual
+    });
   };
 
   return (
@@ -114,17 +154,25 @@ export default function Expense() {
           <SelectWrap>
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
-              <Profile
-                nickName={newExpense.payer.nickName}
-                type={newExpense.payer.profile}
-                isMe={newExpense.payer.me}
-                hasName
-              />
+              <Profile nickName={members[0].nickName} type={members[0].profileImg} isMe={members[0].me} hasName />
             </PayerButton>
-            <Caption>쓴 사람</Caption>
-            {Array.isArray(MEMBERS) &&
-              MEMBERS.map(({ userId, nickName, profile, me }) => (
-                <UserCheckbox key={userId} nickName={nickName} type={profile} isMe={me} />
+            <div
+              css={[
+                flexCenter,
+                css`
+                  justify-content: space-between;
+                `
+              ]}
+            >
+              <Caption>쓴 사람</Caption>
+              <ToggleWrap>
+                <Toggle isIndividual={newExpense.individual} onToggle={ToggleDutchPay} />
+              </ToggleWrap>
+            </div>
+
+            {Array.isArray(members) &&
+              members.map(({ userId, nickName, profileImg, me }) => (
+                <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>
         </FormWrap>

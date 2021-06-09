@@ -1,10 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getLocalStorage } from 'utils';
+import { getLocalStorage, setLocalStorage } from 'utils';
 import jwt_decode from 'jwt-decode';
 import { Token } from './types';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://www.divid.kr:8081',
+  baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
+  // baseURL: 'http://www.divid.kr:8081',
   headers: {
     accessToken: getLocalStorage('accessToken')
   }
@@ -12,6 +13,7 @@ const axiosInstance = axios.create({
 
 async function checkToken(config: AxiosRequestConfig) {
   const accessToken = getLocalStorage<string>('accessToken');
+  const refreshToken = getLocalStorage<string>('refreshToken');
   if (accessToken === null) return config;
 
   const decode: Token = jwt_decode(accessToken);
@@ -20,18 +22,25 @@ async function checkToken(config: AxiosRequestConfig) {
   if (decode.exp < currentTime) {
     return {
       ...config,
-      refreshToken: getLocalStorage<string>('refreshToken')
+      headers: { ...config.headers, refreshToken }
     };
   }
 
-  return {
-    ...config,
-    accessToken: getLocalStorage<string>('accessToken')
-  };
+  return config;
 }
 
+async function changeToken(response: AxiosResponse) {
+  const newToken = response.data.accessToken;
+  const oldToken = getLocalStorage<string>('accessToken');
+  if (typeof newToken !== 'undefined' && newToken !== oldToken) {
+    setLocalStorage('accessToken', response.data.accessToken);
+    setLocalStorage('refreshToken', response.data.refreshToken);
+    return response;
+  }
+  return response;
+}
 axiosInstance.interceptors.request.use(checkToken);
-axiosInstance.interceptors.response.use();
+axiosInstance.interceptors.response.use(changeToken);
 
 type DefaultRequestParams = 'headers' | 'params' | 'paramsSerializer' | 'timeout';
 export type WithoutRequestBodyConfig = Pick<AxiosRequestConfig, DefaultRequestParams>;

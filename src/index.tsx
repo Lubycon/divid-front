@@ -14,7 +14,7 @@ import Create from './pages/create-trip';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
 import Expense from './pages/expense';
-import Myinfo from './pages/myinfo';
+import MyPage from './pages/mypage';
 import Modify from './pages/modify-trip';
 import ServiceInfo from './pages/service-info';
 
@@ -45,16 +45,16 @@ const routes: RouteProps[] = [
     component: ProjectList
   },
   {
-    path: '/trips/:tripId',
+    path: '/trips',
     component: Trip
   },
   {
-    path: '/expense/:tripId',
+    path: '/expense',
     component: Expense
   },
   {
-    path: '/myinfo',
-    component: Myinfo
+    path: '/mypage',
+    component: MyPage
   },
   {
     path: '/modify',

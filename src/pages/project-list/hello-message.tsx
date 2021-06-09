@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { Heading } from 'styles/typography';
 import { flexAlignCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
-import Profile, { IconSize, Animals } from 'components/profile';
+import Profile, { Animals, IconSize } from 'components/profile';
+import { useGetMyPage } from 'hooks/data/useMyPage';
 
 const Wrap = styled.div`
   ${flexAlignCenter}
@@ -23,12 +24,14 @@ const Title = styled(Heading)`
   font-weight: 700;
   position: relative;
   word-break: keep-all;
+  max-width: ${pxToVw(235)};
 
   ${mediaQuery(640)} {
     margin-left: 8px;
     margin-right: 2px;
     font-size: 24px;
     font-weight: 800;
+    max-width: 235px;
   }
 
   span {
@@ -53,12 +56,18 @@ const Title = styled(Heading)`
 `;
 
 export default function Welcome() {
+  const { data, isLoading } = useGetMyPage();
+
+  if (isLoading) {
+    <div>loading</div>;
+  }
+
   return (
-    <Link to="/myinfo">
+    <Link to="/mypage">
       <Wrap>
-        <Profile iconSize={IconSize.LG} type={Animals.Hamster} />
+        <Profile iconSize={IconSize.LG} type={data?.profileImg || Animals.Puppy} />
         <Title>
-          <span>디비디비디빗</span>님 안녕하세요!
+          <span>{data?.nickName}</span>님 안녕하세요!
         </Title>
       </Wrap>
     </Link>

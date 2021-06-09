@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Profile, { ProfileProps } from 'components/profile';
 import CheckBox from 'components/check-box';
@@ -10,11 +10,16 @@ const Wrap = styled.div`
   margin-bottom: 4px;
 `;
 
-export default function UserCheckbox({ nickName, type, isMe }: ProfileProps) {
+interface CheckboxProps extends ProfileProps {
+  userId: number;
+}
+
+export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxProps) {
+  const [isChecked, setIsChecked] = useState(true);
   return (
     <Wrap>
       <Profile nickName={nickName} type={type} isMe={isMe} hasName />
-      <CheckBox />
+      <CheckBox userId={userId} checked={isChecked} handleClick={() => setIsChecked(!isChecked)} />
     </Wrap>
   );
 }

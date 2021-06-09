@@ -1,4 +1,4 @@
-import { Animals } from 'api/types'
+import { Animals } from 'api/types';
 
 export interface ExpenseAssignee {
   userId: number;
@@ -18,4 +18,34 @@ export interface ExpenseInfo {
   nickName: string;
   individual: boolean;
   getExpenseDetails: ExpenseAssignee[];
+}
+
+export interface PostExpenseInfo {
+  payerId: number;
+  payDate: string;
+  totalPrice: number;
+  title: string;
+  individual: boolean;
+  expenseDetails: ExpenseAssigneeInfo[];
+}
+
+export interface ExpenseAssigneeInfo {
+  userId: number;
+  price: number;
+}
+
+export interface ExpenseListInfo {
+  detailResponses: DetailResponse[];
+  payDate: string;
+  tripTotalPrice: number;
+}
+
+export interface DetailResponse {
+  expenseId: number;
+  me: boolean;
+  nickName: string;
+  profileImg: Animals;
+  title: string;
+  totalPrice: number;
+  userId: number;
 }

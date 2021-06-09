@@ -3,13 +3,14 @@ import useModal from 'hooks/useModal';
 import ButtonModal from 'components/modal/button-modal';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { mediaQuery } from 'styles/media';
 import { changeStringToDate, makeDateFormat } from 'utils';
 import { Heading4 as Title, Heading7 } from 'styles/typography';
 import color from 'styles/colors';
 import { MemberInfo } from 'model/members';
 import Members from 'components/members';
+import { useExitTrip } from 'hooks/data/useTripInfo';
 
 const CardWrap = styled.div<{ isCurrent: boolean }>`
   position: relative;
@@ -70,6 +71,8 @@ const MoreModal = styled.div`
   background: url('/images/modal_sm.svg') center no-repeat;
   background-size: auto;
   z-index: 3;
+  display: flex;
+  flex-direction: column;
 `;
 
 const MoreButton = styled(Heading7)`
@@ -104,6 +107,8 @@ export default function Card({
   const [openMore, setOpenMore] = useState(false);
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
+  const history = useHistory();
+  const { refetch } = useExitTrip(tripId);
 
   const GetoutModalContents = (
     <ButtonModal
@@ -120,6 +125,7 @@ export default function Card({
           label: '나가기',
           handleClick: () => {
             console.log('나가기 클릭');
+            refetch();
           }
         }
       }}
@@ -134,7 +140,7 @@ export default function Card({
     <>
       {renderGetoutModal()}
       <CardWrap isCurrent={isCurrent}>
-        <CardLink to={`/trips/${tripId}`}>
+        <CardLink to={`/trips?tripId=${tripId}`}>
           <div
             css={css`
               display: flex;
@@ -162,7 +168,14 @@ export default function Card({
                 }}
               />
               <MoreModal>
-                <MoreButton onClick={() => console.log('수정')}>여행정보수정</MoreButton>
+                <MoreButton
+                  onClick={() => {
+                    history.push(`/modify?tripId=${tripId}`);
+                    console.log('수정');
+                  }}
+                >
+                  여행정보수정
+                </MoreButton>
                 <MoreButton
                   onClick={openGetoutModal}
                   css={css`

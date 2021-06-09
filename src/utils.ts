@@ -64,7 +64,7 @@ export function getPageInfo() {
       title: '쓴 돈 추가'
     },
     {
-      pathRegEx: /\/myinfo/,
+      pathRegEx: /\/mypage/,
       title: '내 프로필 수정'
     },
     {

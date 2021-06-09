@@ -1,5 +1,6 @@
 import http from 'api';
-import { TripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
+import { MemberInfo } from 'model/members';
+import { TripInfo, DetailTripInfo, TripMinInfo, TripEditInfo } from 'model/trip';
 import { useQuery } from 'react-query';
 
 interface Response {
@@ -11,11 +12,11 @@ function postTrip(data: TripMinInfo) {
 }
 
 function getTripLists() {
-  return http.get<TripInfo>('/trips/all');
+  return http.get<TripInfo[]>('/trips/all');
 }
 
 function getDetailTripInfo(tripId: string) {
-  return http.get<TripInfo>(`/trips?tripId=${tripId}`);
+  return http.get<DetailTripInfo>(`/trips?tripId=${tripId}`);
 }
 
 function editTripInfo(tripId: string) {
@@ -23,7 +24,7 @@ function editTripInfo(tripId: string) {
 }
 
 function exitTrip(tripId: string) {
-  return http.post<Response, undefined>(`/trips/exit?tripId=${tripId}`);
+  return http.post<Response, string>(`/trips/exit?tripId=${tripId}`);
 }
 
 function deleteTrip(tripId: string) {
@@ -31,11 +32,11 @@ function deleteTrip(tripId: string) {
 }
 
 function getTripMembers(tripId: string) {
-  return http.get<TripInfo>(`/trips/members?tripId=${tripId}`);
+  return http.get<MemberInfo[]>(`/trips/members?tripId=${tripId}`);
 }
 
 export function usePostTrip(data: TripMinInfo) {
-  return useQuery('postTrip', () => postTrip(data));
+  return useQuery('postTrip', () => postTrip(data), { enabled: false });
 }
 
 export function useGetTripLists() {
@@ -43,15 +44,16 @@ export function useGetTripLists() {
 }
 
 export function useGetDetailTripInfo(tripId: string) {
+  console.log(tripId);
   return useQuery('getDetailTripInfo', () => getDetailTripInfo(tripId));
 }
 
 export function useEditTripInfo(tripId: string) {
-  return useQuery('editTripInfo', () => editTripInfo(tripId));
+  return useQuery('editTripInfo', () => editTripInfo(tripId), { enabled: false });
 }
 
 export function useExitTrip(tripId: string) {
-  return useQuery('exitTrip', () => exitTrip(tripId));
+  return useQuery('exitTrip', () => exitTrip(tripId), { enabled: false });
 }
 
 export function useDeleteTrip(tripId: string) {
@@ -59,5 +61,5 @@ export function useDeleteTrip(tripId: string) {
 }
 
 export function useGetTripMembers(tripId: string) {
-  return useQuery('getTripMembers', () => getTripMembers(tripId));
+  return useQuery('getTripMembers', () => getTripMembers(tripId), { enabled: false });
 }

@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 // import color from 'styles/colors';
 import { Close } from 'styles/icon';
 import { flexCenter, flexAlignCenter } from 'styles/containers';
-import { expenseState, MEMBERS } from 'pages/expense';
+import { expenseState } from 'pages/expense';
 import { modalStyle } from './button-modal';
 
 const Wrap = styled.div`
@@ -93,7 +93,7 @@ interface SelectModalProps {
 export default function SelectModal({ members, onClose }: SelectModalProps) {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const onChoosePayer = (index: number) => {
-    setNewExpense({ ...newExpense, payer: MEMBERS[index] });
+    setNewExpense({ ...newExpense, payerId: members[index].userId });
     setTimeout(() => onClose?.());
   };
   return (
@@ -105,18 +105,18 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
         </CloseButton>
       </Header>
       <List>
-        {members.map(({ userId, nickName, profile, me }, index) => (
+        {members.map(({ userId, nickName, profileImg, me }, index) => (
           <Option key={userId}>
             <Input
               type="radio"
               id={nickName}
               name="payer"
               value={userId}
-              defaultChecked={userId === newExpense.payer.userId}
+              defaultChecked={userId === newExpense.payerId}
               onClick={() => onChoosePayer(index)}
             />
             <Label htmlFor={nickName}>
-              <Profile nickName={nickName} type={profile} isMe={me} hasName />
+              <Profile nickName={nickName} type={profileImg} isMe={me} hasName />
             </Label>
           </Option>
         ))}

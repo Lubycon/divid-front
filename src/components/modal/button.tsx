@@ -14,7 +14,7 @@ const Button = styled.button<{ theme: ButtonTheme }>`
   width: 100%;
   cursor: pointer;
 
-  p {
+  span {
     color: ${({ theme }) => (theme === ButtonTheme.Primary ? color.white : color.grayscale.gray01)};
   }
 

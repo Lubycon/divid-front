@@ -40,10 +40,10 @@ export default function Members({ members, inviteCode = undefined }: MembersProp
   return (
     <MembersWrap>
       {/* 사용자 본인의 이모지 */}
-      <Profile type={me.profile} isMe />
+      <Profile type={me.profileImg} isMe />
       {others?.map((member) => (
         <div key={member.userId} css={overlapIcon}>
-          <Profile type={member.profile} />
+          <Profile type={member.profileImg} />
         </div>
       ))}
       {inviteCode && (

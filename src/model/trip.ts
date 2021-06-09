@@ -1,4 +1,4 @@
-import { MemberInfo } from './members'
+import { MemberInfo } from './members';
 
 export interface TripEditInfo {
   tripName: string;
@@ -7,7 +7,7 @@ export interface TripEditInfo {
 }
 
 export interface TripMinInfo {
-  tripId: string;
+  enterCode: string;
   tripName: string;
   startDate: string;
   endDate: string;
@@ -19,6 +19,21 @@ export interface TripInfo {
   inviteCode: number;
   startDate: string;
   endDate: string;
+  memberCnt: number;
+  end: boolean;
+  userInfoResponseList: MemberInfo[];
+}
+
+export interface DetailTripInfo {
+  tripId: string;
+  tripName: string;
+  inviteCode: number;
+  startDate: string;
+  endDate: string;
+  amountResponse: {
+    giveAmount: number;
+    takeAmount: number;
+  };
   userInfoResponseList: MemberInfo[];
 }
 
