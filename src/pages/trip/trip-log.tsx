@@ -17,6 +17,7 @@ const SummaryContainer = styled.div`
   border-radius: 8px;
   margin-bottom: 25px;
   position: relative;
+  margin-top: 23px;
 
   button {
     position: absolute;
@@ -42,7 +43,11 @@ const ButtonIcon = styled.span`
   background-size: contain;
 `;
 
-export default function TripLog({ trip }: { trip: DetailTripInfo }) {
+const GraphWrap = styled.div`
+  margin-top: 19px;
+`;
+
+export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId: string }) {
   const giveMoneyAmount = trip.amountResponse.giveAmount;
   const takeMoneyAmount = trip.amountResponse.takeAmount;
 
@@ -60,9 +65,11 @@ export default function TripLog({ trip }: { trip: DetailTripInfo }) {
                 <ButtonIcon />
               </>
             </Button>
-            <Graph giveMoneyAmount={giveMoneyAmount} takeMoneyAmount={takeMoneyAmount} />
+            <GraphWrap>
+              <Graph giveMoneyAmount={giveMoneyAmount} takeMoneyAmount={takeMoneyAmount} />
+            </GraphWrap>
           </SummaryContainer>
-          <LogList />
+          <LogList tripId={tripId} />
         </>
       )}
     </>

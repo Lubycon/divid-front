@@ -26,7 +26,7 @@ export default function Trip() {
   return (
     <div css={[basicWrap, grayBackground]}>
       <Header trip={data} />
-      <TripLog trip={data} />
+      <TripLog trip={data} tripId={tripId ?? ''} />
       <Link to={`/expense?tripId=${tripId}`}>
         <FloatingActionButton />
       </Link>

@@ -1,5 +1,5 @@
 import http from 'api';
-import { ExpenseInfo, PostExpenseInfo } from 'model/expense';
+import { ExpenseInfo, PostExpenseInfo, ExpenseListInfo } from 'model/expense';
 import { useQuery } from 'react-query';
 
 interface Response {
@@ -24,6 +24,10 @@ function deleteExpense(tripId: string, expenseId: number) {
   return http.post<Response, ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
 }
 
+function getExpenseAll(tripId: string) {
+  return http.get<ExpenseListInfo[]>(`/expenses/all?tripId=${tripId}`);
+}
+
 export function useGetExpenseInfo(tripId: string, expenseId: number) {
   return useQuery('getExpenseInfo', () => getExpenseInfo(tripId, expenseId));
 }
@@ -38,4 +42,8 @@ export function usePostExpense(data: PostExpenseInfo) {
 
 export function useDeleteExpense(tripId: string, expenseId: number) {
   return useQuery('deleteExpense', () => deleteExpense(tripId, expenseId));
+}
+
+export function useGetExpenseAll(tripId: string) {
+  return useQuery('getExpenseAll', () => getExpenseAll(tripId));
 }

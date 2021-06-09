@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGetExpenseAll } from 'hooks/data/useExpense';
 import styled from '@emotion/styled';
 import { Animals } from 'api/types';
 import Log from './log';
@@ -27,7 +28,14 @@ const DUMMY: Dummy[] = [
   { id: 9, expender: '유진', profile: Animals.Rabbit, amount: 180000, desc: '게스트하우스', date: '2021-04-15' }
 ];
 
-export default function LogList() {
+export default function LogList({ tripId }: { tripId: string }) {
+  const { data, isLoading } = useGetExpenseAll(tripId);
+
+  if (isLoading || !data) {
+    <div>loading</div>;
+  }
+
+  console.log(data);
   return (
     <Wrap>
       {DUMMY.length !== 0 &&

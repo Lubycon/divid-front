@@ -33,3 +33,19 @@ export interface ExpenseAssigneeInfo {
   userId: number;
   price: number;
 }
+
+export interface ExpenseListInfo {
+  detailResponses: DetailResponse[];
+  payDate: string;
+  tripTotalPrice: number;
+}
+
+export interface DetailResponse {
+  expenseId: number;
+  me: boolean;
+  nickName: string;
+  profileImg: Animals;
+  title: string;
+  totalPrice: number;
+  userId: number;
+}
