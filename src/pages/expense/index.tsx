@@ -68,7 +68,8 @@ export const expenseState = atom({
     totalPrice: 0,
     title: '',
     individual: true,
-    expenseDetails: [] as ExpenseInfo[]
+    expenseDetails: [] as ExpenseInfo[],
+    tripId: ''
   }
 });
 
@@ -82,7 +83,7 @@ export default function Expense() {
     async function handleOnMount() {
       const { data } = await refetch();
       console.log(data);
-      data && setNewExpense({ ...newExpense, payerId: data[0].userId });
+      data && tripId && setNewExpense({ ...newExpense, payerId: data[0].userId, tripId });
     }
 
     handleOnMount();
@@ -102,7 +103,7 @@ export default function Expense() {
       setNewExpense({
         ...newExpense,
         totalPrice: price,
-        expenseDetails: members.map((m) => ({ ...m, price: newExpense.totalPrice / members.length }))
+        expenseDetails: members.map((m) => ({ userId: m.userId, price: newExpense.totalPrice / members.length }))
       });
     }
     console.log(newExpense);
