@@ -1,15 +1,16 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 import { basicWrap, flexAlignCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
 import TextInput from 'components/text-input';
 import Button from 'components/button';
-// import DateRangePicker from 'components/datepicker';
 import DateRangeSelector from 'components/date-picker';
-import { Heading7 as Label } from 'styles/typography';
+import { Heading7 } from 'styles/typography';
 import { usePostTrip } from 'hooks/data/useTripInfo';
 import { atom, useRecoilState } from 'recoil';
+import color from 'styles/colors';
 
 const button = css`
   margin-top: ${pxToVw(40)};
@@ -17,6 +18,10 @@ const button = css`
   ${mediaQuery(640)} {
     margin-top: 40px;
   }
+`;
+
+const Label = styled(Heading7)`
+  color: ${color.white};
 `;
 
 const Arrow = styled.span`
@@ -43,8 +48,13 @@ export const newProjectState = atom({
 
 export default function Create() {
   const [newProject, setNewProject] = useRecoilState(newProjectState);
+  const history = useHistory();
+  const { refetch } = usePostTrip({
+    ...newProject,
+    enterCode: String(Math.floor(Math.random() * 90 + 10))
+  });
 
-  const handleChange = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTripName = e.target.value;
     setNewProject({ ...newProject, tripName: newTripName });
   };
@@ -53,29 +63,31 @@ export default function Create() {
     setNewProject({ ...newProject, startDate, endDate });
   };
 
-  // 임시하드코딩
-  const { refetch } = usePostTrip({
-    ...newProject,
-    enterCode: String(Math.floor(Math.random() * 90 + 10))
-  });
-
   const handleSubmit = async () => {
-    await refetch();
+    const { data, isError } = await refetch();
+
+    if (!isError && data) {
+      history.push('/projects');
+    }
   };
   return (
     <div css={basicWrap}>
       <TextInput
-        onBlur={handleChange}
+        onChange={handleChange}
         placeholder="여행 이름 입력"
-        note="이름은 최소 0자, 최대 00자까지 입력 가능해요"
+        note="이름은 최소 1자, 최대 10자까지 입력 가능해요"
+        maxLength={10}
       />
       <PickerWrapper>
-        {/* <DateRangePicker /> */}
         <DateRangeSelector setDate={handleChooseDate} />
         <Arrow />
       </PickerWrapper>
-      <Button onClick={handleSubmit} customStyle={button}>
-        <Label>다음</Label>
+      <Button
+        onClick={handleSubmit}
+        customStyle={button}
+        disabled={!newProject.tripName.length || !newProject.endDate.length}
+      >
+        <Label>저장</Label>
       </Button>
     </div>
   );
