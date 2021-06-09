@@ -19,7 +19,7 @@ export function changeStringToDate(dateString: string) {
 }
 
 export function makeDateFormat(date: Date) {
-  return format(date, 'M.ddeee', { locale: ko });
+  return format(date, 'M.deee', { locale: ko });
 }
 
 export function changeDateToString(date: Date) {

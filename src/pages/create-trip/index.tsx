@@ -5,10 +5,11 @@ import { basicWrap, flexAlignCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
 import TextInput from 'components/text-input';
 import Button from 'components/button';
-import DateRangePicker from 'components/datepicker';
+// import DateRangePicker from 'components/datepicker';
+import DateRangeSelector from 'components/date-picker';
 import { Heading7 as Label } from 'styles/typography';
 import { usePostTrip } from 'hooks/data/useTripInfo';
-import { atom } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 
 const button = css`
   margin-top: ${pxToVw(40)};
@@ -41,21 +42,36 @@ export const newProjectState = atom({
 });
 
 export default function Create() {
+  const [newProject, setNewProject] = useRecoilState(newProjectState);
+
+  const handleChange = (e: React.FocusEvent<HTMLInputElement>) => {
+    const newTripName = e.target.value;
+    setNewProject({ ...newProject, tripName: newTripName });
+  };
+
+  const handleChooseDate = (startDate: string, endDate: string) => {
+    setNewProject({ ...newProject, startDate, endDate });
+  };
+
   // 임시하드코딩
   const { refetch } = usePostTrip({
-    enterCode: '31',
-    tripName: '제주도 한달살기!',
-    startDate: '2021-06-27',
-    endDate: '2021-07-30'
+    ...newProject,
+    enterCode: String(Math.floor(Math.random() * 90 + 10))
   });
+
   const handleSubmit = async () => {
     await refetch();
   };
   return (
     <div css={basicWrap}>
-      <TextInput placeholder="여행 이름 입력" note="이름은 최소 0자, 최대 00자까지 입력 가능해요" />
+      <TextInput
+        onBlur={handleChange}
+        placeholder="여행 이름 입력"
+        note="이름은 최소 0자, 최대 00자까지 입력 가능해요"
+      />
       <PickerWrapper>
-        <DateRangePicker />
+        {/* <DateRangePicker /> */}
+        <DateRangeSelector setDate={handleChooseDate} />
         <Arrow />
       </PickerWrapper>
       <Button onClick={handleSubmit} customStyle={button}>
