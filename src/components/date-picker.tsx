@@ -3,20 +3,21 @@ import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ko from 'date-fns/locale/ko';
-import { changeDateToString, makeDateFormat } from 'utils';
+import { changeDateToString, makeDateFormat2, makeDateFormat } from 'utils';
 
 import { mediaQuery, pxToVw } from 'styles/media';
-import { Body1, Heading7 } from 'styles/typography';
+import { Body1, Heading7, Heading6 } from 'styles/typography';
 import { flexCenter, flexAlignCenter } from 'styles/containers';
 import { Close } from 'styles/icon';
 import color from 'styles/colors';
 import '../../node_modules/react-datepicker/dist/react-datepicker.css';
 import './date-picker.scss';
-import Button from './button';
+import Button, { ButtonType } from './button';
 
 const ShowPickerButton = styled(Body1)`
   cursor: pointer;
 `;
+
 const Wrap = styled.div`
   ${flexAlignCenter};
   margin-top: ${pxToVw(16)};
@@ -97,6 +98,13 @@ const CloseButton = styled.div`
   }
 `;
 
+const DownIcon = styled.span`
+  width: 16px;
+  height: 16px;
+  background: url('/images/chevron-down.svg') no-repeat center;
+  background-size: contain;
+`;
+
 registerLocale('ko', ko);
 setDefaultLocale('ko');
 
@@ -163,6 +171,62 @@ export default function DateRangeSelector({ setDate, defaultStartDate, defaultEn
             inline
           />
           {!!endDate && (
+            <ButtonWrap>
+              <Button onClick={() => setShowPicker(false)}>
+                <Label>일정 선택 완료</Label>
+              </Button>
+            </ButtonWrap>
+          )}
+        </DatePickerWrap>
+      )}
+    </Wrap>
+  );
+}
+
+interface SingleDatePickerProps {
+  setDate: (date: string) => void;
+  defaultDate?: Date;
+}
+
+export function SingleDatePicker({ setDate, defaultDate }: SingleDatePickerProps) {
+  const [showPicker, setShowPicker] = useState(false);
+  const [singleDate, setSingleDate] = useState(defaultDate || new Date());
+
+  const handleChange = (date: Date) => {
+    setSingleDate(date);
+    setDate(changeDateToString(date));
+  };
+
+  return (
+    <Wrap>
+      <Button
+        buttonType={ButtonType.Round}
+        onClick={() => setShowPicker(!showPicker)}
+        onKeyDown={() => setShowPicker(!showPicker)}
+      >
+        <>
+          <Heading6>{singleDate ? `${makeDateFormat2(singleDate)}` : ''}</Heading6>
+        </>
+        <DownIcon />
+      </Button>
+      {showPicker && (
+        <DatePickerWrap isEndDate={!!singleDate}>
+          <Header>
+            <Heading7>여행일정 선택</Heading7>
+          </Header>
+          <CloseButton onClick={() => setShowPicker(false)}>
+            <Close />
+          </CloseButton>
+          <DatePicker
+            selected={singleDate}
+            onChange={handleChange}
+            selectsStart
+            customInput={<CustomInput />}
+            dateFormat="MM.dd"
+            todayButton="오늘"
+            inline
+          />
+          {!!singleDate && (
             <ButtonWrap>
               <Button onClick={() => setShowPicker(false)}>
                 <Label>일정 선택 완료</Label>

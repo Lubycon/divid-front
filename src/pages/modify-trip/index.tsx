@@ -84,8 +84,9 @@ export default function Modify() {
       <TextInput
         onChange={handleChange}
         placeholder="여행 이름 입력"
-        note="이름은 최소 1자, 최대 10자까지 입력 가능해요"
-        maxLength={10}
+        note="이름은 최소 2자, 최대 14자까지 입력 가능해요"
+        maxLength={14}
+        minLength={2}
         defaultValue={editProject.tripName}
       />
       <PickerWrapper>

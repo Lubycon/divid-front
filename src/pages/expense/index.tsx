@@ -7,10 +7,12 @@ import { usePostExpense } from 'hooks/data/useExpense';
 import { numberWithCommas, useQueryString } from 'utils';
 import { useRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
+import { SingleDatePicker } from 'components/date-picker';
 
 import SelectModal from 'components/modal/select-modal';
+import { mediaQuery } from 'styles/media';
 import color from 'styles/colors';
-import Button, { ButtonType } from 'components/button';
+import Button from 'components/button';
 import TextInput from 'components/text-input';
 import { CaptionBold } from 'styles/typography';
 import Profile from 'components/profile';
@@ -27,11 +29,15 @@ const FormWrap = styled.div`
   border: 1px solid ${color.grayscale.gray05};
   border-radius: 16px;
   box-sizing: border-box;
+
+  ${mediaQuery(640)} {
+    padding: 20px 24px;
+  }
 `;
 
 const Caption = styled(CaptionBold)`
   color: ${color.grayscale.gray03};
-  margin-bottom: 12px;
+  margin: 12px 0;
 `;
 
 const PayerButton = styled.button`
@@ -133,6 +139,13 @@ export default function Expense() {
     });
   };
 
+  const handleDate = (date: string) => {
+    setNewExpense({
+      ...newExpense,
+      payDate: date
+    });
+  };
+
   if (!members) {
     return <div>loading</div>;
   }
@@ -149,19 +162,25 @@ export default function Expense() {
         ]}
       >
         <FormWrap>
-          <Button buttonType={ButtonType.Round}>04.16</Button>
-          <div
-            css={css`
-              margin: 0 5px;
-            `}
-          >
+          <SingleDatePicker setDate={handleDate} />
+          <div>
             <TextInput
+              css={css`
+                margin-top: 16px;
+              `}
               placeholder="금액입력(원)"
               type="text"
               onChange={handleChangeTotalPrice}
               onBlur={handleBlurTotalPrice}
             />
-            <TextInput placeholder="내용입력" type="text" onChange={handleChangeTitle} />
+            <TextInput
+              css={css`
+                margin-top: 16px;
+              `}
+              placeholder="내용입력"
+              type="text"
+              onChange={handleChangeTitle}
+            />
           </div>
           <SelectWrap>
             <Caption>낸 사람</Caption>
