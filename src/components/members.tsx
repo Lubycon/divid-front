@@ -2,6 +2,7 @@ import React from 'react';
 import Profile from 'components/profile';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button, { ButtonType } from 'components/button';
 import { CaptionBold } from 'styles/typography';
 import { MemberInfo } from 'model/members';
@@ -30,12 +31,14 @@ const Label = styled(CaptionBold)`
 
 interface MembersProps {
   members: MemberInfo[];
-  inviteCode?: number | undefined;
+  inviteCode?: number;
 }
 
-export default function Members({ members, inviteCode = undefined }: MembersProps) {
+export default function Members({ members, inviteCode }: MembersProps) {
   const me = members.filter((member) => member.me)[0];
   const others = members.filter((member) => !member.me);
+  const currentUrl = window.location.href;
+  const copyLinkText = `여행링크: ${currentUrl} \r비밀번호: ${inviteCode}`;
 
   return (
     <MembersWrap>
@@ -48,12 +51,14 @@ export default function Members({ members, inviteCode = undefined }: MembersProp
       ))}
       {inviteCode && (
         <div css={overlapIcon}>
-          <Button buttonType={ButtonType.Round} onClick={() => console.log(inviteCode)}>
-            <>
-              <PlusIcon />
-              <Label>친구초대</Label>
-            </>
-          </Button>
+          <CopyToClipboard text={copyLinkText}>
+            <Button buttonType={ButtonType.Round} onClick={() => console.log(inviteCode)}>
+              <>
+                <PlusIcon />
+                <Label>친구초대</Label>
+              </>
+            </Button>
+          </CopyToClipboard>
         </div>
       )}
     </MembersWrap>
