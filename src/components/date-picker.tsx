@@ -114,12 +114,14 @@ const CustomInput = ({
 
 interface DatePickerProps {
   setDate: (startDate: string, endDate: string) => void;
+  defaultStartDate?: Date;
+  defaultEndDate?: Date;
 }
 
-export default function DateRangeSelector({ setDate }: DatePickerProps) {
+export default function DateRangeSelector({ setDate, defaultStartDate, defaultEndDate }: DatePickerProps) {
   const [showPicker, setShowPicker] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState(defaultStartDate || new Date());
+  const [endDate, setEndDate] = useState<Date | null>(defaultEndDate || null);
 
   const handleChange = (dates: [Date, Date]) => {
     const [start, end] = dates;

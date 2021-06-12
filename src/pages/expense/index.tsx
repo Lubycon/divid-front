@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { usePostExpense } from 'hooks/data/useExpense';
-import { useQueryString } from 'utils';
+import { numberWithCommas, useQueryString } from 'utils';
 import { useRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
 
@@ -17,6 +17,7 @@ import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
 import { expenseState, expenseAssigneeState } from './expense-state';
+import IndividualInput from './individual-input';
 
 const FormWrap = styled.div`
   width: 100%;
@@ -79,6 +80,7 @@ export default function Expense() {
   });
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^0-9]/, '');
     const price = Number(e.target.value);
     if (typeof price === 'number') {
       setNewExpense({
@@ -86,7 +88,12 @@ export default function Expense() {
         totalPrice: price
       });
     }
-    console.log(newExpense);
+    e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
+  };
+
+  const handleBlurTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const price = Number(e.target.value);
+    e.target.value = numberWithCommas(price);
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,8 +112,18 @@ export default function Expense() {
           price: newExpense.totalPrice / assignedMembers.length
         }))
       });
-      return postExpense();
     }
+    if (!newExpense.individual) {
+      const assignedMembers = assignee.members.filter((m) => !!m.price);
+      setNewExpense({
+        ...newExpense,
+        expenseDetails: assignedMembers.map((m) => ({
+          userId: m.userId,
+          price: m.price || 0
+        }))
+      });
+    }
+    return postExpense();
   };
 
   const ToggleDutchPay = () => {
@@ -138,7 +155,12 @@ export default function Expense() {
               margin: 0 5px;
             `}
           >
-            <TextInput placeholder="금액입력(원)" type="number" onChange={handleChangeTotalPrice} />
+            <TextInput
+              placeholder="금액입력(원)"
+              type="text"
+              onChange={handleChangeTotalPrice}
+              onBlur={handleBlurTotalPrice}
+            />
             <TextInput placeholder="내용입력" type="text" onChange={handleChangeTitle} />
           </div>
           <SelectWrap>
@@ -161,8 +183,14 @@ export default function Expense() {
             </div>
 
             {Array.isArray(members) &&
+              !newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
                 <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+              ))}
+            {Array.isArray(members) &&
+              newExpense.individual &&
+              members.map(({ userId, nickName, profileImg, me }) => (
+                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>
         </FormWrap>

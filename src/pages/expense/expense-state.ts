@@ -6,9 +6,10 @@ interface ExpenseInfo {
   price: number;
 }
 
-interface AssigneeInfo {
+export interface AssigneeInfo {
   userId: number;
-  isAssigned: boolean;
+  isAssigned?: boolean;
+  price?: number;
 }
 
 export const expenseState = atom({
@@ -18,7 +19,7 @@ export const expenseState = atom({
     payDate: changeDateToString(new Date()),
     totalPrice: 0,
     title: '',
-    individual: true,
+    individual: false,
     expenseDetails: [] as ExpenseInfo[],
     tripId: ''
   }

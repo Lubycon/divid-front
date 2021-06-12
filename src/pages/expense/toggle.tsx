@@ -55,7 +55,7 @@ const Wrap = styled.div`
 export default function Toggle({ isIndividual, onToggle }: { isIndividual: boolean; onToggle: () => void }) {
   return (
     <Wrap>
-      <input id="toggleDutch" type="checkbox" checked={isIndividual} onClick={onToggle} />
+      <input id="toggleDutch" type="checkbox" checked={!isIndividual} onClick={onToggle} />
       <label htmlFor="toggleDutch">
         <div>
           <Badge>1/N 하기</Badge>

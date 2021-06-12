@@ -19,8 +19,8 @@ function getDetailTripInfo(tripId: string) {
   return http.get<DetailTripInfo>(`/trips?tripId=${tripId}`);
 }
 
-function editTripInfo(tripId: string) {
-  return http.put<Response, TripEditInfo>(`/trips?tripId=${tripId}`);
+function editTripInfo(tripId: string, data: TripEditInfo) {
+  return http.put<Response, TripEditInfo>(`/trips?tripId=${tripId}`, data);
 }
 
 function exitTrip(tripId: string) {
@@ -48,8 +48,8 @@ export function useGetDetailTripInfo(tripId: string) {
   return useQuery('getDetailTripInfo', () => getDetailTripInfo(tripId));
 }
 
-export function useEditTripInfo(tripId: string) {
-  return useQuery('editTripInfo', () => editTripInfo(tripId), { enabled: false });
+export function useEditTripInfo(tripId: string, data: TripEditInfo) {
+  return useQuery('editTripInfo', () => editTripInfo(tripId, data), { enabled: false });
 }
 
 export function useExitTrip(tripId: string) {

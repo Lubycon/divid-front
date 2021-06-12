@@ -1,10 +1,17 @@
-import React from 'react';
-import { basicWrap } from 'styles/containers';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
+import { basicWrap, flexAlignCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
 import TextInput from 'components/text-input';
 import Button from 'components/button';
-import DateSelector from 'components/date-selector';
+import DateRangeSelector from 'components/date-picker';
+import { Heading7 } from 'styles/typography';
+import { useGetDetailTripInfo, useEditTripInfo } from 'hooks/data/useTripInfo';
+import { atom, useRecoilState } from 'recoil';
+import color from 'styles/colors';
+import { changeStringToDate, useQueryString } from 'utils';
 
 const button = css`
   margin-top: ${pxToVw(40)};
@@ -14,14 +21,90 @@ const button = css`
   }
 `;
 
+const Label = styled(Heading7)`
+  color: ${color.white};
+`;
+
+const Arrow = styled.span`
+  width: 24px;
+  height: 24px;
+  background: url('/images/arrow_down.svg') center no-repeat;
+  background-size: contain;
+`;
+
+const PickerWrapper = styled.div`
+  ${flexAlignCenter};
+  margin-top: 16px;
+`;
+
+export const editProjectState = atom({
+  key: 'editProjectState',
+  default: {
+    tripName: '',
+    startDate: '',
+    endDate: ''
+  }
+});
+
 export default function Modify() {
-  const defaultDate = new Date();
+  const history = useHistory();
+  const [editProject, setEditProject] = useRecoilState(editProjectState);
+  const tripId = useQueryString().get('tripId');
+  const { data: info } = useGetDetailTripInfo(tripId || '');
+  const { refetch } = useEditTripInfo(tripId || '', editProject);
+  console.log(info);
+
+  useEffect(() => {
+    if (info) {
+      setEditProject({ ...info });
+    }
+    console.log(editProject);
+  }, [info]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const editTripName = e.target.value;
+    setEditProject({ ...editProject, tripName: editTripName });
+  };
+
+  const handleChooseDate = (startDate: string, endDate: string) => {
+    setEditProject({ ...editProject, startDate, endDate });
+  };
+
+  const handleSubmit = async () => {
+    console.log(editProject);
+    const { data, isError } = await refetch();
+
+    if (!isError && data) {
+      history.push('/projects');
+    }
+  };
 
   return (
     <div css={basicWrap}>
-      <TextInput placeholder="여행 이름 입력" note="이름은 최소 0자, 최대 00자까지 입력 가능해요" />
-      <DateSelector defaultDate={defaultDate} />
-      <Button customStyle={button}>다음</Button>
+      <TextInput
+        onChange={handleChange}
+        placeholder="여행 이름 입력"
+        note="이름은 최소 1자, 최대 10자까지 입력 가능해요"
+        maxLength={10}
+        defaultValue={editProject.tripName}
+      />
+      <PickerWrapper>
+        {!!editProject.startDate.length && !!editProject.endDate.length && (
+          <DateRangeSelector
+            setDate={handleChooseDate}
+            defaultStartDate={changeStringToDate(editProject.startDate)}
+            defaultEndDate={changeStringToDate(editProject.endDate)}
+          />
+        )}
+        <Arrow />
+      </PickerWrapper>
+      <Button
+        onClick={handleSubmit}
+        customStyle={button}
+        disabled={!editProject.tripName.length || !editProject.endDate.length}
+      >
+        <Label>저장</Label>
+      </Button>
     </div>
   );
 }
