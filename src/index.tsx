@@ -25,7 +25,7 @@ interface RouteProps {
 
 const routes: RouteProps[] = [
   {
-    path: '/landing',
+    path: '/home',
     component: Landing
   },
   {
@@ -79,7 +79,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Header />
       <Switch location={location}>
-        <Route exact path="/" render={() => <Redirect to="login" />} />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
         {routes.map((route) => (
           <Route key={route.path} path={route.path} component={route.component} exact />
         ))}
