@@ -5,6 +5,7 @@ import ButtonModal from 'components/modal/button-modal';
 import styled from '@emotion/styled';
 import _ from 'lodash';
 import { basicWrap, flexCenter } from 'styles/containers';
+import { Heading7 } from 'styles/typography';
 import Profile, { Animals, IconSize } from 'components/profile';
 import color from 'styles/colors';
 import InputBox from 'components/input-box';
@@ -53,6 +54,10 @@ const SubButtonWrap = styled(CommonButtonWrap)`
   margin-top: 57px;
 `;
 
+const Label = styled(Heading7)`
+  color: ${color.white};
+`;
+
 export default function MyPage() {
   const [selected, setSelected] = useState<Animals>(Animals.Hamster);
   const [nickname, setNickname] = useState('');
@@ -77,8 +82,9 @@ export default function MyPage() {
     console.log(nickname);
   }, 500);
 
-  const handleSubmit = () => {
-    modifyMyinfo();
+  const handleSubmit = async () => {
+    await modifyMyinfo();
+    history.push('/projects');
   };
 
   const LogoutModalContents = (
@@ -165,7 +171,9 @@ export default function MyPage() {
           onChangeInput={handleChange}
         />
         <ButtonWrap>
-          <Button onClick={handleSubmit}>저장</Button>
+          <Button onClick={handleSubmit}>
+            <Label>저장</Label>
+          </Button>
         </ButtonWrap>
         <SubButtonWrap>
           <Button buttonType={ButtonType.Text} onClick={openWithdrawModal}>

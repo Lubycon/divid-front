@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 // import color from 'styles/colors';
 import { Close } from 'styles/icon';
 import { flexCenter, flexAlignCenter } from 'styles/containers';
-import { expenseState } from 'pages/expense';
+import { expenseState } from 'pages/expense/expense-state';
 import { modalStyle } from './button-modal';
 
 const Wrap = styled.div`

@@ -61,7 +61,7 @@ export enum ButtonType {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   customStyle?: SerializedStyles;
   buttonType?: ButtonType;
-  children?: JSX.Element | string;
+  children?: JSX.Element | JSX.Element[] | string;
 }
 
 export default function Button({ children, customStyle, buttonType = ButtonType.Square, ...rest }: ButtonProps) {

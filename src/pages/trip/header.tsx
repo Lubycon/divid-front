@@ -24,7 +24,7 @@ export default function Header({ trip }: { trip: DetailTripInfo }) {
     <>
       <Title>{trip.tripName}</Title>
       <Desc>{`${makeDateFormat(sDate)} - ${makeDateFormat(eDate)}`}</Desc>
-      <Members inviteCode={trip.inviteCode} members={trip.userInfoResponseList} />
+      <Members trip={trip} members={trip.userInfoResponseList} />
     </>
   );
 }

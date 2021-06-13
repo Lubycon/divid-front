@@ -34,13 +34,14 @@ interface LogProps {
   profile: Animals;
   amount: number;
   desc: string;
+  isMe: boolean;
 }
 
-export default function Log({ expender, profile, amount, desc }: LogProps) {
+export default function Log({ expender, profile, amount, desc, isMe }: LogProps) {
   return (
     <Wrap>
       <div css={flexBox}>
-        <Profile iconSize={IconSize.SM} type={profile} />
+        <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} />
         <Name>{expender}</Name>
       </div>
       <div

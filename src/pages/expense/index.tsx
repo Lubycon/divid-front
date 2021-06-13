@@ -3,21 +3,23 @@ import { basicWrap, flexCenter } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
-import { Animals } from 'api/types';
 import { usePostExpense } from 'hooks/data/useExpense';
-import { changeDateToString, useQueryString } from 'utils';
-import { MemberInfo } from 'model/members';
-import { atom, useRecoilState } from 'recoil';
+import { numberWithCommas, useQueryString } from 'utils';
+import { useRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
+import { SingleDatePicker } from 'components/date-picker';
 
 import SelectModal from 'components/modal/select-modal';
+import { mediaQuery } from 'styles/media';
 import color from 'styles/colors';
-import Button, { ButtonType } from 'components/button';
+import Button from 'components/button';
 import TextInput from 'components/text-input';
 import { CaptionBold } from 'styles/typography';
 import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
+import { expenseState, expenseAssigneeState } from './expense-state';
+import IndividualInput from './individual-input';
 
 const FormWrap = styled.div`
   width: 100%;
@@ -27,11 +29,15 @@ const FormWrap = styled.div`
   border: 1px solid ${color.grayscale.gray05};
   border-radius: 16px;
   box-sizing: border-box;
+
+  ${mediaQuery(640)} {
+    padding: 20px 24px;
+  }
 `;
 
 const Caption = styled(CaptionBold)`
   color: ${color.grayscale.gray03};
-  margin-bottom: 12px;
+  margin: 12px 0;
 `;
 
 const PayerButton = styled.button`
@@ -48,33 +54,9 @@ const SelectWrap = styled.div`
 
 const ToggleWrap = styled.div``;
 
-export const MEMBERS: MemberInfo[] = [
-  { userId: 1, nickName: '지형', profileImg: Animals.Rabbit, me: true },
-  { userId: 2, nickName: '유진', profileImg: Animals.Bear, me: false },
-  { userId: 3, nickName: '주예', profileImg: Animals.Unicorn, me: false },
-  { userId: 4, nickName: '영진', profileImg: Animals.Panda, me: false }
-];
-
-interface ExpenseInfo {
-  userId: number;
-  price: number;
-}
-
-export const expenseState = atom({
-  key: 'expenseState',
-  default: {
-    payerId: 0,
-    payDate: changeDateToString(new Date()),
-    totalPrice: 0,
-    title: '',
-    individual: true,
-    expenseDetails: [] as ExpenseInfo[],
-    tripId: ''
-  }
-});
-
 export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
+  const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
   const { refetch: postExpense } = usePostExpense(newExpense);
@@ -83,9 +65,19 @@ export default function Expense() {
     async function handleOnMount() {
       const { data } = await refetch();
       console.log(data);
-      data && tripId && setNewExpense({ ...newExpense, payerId: data[0].userId, tripId });
+      data &&
+        tripId &&
+        setNewExpense({
+          ...newExpense,
+          payerId: data[0].userId,
+          tripId
+        });
+      data &&
+        setAssignee({
+          ...assignee,
+          members: data.map((member) => ({ userId: member.userId, isAssigned: true }))
+        });
     }
-
     handleOnMount();
   }, []);
 
@@ -93,20 +85,21 @@ export default function Expense() {
     children: <SelectModal members={members || []} />
   });
 
-  if (!members) {
-    return <div>loading</div>;
-  }
-
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^0-9]/, '');
     const price = Number(e.target.value);
     if (typeof price === 'number') {
       setNewExpense({
         ...newExpense,
-        totalPrice: price,
-        expenseDetails: members.map((m) => ({ userId: m.userId, price: newExpense.totalPrice / members.length }))
+        totalPrice: price
       });
     }
-    console.log(newExpense);
+    e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
+  };
+
+  const handleBlurTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const price = Number(e.target.value);
+    e.target.value = numberWithCommas(price);
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,10 +109,26 @@ export default function Expense() {
   };
 
   const handleSubmit = () => {
-    setNewExpense({
-      ...newExpense,
-      expenseDetails: members.map((m) => ({ ...m, price: newExpense.totalPrice / members.length }))
-    });
+    if (newExpense.individual) {
+      const assignedMembers = assignee.members.filter((m) => m.isAssigned === true);
+      setNewExpense({
+        ...newExpense,
+        expenseDetails: assignedMembers.map((m) => ({
+          userId: m.userId,
+          price: newExpense.totalPrice / assignedMembers.length
+        }))
+      });
+    }
+    if (!newExpense.individual) {
+      const assignedMembers = assignee.members.filter((m) => !!m.price);
+      setNewExpense({
+        ...newExpense,
+        expenseDetails: assignedMembers.map((m) => ({
+          userId: m.userId,
+          price: m.price || 0
+        }))
+      });
+    }
     return postExpense();
   };
 
@@ -129,6 +138,17 @@ export default function Expense() {
       individual: !newExpense.individual
     });
   };
+
+  const handleDate = (date: string) => {
+    setNewExpense({
+      ...newExpense,
+      payDate: date
+    });
+  };
+
+  if (!members) {
+    return <div>loading</div>;
+  }
 
   return (
     <>
@@ -142,14 +162,25 @@ export default function Expense() {
         ]}
       >
         <FormWrap>
-          <Button buttonType={ButtonType.Round}>04.16</Button>
-          <div
-            css={css`
-              margin: 0 5px;
-            `}
-          >
-            <TextInput placeholder="금액입력(원)" type="number" onBlur={handleChangeTotalPrice} />
-            <TextInput placeholder="내용입력" type="text" onBlur={handleChangeTitle} />
+          <SingleDatePicker setDate={handleDate} />
+          <div>
+            <TextInput
+              css={css`
+                margin-top: 16px;
+              `}
+              placeholder="금액입력(원)"
+              type="text"
+              onChange={handleChangeTotalPrice}
+              onBlur={handleBlurTotalPrice}
+            />
+            <TextInput
+              css={css`
+                margin-top: 16px;
+              `}
+              placeholder="내용입력"
+              type="text"
+              onChange={handleChangeTitle}
+            />
           </div>
           <SelectWrap>
             <Caption>낸 사람</Caption>
@@ -171,8 +202,14 @@ export default function Expense() {
             </div>
 
             {Array.isArray(members) &&
+              !newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
                 <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+              ))}
+            {Array.isArray(members) &&
+              newExpense.individual &&
+              members.map(({ userId, nickName, profileImg, me }) => (
+                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>
         </FormWrap>

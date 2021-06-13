@@ -22,6 +22,10 @@ export function makeDateFormat(date: Date) {
   return format(date, 'M.deee', { locale: ko });
 }
 
+export function makeDateFormat2(date: Date) {
+  return format(date, 'MM.dd', { locale: ko });
+}
+
 export function changeDateToString(date: Date) {
   return format(date, 'yyyy-MM-dd');
 }

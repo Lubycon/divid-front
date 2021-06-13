@@ -108,7 +108,7 @@ export default function Card({
   const sDate = changeStringToDate(startDate);
   const eDate = changeStringToDate(endDate);
   const history = useHistory();
-  const { refetch } = useExitTrip(tripId);
+  const { refetch: exitTrip } = useExitTrip(tripId);
 
   const GetoutModalContents = (
     <ButtonModal
@@ -123,9 +123,10 @@ export default function Card({
         },
         right: {
           label: '나가기',
-          handleClick: () => {
+          handleClick: async () => {
             console.log('나가기 클릭');
-            refetch();
+            await exitTrip();
+            window.location.reload();
           }
         }
       }}

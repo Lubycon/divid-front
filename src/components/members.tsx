@@ -2,9 +2,11 @@ import React from 'react';
 import Profile from 'components/profile';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button, { ButtonType } from 'components/button';
 import { CaptionBold } from 'styles/typography';
 import { MemberInfo } from 'model/members';
+import { DetailTripInfo } from 'model/trip';
 
 const MembersWrap = styled.div`
   display: flex;
@@ -30,12 +32,19 @@ const Label = styled(CaptionBold)`
 
 interface MembersProps {
   members: MemberInfo[];
-  inviteCode?: number | undefined;
+  trip?: DetailTripInfo;
 }
 
-export default function Members({ members, inviteCode = undefined }: MembersProps) {
+export default function Members({ members, trip }: MembersProps) {
   const me = members.filter((member) => member.me)[0];
   const others = members.filter((member) => !member.me);
+  const currentUrl = window.location.href;
+  const copyLinkText = `여행에 참여하고 디빗에서 정산에 대한 걱정 없이 여행을 즐겨보세요! 
+  여행이름: ${trip?.tripName}
+  여행기간: ${trip?.startDate} ~ ${trip?.endDate}
+  참여코드: ${trip?.inviteCode}
+  여행링크: ${currentUrl} 
+  `;
 
   return (
     <MembersWrap>
@@ -46,14 +55,16 @@ export default function Members({ members, inviteCode = undefined }: MembersProp
           <Profile type={member.profileImg} />
         </div>
       ))}
-      {inviteCode && (
+      {trip && (
         <div css={overlapIcon}>
-          <Button buttonType={ButtonType.Round} onClick={() => console.log(inviteCode)}>
-            <>
-              <PlusIcon />
-              <Label>친구초대</Label>
-            </>
-          </Button>
+          <CopyToClipboard text={copyLinkText}>
+            <Button buttonType={ButtonType.Round}>
+              <>
+                <PlusIcon />
+                <Label>친구초대</Label>
+              </>
+            </Button>
+          </CopyToClipboard>
         </div>
       )}
     </MembersWrap>
