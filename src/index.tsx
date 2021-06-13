@@ -7,6 +7,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 
 import 'reset-css';
 import Header from 'components/header';
+import Summary from 'pages/summary';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
@@ -51,6 +52,10 @@ const routes: RouteProps[] = [
   {
     path: '/expense',
     component: Expense
+  },
+  {
+    path: '/summary',
+    component: Summary
   },
   {
     path: '/mypage',
