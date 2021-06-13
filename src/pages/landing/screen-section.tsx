@@ -1,53 +1,90 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { mediaQuery } from 'styles/media';
+import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
-import { Heading1, Heading6 } from 'styles/typography';
+import { Heading3, Heading } from 'styles/typography';
 import { convertNewlineToBr, createMarkup } from 'utils';
 
 const Section = styled.div`
   background: ${color.white};
   background-size: cover;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-end;
+  height: ${pxToVw(650)};
+  padding: 0 ${pxToVw(24)};
 
   &:nth-child(odd) {
     background: ${color.grayscale.gray07};
-
-    & > div {
-      flex-direction: row-reverse;
-    }
   }
 
   ${mediaQuery(640)} {
     height: 800px;
+    padding: 0;
+    justify-content: center;
+
+    &:nth-child(odd) {
+      & > div {
+        flex-direction: row-reverse;
+      }
+    }
+
+    & > div {
+      flex-direction: row;
+    }
   }
 `;
 const Content = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  width: 100%;
+  align-items: flex-start;
+  flex-direction: column-reverse;
 
   ${mediaQuery(640)} {
     width: 1200px;
+    flex-direction: row;
+    justify-content: center;
   }
 `;
 
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 100px;
+  margin: ${pxToVw(99)} 0 ${pxToVw(60)};
+
+  ${mediaQuery(640)} {
+    margin: 0 100px;
+  }
 `;
 
 const ScreenImg = styled.img`
-  width: 440px;
-  height: 600px;
+  width: ${pxToVw(250)};
+  height: ${pxToVw(458)};
+  align-self: center;
+
+  ${mediaQuery(640)} {
+    width: 440px;
+    height: 600px;
+    align-self: flex-end;
+  }
 `;
 
-const Desc = styled(Heading6)`
+const Desc = styled(Heading)`
   color: ${color.grayscale.gray02};
   font-weight: normal;
-  margin: 32px 0 280px;
+  font-size: ${pxToVw(16)};
+  margin-top: ${pxToVw(16)};
+
+  ${mediaQuery(640)} {
+    margin: 32px 0 280px;
+    font-size: 18px;
+  }
+`;
+
+const Title = styled(Heading3)`
+  ${mediaQuery(640)} {
+    font-size: 45px;
+  }
 `;
 
 export default function ScreenSection() {
@@ -58,7 +95,7 @@ export default function ScreenSection() {
           <Content>
             <ScreenImg src={d.img} />
             <TextBox>
-              <Heading1 dangerouslySetInnerHTML={createMarkup(convertNewlineToBr(d.title))} />
+              <Title dangerouslySetInnerHTML={createMarkup(convertNewlineToBr(d.title))} />
               <Desc dangerouslySetInnerHTML={createMarkup(convertNewlineToBr(d.desc))} />
             </TextBox>
           </Content>

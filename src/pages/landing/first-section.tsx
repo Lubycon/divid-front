@@ -61,7 +61,7 @@ const Heading = styled.h1`
   color: ${color.black};
   font-size: ${pxToVw(32)};
   font-weight: 300;
-  margin: 82px 0 0 24px;
+  margin: ${pxToVw(82)} 0 0 ${pxToVw(24)};
 
   span {
     font-weight: 800;
@@ -79,7 +79,7 @@ const Label = styled(Heading7)`
 
 const SwagImg = styled.div`
   width: ${pxToVw(142)};
-  height: ${pxToVw(166)};
+  height: ${pxToVw(150)};
   background: url('/images/Frame 880.svg') center no-repeat;
   background-size: contain;
   position: absolute;
@@ -93,11 +93,11 @@ const SwagImg = styled.div`
 `;
 
 export const CustomButton = styled(Button)`
-  padding: 0 20px;
+  padding: 0 ${pxToVw(20)};
   width: ${pxToVw(132)};
   height: ${pxToVw(50)};
   border-radius: 100px;
-  margin: 16px 0 0 24px;
+  margin: ${pxToVw(16)} 0 0 ${pxToVw(24)};
 
   ${mediaQuery(640)} {
     padding: 0 32px;
