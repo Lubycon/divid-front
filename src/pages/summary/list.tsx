@@ -38,8 +38,7 @@ export default function List({ nickName, profile, amount, kind }: ListProps) {
     <Wrap>
       <Profile type={profile} />
       <Text>
-        {nickName} 님에게 <Point kind={kind}>{numberWithCommas(amount)}원</Point>{' '}
-        {kind === 'give' ? '주세요' : '받으세요'}
+        {nickName} 님에게 <Point kind={kind}>{numberWithCommas(amount)}원</Point> {kind === 'give' ? '주기' : '받기'}
       </Text>
     </Wrap>
   );

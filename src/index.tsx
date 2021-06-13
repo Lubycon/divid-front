@@ -8,6 +8,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import 'reset-css';
 import Header from 'components/header';
 import Summary from 'pages/summary';
+import Detail from 'pages/summary-detail';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
@@ -48,6 +49,10 @@ const routes: RouteProps[] = [
   {
     path: '/trips',
     component: Trip
+  },
+  {
+    path: '/detail',
+    component: Detail
   },
   {
     path: '/expense',
