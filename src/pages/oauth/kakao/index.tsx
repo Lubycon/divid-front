@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { setLocalStorage, useQueryString } from 'utils';
 import useKakaoToken from 'hooks/data/useKakaoToken';
+import Loading from 'pages/loading';
 
 export default function KakaoLogin() {
   const code = useQueryString().get('code');
@@ -15,5 +16,5 @@ export default function KakaoLogin() {
     accessToken && history.push('/projects');
   }
 
-  return <div>카카오 로그인 중</div>;
+  return <Loading />;
 }

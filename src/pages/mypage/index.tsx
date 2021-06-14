@@ -14,6 +14,7 @@ import Footer from 'components/footer';
 import { CheckMark } from 'styles/icon';
 import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
 import { useGetMyPage, useEditMyPage, usePostWithdrawal } from 'hooks/data/useMyPage';
+import Loading from 'pages/loading';
 
 const IconSelector = styled.div`
   padding: 23px 0 19px;
@@ -141,7 +142,7 @@ export default function MyPage() {
   });
 
   if (isLoading) {
-    <div>로딩중</div>;
+    <Loading />;
   }
 
   return (

@@ -3,6 +3,7 @@ import { basicWrap } from 'styles/containers';
 import styled from '@emotion/styled';
 import { Heading4 } from 'styles/typography';
 import { useGetTripLists } from 'hooks/data/useTripInfo';
+import Loading from 'pages/loading';
 import Empty from './empty';
 import Card from './card';
 import Welcome from './hello-message';
@@ -19,7 +20,7 @@ export default function ProjectList() {
   console.log(data);
 
   if (isLoading) {
-    <div>loading</div>;
+    <Loading />;
   }
 
   if (!isLoading && data && data.length === 0) {
