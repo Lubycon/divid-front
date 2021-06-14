@@ -44,7 +44,6 @@ export function useGetTripLists() {
 }
 
 export function useGetDetailTripInfo(tripId: string) {
-  console.log(tripId);
   return useQuery('getDetailTripInfo', () => getDetailTripInfo(tripId));
 }
 

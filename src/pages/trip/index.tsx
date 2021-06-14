@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { basicWrap, grayBackground } from 'styles/containers';
 import FloatingActionButton from 'components/floating-action-button';
 import { useQueryString } from 'utils';
@@ -9,11 +9,18 @@ import TripLog from './trip-log';
 import Header from './header';
 
 export default function Trip() {
+  const history = useHistory();
   const tripId = useQueryString().get('tripId');
-  const { data, isLoading } = useGetDetailTripInfo(tripId || '');
+  const { data, isLoading, status, error } = useGetDetailTripInfo(tripId || '');
   console.log(data);
+  console.log(status);
 
   const RESPONSE_DUMMY = 200;
+
+  if (status === 'error') {
+    console.log(error);
+    history.push('/notFound');
+  }
 
   if (isLoading || !data) {
     return <div>loading</div>;

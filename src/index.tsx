@@ -7,6 +7,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 
 import 'reset-css';
 import Header from 'components/header';
+import Error404 from 'pages/error/404';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
@@ -67,6 +68,10 @@ const routes: RouteProps[] = [
   {
     path: '/terms',
     component: ServiceInfo
+  },
+  {
+    path: '/notFound',
+    component: Error404
   }
 ];
 
