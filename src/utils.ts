@@ -57,6 +57,11 @@ export function isHome() {
   return homePath.test(window.location.href);
 }
 
+export function isLanding() {
+  const homePath = /\/home/;
+  return homePath.test(window.location.href);
+}
+
 export function getPageInfo() {
   const pages: { pathRegEx: RegExp; title: string }[] = [
     {

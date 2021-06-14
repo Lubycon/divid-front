@@ -6,14 +6,12 @@ import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
-import { getPageInfo, getHeaderButton, isHome, useScroll } from 'utils';
+import { getPageInfo, getHeaderButton, useScroll, isHome } from 'utils';
 import color from 'styles/colors';
-// import Navigation from './navigation';
 
 const Wrap = styled.div<{ isScrolled: boolean }>`
   ${flexCenter}
   height: ${pxToVw(58)};
-  position: relative;
   position: fixed;
   top: 0;
   left: 0;
@@ -21,8 +19,22 @@ const Wrap = styled.div<{ isScrolled: boolean }>`
   transition: background-color ease-in-out 0.2s;
   transition: box-shadow ease-in-out 0.2s;
   z-index: 10;
+  width: 100%;
 
   ${({ isScrolled }) => (isScrolled ? scrolled : unscrolled)};
+
+  ${mediaQuery(640)} {
+    height: 58px;
+    margin: 0 auto;
+  }
+`;
+
+const HeaderContainer = styled.div`
+  position: relative;
+  height: ${pxToVw(58)};
+  width: 100%;
+  display: flex;
+  align-items: center;
 
   ${mediaQuery(640)} {
     height: 58px;
@@ -30,7 +42,6 @@ const Wrap = styled.div<{ isScrolled: boolean }>`
     margin: 0 auto;
   }
 `;
-
 const scrolled = css`
   background-color: ${color.white};
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
@@ -83,8 +94,8 @@ export default function Header() {
   const button = getHeaderButton();
 
   return (
-    <>
-      <Wrap isScrolled={isScrolled}>
+    <Wrap isScrolled={isScrolled}>
+      <HeaderContainer>
         {isHome() ? (
           <Link to="/projects">
             <Logo>로고</Logo>
@@ -102,7 +113,7 @@ export default function Header() {
             <ButtonLabel>{button.label}</ButtonLabel>
           </OptionalButton>
         )}
-      </Wrap>
-    </>
+      </HeaderContainer>
+    </Wrap>
   );
 }

@@ -59,7 +59,7 @@ const TextBox = styled.div`
 
 const ScreenImg = styled.img`
   width: ${pxToVw(250)};
-  height: ${pxToVw(458)};
+  height: ${pxToVw(360)};
   align-self: center;
 
   ${mediaQuery(640)} {
