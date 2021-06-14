@@ -15,11 +15,17 @@ export default function Trip() {
   console.log(data);
   console.log(status);
 
+  function isError(errorParam: unknown): errorParam is Error {
+    return errorParam instanceof Error;
+  }
+
   const RESPONSE_DUMMY = 200;
 
-  if (status === 'error') {
-    console.log(error);
-    history.push('/notFound');
+  if (isError(error)) {
+    if (error.message === 'Request failed with status code 403') {
+      history.push('/notFound');
+    }
+    console.log(error.message);
   }
 
   if (isLoading || !data) {
