@@ -27,6 +27,9 @@ export default function Trip() {
       history.push('/notFound');
     }
     console.log(error.message);
+    if (error.message === 'Request failed with status code 400') {
+      history.push(`/join?tripId=${tripId}`);
+    }
   }
 
   if (isLoading || !data) {

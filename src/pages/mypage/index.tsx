@@ -167,7 +167,7 @@ export default function MyPage() {
         </IconSelector>
         <InputBox
           label="이름"
-          note="최소 2자 최대 8자 입력가능해요."
+          note="최소 2자 최대 10자 입력가능해요."
           defaultValue={nickname}
           onChangeInput={handleChange}
         />

@@ -19,6 +19,7 @@ import Expense from './pages/expense';
 import MyPage from './pages/mypage';
 import Modify from './pages/modify-trip';
 import ServiceInfo from './pages/service-info';
+import Join from './pages/join';
 
 interface RouteProps {
   path: string;
@@ -73,6 +74,10 @@ const routes: RouteProps[] = [
   {
     path: '/notFound',
     component: Error404
+  },
+  {
+    path: '/join',
+    component: Join
   }
 ];
 

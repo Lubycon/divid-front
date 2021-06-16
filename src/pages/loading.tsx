@@ -14,14 +14,14 @@ const Wrap = styled.div`
 `;
 
 const Img = styled.div`
-  width: ${pxToVw(238)};
-  height: ${pxToVw(143)};
+  width: ${pxToVw(300)};
+  height: ${pxToVw(272)};
   background: url('/images/img_loading.svg') center no-repeat;
   background-size: contain;
 
   ${mediaQuery(640)} {
-    width: 300px;
-    height: 180px;
+    width: 387px;
+    height: 352px;
   }
 `;
 
@@ -37,8 +37,8 @@ const Text = styled(Heading3)`
 export default function Loading() {
   return (
     <Wrap>
-      <Img />
       <Text>loading...</Text>
+      <Img />
     </Wrap>
   );
 }
