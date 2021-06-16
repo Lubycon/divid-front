@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { useCheckDesktop } from 'utils';
-// import { flexAlignCenter } from 'styles/containers';
 import color from 'styles/colors';
 import { flexCenter } from 'styles/containers';
 import { Heading, Heading7 } from 'styles/typography';
@@ -88,9 +88,11 @@ export function TextSection2() {
       <Section2>
         <Text>지금 바로 디빗과 함께 떠나세요.</Text>
         <Text>여행은 즐기기만 해도 모자르니까!</Text>
-        <Button>
-          <Label>지금 시작하기</Label>
-        </Button>
+        <Link to="/login">
+          <Button>
+            <Label>지금 시작하기</Label>
+          </Button>
+        </Link>
       </Section2>
     );
   }
@@ -106,9 +108,11 @@ export function TextSection2() {
         <br />
         모자르니까!
       </Text>
-      <Button>
-        <Label>지금 시작하기</Label>
-      </Button>
+      <Link to="/login">
+        <Button>
+          <Label>지금 시작하기</Label>
+        </Button>
+      </Link>
     </Section2>
   );
 }

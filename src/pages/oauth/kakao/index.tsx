@@ -2,9 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { setLocalStorage, useQueryString } from 'utils';
 import useKakaoToken from 'hooks/data/useKakaoToken';
+import Loading from 'pages/loading';
 
 export default function KakaoLogin() {
   const code = useQueryString().get('code');
+  const state = useQueryString().get('state');
   const { isLoading, data } = useKakaoToken(code || '');
   const history = useHistory();
 
@@ -12,8 +14,15 @@ export default function KakaoLogin() {
     const { accessToken, refreshToken } = data;
     setLocalStorage('accessToken', accessToken);
     setLocalStorage('refreshToken', refreshToken);
+
+    console.log(state);
+    if (state) {
+      accessToken && history.push(`/trip?tripId=${state}`);
+      return <Loading />;
+    }
+
     accessToken && history.push('/projects');
   }
 
-  return <div>카카오 로그인 중</div>;
+  return <Loading />;
 }

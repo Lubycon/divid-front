@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider, QueryClient } from 'react-query';
-
+import { isHomePage } from 'utils';
 import 'reset-css';
 import Header from 'components/header';
 import Error404 from 'pages/error/404';
+import LandingHeader from 'pages/landing/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
 import Kakao from './pages/oauth/kakao';
@@ -18,6 +19,7 @@ import Expense from './pages/expense';
 import MyPage from './pages/mypage';
 import Modify from './pages/modify-trip';
 import ServiceInfo from './pages/service-info';
+import Join from './pages/join';
 
 interface RouteProps {
   path: string;
@@ -72,6 +74,10 @@ const routes: RouteProps[] = [
   {
     path: '/notFound',
     component: Error404
+  },
+  {
+    path: '/join',
+    component: Join
   }
 ];
 
@@ -79,10 +85,11 @@ const queryClient = new QueryClient();
 
 function App() {
   const location = useLocation();
+  console.log(location);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
+      {isHomePage() ? <LandingHeader /> : <Header />}
       <Switch location={location}>
         <Route exact path="/" render={() => <Redirect to="/home" />} />
         {routes.map((route) => (

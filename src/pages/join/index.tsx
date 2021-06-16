@@ -4,6 +4,9 @@ import { mediaQuery } from 'styles/media';
 import { basicWrap, blueBackground } from 'styles/containers';
 import { Heading3 } from 'styles/typography';
 import color from 'styles/colors';
+import Loading from 'pages/loading';
+import { useQueryString } from 'utils';
+import { useGetGuestTrip } from 'hooks/data/useTripInfo';
 import TripContainer from './trip-container';
 
 const Wrap = styled.div`
@@ -24,6 +27,15 @@ const Title = styled(Heading3)`
 `;
 
 export default function Join() {
+  const tripId = useQueryString().get('tripId');
+  const { data } = useGetGuestTrip(tripId || '');
+
+  console.log(data);
+
+  if (!data) {
+    return <Loading />;
+  }
+
   return (
     <Wrap>
       <Title>
@@ -31,7 +43,7 @@ export default function Join() {
         <br />
         쉽게 해결하세요
       </Title>
-      <TripContainer />
+      <TripContainer trip={data} tripId={tripId} />
     </Wrap>
   );
 }

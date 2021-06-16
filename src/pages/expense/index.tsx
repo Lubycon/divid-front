@@ -13,6 +13,7 @@ import SelectModal from 'components/modal/select-modal';
 import { mediaQuery } from 'styles/media';
 import color from 'styles/colors';
 import Button from 'components/button';
+import Loading from 'pages/loading';
 import TextInput from 'components/text-input';
 import { CaptionBold } from 'styles/typography';
 import Profile from 'components/profile';
@@ -147,7 +148,7 @@ export default function Expense() {
   };
 
   if (!members) {
-    return <div>loading</div>;
+    return <Loading />;
   }
 
   return (

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Caption } from 'styles/typography';
 import { flexAlignCenter } from 'styles/containers';
 import { numberWithCommas } from 'utils';
+import Loading from 'pages/loading';
 import color from 'styles/colors';
 import Log from './log';
 
@@ -26,7 +27,7 @@ export default function LogList({ tripId }: { tripId: string }) {
   const { data } = useGetExpenseAll(tripId);
 
   if (!data) {
-    <div>loading</div>;
+    <Loading />;
   }
 
   console.log(data);
