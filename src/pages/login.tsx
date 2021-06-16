@@ -6,6 +6,7 @@ import { mediaQuery, pxToVw } from 'styles/media';
 import { basicWrap, flexAlignCenter, grayBackground } from 'styles/containers';
 import { Heading3, Heading7, Caption } from 'styles/typography';
 import Button from 'components/button';
+import { Link } from 'react-router-dom';
 
 const Title = styled(Heading3)`
   margin-bottom: 24px;
@@ -55,6 +56,7 @@ const SubText = styled(Caption)`
 
   a {
     color: #4f4f4f;
+    text-decoration: underline;
   }
 `;
 
@@ -97,8 +99,8 @@ export default function Login() {
         </>
       </Button>
       <SubText>
-        “카카오로 계속하기”를 누름으로써 <a href="/#">개인정보처리방침</a>과
-        <br /> <a href="/#">이용약관</a>에 동의합니다.
+        “카카오로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
+        <br /> <Link to="/terms">이용약관</Link>에 동의합니다.
       </SubText>
     </div>
   );

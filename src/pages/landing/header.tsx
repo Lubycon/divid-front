@@ -72,16 +72,6 @@ const Logo = styled.div`
   }
 `;
 
-// const OptionalButton = styled(Link)`
-//   position: absolute;
-//   right: ${pxToVw(20)};
-//   text-decoration: none;
-
-//   ${mediaQuery(640)} {
-//     right: 20px;
-//   }
-// `;
-
 const ButtonLabel = styled(Title)`
   color: ${color.grayscale.gray01};
 `;

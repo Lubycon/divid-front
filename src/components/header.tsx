@@ -35,6 +35,7 @@ const HeaderContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   ${mediaQuery(640)} {
     height: 58px;
