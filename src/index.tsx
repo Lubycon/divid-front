@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { useLocation } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider, QueryClient } from 'react-query';
-import { isLanding } from 'utils';
+import { isHomePage } from 'utils';
 import 'reset-css';
 import Header from 'components/header';
 import Error404 from 'pages/error/404';
@@ -89,7 +89,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isLanding() ? <LandingHeader /> : <Header />}
+      {isHomePage() ? <LandingHeader /> : <Header />}
       <Switch location={location}>
         <Route exact path="/" render={() => <Redirect to="/home" />} />
         {routes.map((route) => (

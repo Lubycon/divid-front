@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
-import { getPageInfo, getHeaderButton, useScroll, isHome } from 'utils';
+import { getPageInfo, getHeaderButton, useScroll, isProjectsPage } from 'utils';
 import color from 'styles/colors';
 
 const Wrap = styled.div<{ isScrolled: boolean }>`
@@ -97,7 +97,7 @@ export default function Header() {
   return (
     <Wrap isScrolled={isScrolled}>
       <HeaderContainer>
-        {isHome() ? (
+        {isProjectsPage() ? (
           <Link to="/projects">
             <Logo>로고</Logo>
           </Link>

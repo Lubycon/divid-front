@@ -52,12 +52,12 @@ export function useScroll() {
   return isScrolled;
 }
 
-export function isHome() {
+export function isProjectsPage() {
   const homePath = /\/projects/;
   return homePath.test(window.location.href);
 }
 
-export function isLanding() {
+export function isHomePage() {
   const homePath = /\/home/;
   return homePath.test(window.location.href);
 }
