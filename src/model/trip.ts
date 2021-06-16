@@ -13,6 +13,13 @@ export interface TripMinInfo {
   endDate: string;
 }
 
+export interface GuestTripInfo {
+  memberCnt: number;
+  tripName: string;
+  startDate: string;
+  endDate: string;
+}
+
 export interface TripInfo {
   tripId: string;
   tripName: string;

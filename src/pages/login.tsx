@@ -7,6 +7,7 @@ import { basicWrap, flexAlignCenter, grayBackground } from 'styles/containers';
 import { Heading3, Heading7, Caption } from 'styles/typography';
 import Button from 'components/button';
 import { Link } from 'react-router-dom';
+import { useQueryString } from 'utils';
 
 const Title = styled(Heading3)`
   margin-bottom: 24px;
@@ -71,6 +72,9 @@ const KakaoIcon = styled.span`
 export default function Login() {
   const { Kakao } = window;
   const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
+  const tripId = useQueryString().get('tripId');
+
+  console.log(tripId);
 
   console.log(Kakao);
 
@@ -79,7 +83,8 @@ export default function Login() {
   const handleClickLogin = () => {
     if (Kakao.isInitialized()) {
       Kakao.Auth.authorize({
-        redirectUri: 'http://localhost:8081/oauth/kakao/result'
+        redirectUri: 'http://localhost:8081/oauth/kakao/result',
+        state: tripId || ''
       });
     }
   };
