@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { basicWrap } from 'styles/containers';
@@ -94,22 +95,30 @@ export default function Summary() {
     return <Loading />;
   }
 
+  const handleClickCard = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (data.detailList.length < 1) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div css={basicWrap}>
       <Title>
         <span>{data.nickName}</span> 님의 정산 내역
       </Title>
       <Desc>카드를 누르면 자세한 내역을 볼 수 있어요.</Desc>
-      <DetailWrap>
-        <CharSummary />
-        {data.detailList.length ? (
-          data.detailList.map(({ nickName, profileImg, type, price }) => (
-            <List nickName={nickName} profile={profileImg} kind={type} amount={price} />
-          ))
-        ) : (
-          <NoList>주고 받을 내역이 없어요.</NoList>
-        )}
-      </DetailWrap>
+      <Link to={`/detail?tripId=${tripId}`} onClick={handleClickCard}>
+        <DetailWrap>
+          <CharSummary />
+          {data.detailList.length ? (
+            data.detailList.map(({ nickName, profileImg, type, price }, i) => (
+              <List key={i} nickName={nickName} profile={profileImg} kind={type} amount={price} />
+            ))
+          ) : (
+            <NoList>주고 받을 내역이 없어요.</NoList>
+          )}
+        </DetailWrap>
+      </Link>
       <CopyToClipboard text={copyLinkText}>
         <Button disabled={data.detailList.length < 1} onClick={handleCopy}>
           <Label>정산 내역 공유</Label>
