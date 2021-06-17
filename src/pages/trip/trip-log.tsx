@@ -1,8 +1,10 @@
 import React from 'react';
-import Button, { ButtonType } from 'components/button';
+import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { DetailTripInfo } from 'model/trip';
 
-import styled from '@emotion/styled';
+import Button, { ButtonType } from 'components/button';
+import FloatingActionButton from 'components/floating-action-button';
 import Graph from 'components/graph';
 import { Heading6, Caption } from 'styles/typography';
 import color from 'styles/colors';
@@ -50,21 +52,30 @@ const GraphWrap = styled.div`
 export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId: string }) {
   const giveMoneyAmount = trip.amountResponse.giveAmount;
   const takeMoneyAmount = trip.amountResponse.takeAmount;
+  const memberCount = trip.userInfoResponseList.length;
+
+  const handleClickFab = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (memberCount < 2) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <>
       {!giveMoneyAmount && !takeMoneyAmount ? (
-        <Empty memberCount={trip.userInfoResponseList.length} />
+        <Empty memberCount={memberCount} />
       ) : (
         <>
           <SummaryContainer>
             <Title>내 정산내역</Title>
-            <Button buttonType={ButtonType.Text}>
-              <>
-                <Label>더보기</Label>
-                <ButtonIcon />
-              </>
-            </Button>
+            <Link to={`/summary?tripId=${tripId}`}>
+              <Button buttonType={ButtonType.Text}>
+                <>
+                  <Label>더보기</Label>
+                  <ButtonIcon />
+                </>
+              </Button>
+            </Link>
             <GraphWrap>
               <Graph giveMoneyAmount={giveMoneyAmount} takeMoneyAmount={takeMoneyAmount} />
             </GraphWrap>
@@ -72,6 +83,9 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
           <LogList tripId={tripId} />
         </>
       )}
+      <Link to={memberCount < 2 ? '#none' : `/expense?tripId=${tripId}`} onClick={handleClickFab}>
+        <FloatingActionButton disabled={memberCount < 2} />
+      </Link>
     </>
   );
 }

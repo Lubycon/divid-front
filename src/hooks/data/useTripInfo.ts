@@ -76,5 +76,5 @@ export function useGetGuestTrip(tripId: string) {
 }
 
 export function useJoinTrip(tripId: string, config: RequestBodyConfig) {
-  return useQuery('joinTrip', () => joinTrip(tripId, config), { enabled: false, retry: 2});
+  return useQuery('joinTrip', () => joinTrip(tripId, config), { enabled: false, retry: 2 });
 }
