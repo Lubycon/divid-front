@@ -75,7 +75,7 @@ export default function Modify() {
     const { data, isError } = await refetch();
 
     if (!isError && data) {
-      history.push('/projects');
+      history.push(`/trips?tripId=${tripId}`);
     }
   };
 
