@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { basicWrap } from 'styles/containers';
 import { Heading3, Heading7, Body4 } from 'styles/typography';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
 import Button from 'components/button';
+import SnackBar from 'components/snack-bar';
 import { useQueryString } from 'utils';
 import { useGetSummaryExpense } from 'hooks/data/useExpense';
 import Loading from 'pages/loading';
@@ -61,9 +63,32 @@ const Label = styled(Heading7)`
   color: ${color.white};
 `;
 
+const Text = styled(Heading7)`
+  span {
+    color: ${color.primary};
+  }
+`;
+
 export default function Summary() {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const tripId = useQueryString().get('tripId');
   const { data } = useGetSummaryExpense(tripId || '');
+  const currentUrl = window.location.href;
+
+  const copyLinkText = `${currentUrl}
+  즐거운 여행 되셨나요?
+  정산, 잊지 않으셨죠?
+  
+  디빗으로 정산내역을 확인해보세요.`;
+
+  const handleCopy = () => {
+    console.log('click');
+    setOpenSnackbar(true);
+
+    setTimeout(() => {
+      setOpenSnackbar(false);
+    }, 3000);
+  };
 
   if (!data) {
     return <Loading />;
@@ -85,9 +110,16 @@ export default function Summary() {
           <NoList>주고 받을 내역이 없어요.</NoList>
         )}
       </DetailWrap>
-      <Button disabled={data.detailList.length < 1}>
-        <Label>정산 내역 공유</Label>
-      </Button>
+      <CopyToClipboard text={copyLinkText}>
+        <Button disabled={data.detailList.length < 1} onClick={handleCopy}>
+          <Label>정산 내역 공유</Label>
+        </Button>
+      </CopyToClipboard>
+      {openSnackbar && (
+        <SnackBar isOpen={openSnackbar}>
+          <Text>정산 내역이 복사되었습니다.</Text>
+        </SnackBar>
+      )}
     </div>
   );
 }
