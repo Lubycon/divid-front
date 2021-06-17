@@ -54,6 +54,12 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
   const takeMoneyAmount = trip.amountResponse.takeAmount;
   const memberCount = trip.userInfoResponseList.length;
 
+  const handleClickFab = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (memberCount < 2) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       {!giveMoneyAmount && !takeMoneyAmount ? (
@@ -75,7 +81,7 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
           <LogList tripId={tripId} />
         </>
       )}
-      <Link to={memberCount < 2 ? '#none' : `/expense?tripId=${tripId}`}>
+      <Link to={memberCount < 2 ? '#none' : `/expense?tripId=${tripId}`} onClick={handleClickFab}>
         <FloatingActionButton disabled={memberCount < 2} />
       </Link>
     </>

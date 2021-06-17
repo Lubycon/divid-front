@@ -66,8 +66,29 @@ const Icon = styled.div`
   }
 `;
 
-const Logo = styled(Icon)`
-  cursor: pointer;
+const Logo = styled.div`
+  width: ${pxToVw(60)};
+  height: ${pxToVw(30)};
+  background: url('/images/logosection.svg') no-repeat center;
+  background-size: contain;
+
+  ${mediaQuery(640)} {
+    width: 60px;
+    height: 30px;
+  }
+`;
+
+const LogoLink = styled(Link)`
+  width: ${pxToVw(60)};
+  height: ${pxToVw(30)};
+  position: absolute;
+  left: ${pxToVw(20)};
+
+  ${mediaQuery(640)} {
+    width: 60px;
+    height: 30px;
+    left: 20px;
+  }
 `;
 
 const BackButton = styled(Icon)`
@@ -98,9 +119,9 @@ export default function Header() {
     <Wrap isScrolled={isScrolled}>
       <HeaderContainer>
         {isProjectsPage() ? (
-          <Link to="/projects">
-            <Logo>로고</Logo>
-          </Link>
+          <LogoLink to="/projects">
+            <Logo />
+          </LogoLink>
         ) : (
           <BackButton
             onClick={() => {
