@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { basicWrap, grayBackground } from 'styles/containers';
-import FloatingActionButton from 'components/floating-action-button';
 import { useQueryString, isError } from 'utils';
 import { useGetDetailTripInfo } from 'hooks/data/useTripInfo';
 import Loading from 'pages/loading';
@@ -33,9 +32,6 @@ export default function Trip() {
     <div css={[basicWrap, grayBackground]}>
       <Header trip={data} />
       <TripLog trip={data} tripId={tripId ?? ''} />
-      <Link to={`/expense?tripId=${tripId}`}>
-        <FloatingActionButton />
-      </Link>
     </div>
   );
 }

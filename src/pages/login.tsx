@@ -3,11 +3,12 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
-import { basicWrap, flexAlignCenter, grayBackground } from 'styles/containers';
-import { Heading3, Heading7, Caption } from 'styles/typography';
+import { basicWrap, flexAlignCenter, flexCenter, grayBackground } from 'styles/containers';
+import { Heading3, Heading7, Caption, Heading6 } from 'styles/typography';
 import Button from 'components/button';
 import { Link } from 'react-router-dom';
-import { useQueryString } from 'utils';
+import { changeStringToDate, makeDateFormat, useQueryString } from 'utils';
+import { useGetGuestTrip } from 'hooks/data/useTripInfo';
 
 const Title = styled(Heading3)`
   margin-bottom: 24px;
@@ -69,16 +70,55 @@ const KakaoIcon = styled.span`
   background-size: contain;
 `;
 
+const TripInfoContainer = styled.div`
+  width: ${pxToVw(200)};
+  height: ${pxToVw(132)};
+  background: #ffffff;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.16);
+  border-radius: 16px;
+  ${flexCenter};
+  flex-direction: column;
+  margin: ${pxToVw(27)} 0 ${pxToVw(38)};
+
+  ${mediaQuery(640)} {
+    margin: 30px 0 40px;
+    width: 213px;
+    height: 134px;
+  }
+`;
+
+const TripTitle = styled(Heading6)`
+  margin-bottom: 16px;
+`;
+
+const TripText = styled(Heading7)`
+  color: ${color.grayscale.gray03};
+`;
+
+const Logo = styled.div`
+  width: ${pxToVw(60)};
+  height: ${pxToVw(30)};
+  background: url('/images/logosection.svg') no-repeat center;
+  background-size: contain;
+  margin-bottom: ${pxToVw(25)};
+
+  ${mediaQuery(640)} {
+    width: 60px;
+    height: 30px;
+    margin-bottom: 33px;
+  }
+`;
+
+const { Kakao } = window;
+const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
+
+Kakao.init(apiKey);
+
 export default function Login() {
-  const { Kakao } = window;
-  const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
   const tripId = useQueryString().get('tripId');
+  const { data } = useGetGuestTrip(tripId || '');
 
   console.log(tripId);
-
-  console.log(Kakao);
-
-  Kakao.init(apiKey);
 
   const handleClickLogin = () => {
     if (Kakao.isInitialized()) {
@@ -88,6 +128,31 @@ export default function Login() {
       });
     }
   };
+
+  if (tripId && data) {
+    return (
+      <div css={[basicWrap, flexCenter, grayBackground]}>
+        <Logo />
+        <Title>이 여행의 멤버이신가요?</Title>
+        <TripInfoContainer>
+          <TripTitle>{data.tripName}</TripTitle>
+          <TripText>
+            {makeDateFormat(changeStringToDate(data.startDate))} - {makeDateFormat(changeStringToDate(data.endDate))}
+          </TripText>
+        </TripInfoContainer>
+        <Button onClick={handleClickLogin} customStyle={button}>
+          <>
+            <KakaoIcon />
+            <Text>카카오로 계속하기</Text>
+          </>
+        </Button>
+        <SubText>
+          “카카오로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
+          <br /> <Link to="/terms">이용약관</Link>에 동의합니다.
+        </SubText>
+      </div>
+    );
+  }
 
   return (
     <div css={[basicWrap, flexAlignCenter, grayBackground]}>

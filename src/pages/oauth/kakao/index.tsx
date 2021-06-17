@@ -17,7 +17,7 @@ export default function KakaoLogin() {
 
     console.log(state);
     if (state) {
-      accessToken && history.push(`/trip?tripId=${state}`);
+      accessToken && history.push(`/trips?tripId=${state}`);
       return <Loading />;
     }
 
