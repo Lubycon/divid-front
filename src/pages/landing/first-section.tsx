@@ -5,6 +5,7 @@ import { flexAlignCenter } from 'styles/containers';
 import color from 'styles/colors';
 import Button, { ButtonType } from 'components/button';
 import { Heading7 } from 'styles/typography';
+import { Link } from 'react-router-dom';
 
 const FirstPart = styled.div`
   background: url('/images/bg_img01.svg') center no-repeat;
@@ -120,9 +121,11 @@ export default function FirstSection() {
             </span>
             으로 <span>한 번에 해결</span>
           </Heading>
-          <CustomButton buttonType={ButtonType.Square}>
-            <Label>지금 시작하기</Label>
-          </CustomButton>
+          <Link to="/login">
+            <CustomButton buttonType={ButtonType.Square}>
+              <Label>지금 시작하기</Label>
+            </CustomButton>
+          </Link>
         </InnerWrap>
         <SwagImg />
       </Content>

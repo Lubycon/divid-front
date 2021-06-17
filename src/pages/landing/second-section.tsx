@@ -101,6 +101,7 @@ const Message = styled.p`
 
     & > p {
       font-size: 24px;
+      margin-bottom: 8px;
     }
   }
 `;

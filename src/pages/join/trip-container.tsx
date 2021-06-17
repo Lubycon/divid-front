@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
+import { changeStringToDate, makeDateFormat, isError } from 'utils';
 
 import Button from 'components/button';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
 
 import { flexCenter } from 'styles/containers';
-import { Heading4, Heading5, Heading7 as Label } from 'styles/typography';
+import { Heading4, Heading5, Heading7 } from 'styles/typography';
+import { GuestTripInfo } from 'model/trip';
+import { useJoinTrip } from 'hooks/data/useTripInfo';
+import { useHistory } from 'react-router';
 
 const Container = styled.div<{ isFocused: boolean }>`
   width: ${pxToVw(327)};
@@ -19,6 +23,8 @@ const Container = styled.div<{ isFocused: boolean }>`
   position: fixed;
   top: ${({ isFocused }) => (isFocused ? pxToVw(175) : pxToVw(273))};
   transition: top 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
 
   ${mediaQuery(640)} {
     width: 327px;
@@ -60,8 +66,12 @@ const TripName = styled(Heading4)`
   margin-bottom: 4px;
 `;
 
-const Info = styled(Label)`
+const Info = styled(Heading7)`
   color: ${color.grayscale.gray03};
+`;
+
+const Label = styled(Heading7)`
+  color: ${color.white};
 `;
 
 const Input = styled.input`
@@ -86,11 +96,11 @@ const Input = styled.input`
   }
 `;
 
-const NumberBox = styled.div`
+const NumberBox = styled.div<{ isWrong: boolean }>`
   width: ${pxToVw(32)};
   height: ${pxToVw(38)};
   background: #f7f7f7;
-  border: 1px solid #d5d6d7;
+  border: 1px solid ${({ isWrong }) => (isWrong ? '#ec4c56' : '#d5d6d7')};
   box-sizing: border-box;
   border-radius: 4px;
   ${flexCenter}
@@ -117,12 +127,16 @@ const BoxsWrap = styled.div`
   }
 `;
 
-export default function TripContainer() {
+export default function TripContainer({ trip, tripId }: { trip: GuestTripInfo; tripId: string | null }) {
   const [password, setPassword] = useState('');
+  const [isWrong, setIsWrong] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const { refetch: joinTrip, error, data } = useJoinTrip(tripId || '', { headers: { inviteCode: password } });
+  const history = useHistory();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const validPW = e.target.value.slice(0, 2);
+    setIsWrong(false);
 
     if (e.target.value.length <= 2) {
       setPassword(validPW);
@@ -130,23 +144,50 @@ export default function TripContainer() {
     e.target.value = validPW;
   };
 
+  const handleSubmit = () => {
+    joinTrip();
+  };
+
+  useEffect(() => {
+    if (isError(error)) {
+      if (error.message === 'Request failed with status code 403') {
+        setIsWrong(true);
+      }
+    }
+    if (data) {
+      console.log(data);
+      history.push(`/trip?tripId=${tripId}`);
+    }
+  }, [error, data]);
+
   return (
     <Container isFocused={isFocused}>
       <JoinImg isFocused={isFocused} />
-      <TripName>강원도 우정여행</TripName>
-      <Info>4.16금 - 4.17토, 1명</Info>
-      <PasswordInput handleChange={handleChange} password={password} setIsFocused={setIsFocused} />
+      <TripName>{trip.tripName}</TripName>
+      <Info>
+        {makeDateFormat(changeStringToDate(trip.startDate))} - {makeDateFormat(changeStringToDate(trip.endDate))},{' '}
+        {trip.memberCnt}명
+      </Info>
+      <PasswordInput
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        password={password}
+        setIsFocused={setIsFocused}
+        isWrong={isWrong}
+      />
     </Container>
   );
 }
 
 interface PasswordInputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
   password: string;
   setIsFocused: (b: boolean) => void;
+  isWrong: boolean;
 }
 
-function PasswordInput({ handleChange, password, setIsFocused }: PasswordInputProps) {
+function PasswordInput({ handleChange, handleSubmit, password, isWrong, setIsFocused }: PasswordInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const focusInput = () => {
@@ -172,14 +213,14 @@ function PasswordInput({ handleChange, password, setIsFocused }: PasswordInputPr
         onFocus={() => setIsFocused(true)}
       />
       <BoxsWrap onClick={focusInput}>
-        <NumberBox>
+        <NumberBox isWrong={isWrong}>
           <Number>{password[0] ?? undefined}</Number>
         </NumberBox>
-        <NumberBox>
+        <NumberBox isWrong={isWrong}>
           <Number>{password[1] ?? undefined}</Number>
         </NumberBox>
       </BoxsWrap>
-      <Button disabled={password.length < 2}>
+      <Button disabled={password.length < 2} onClick={handleSubmit}>
         <Label>들어가기</Label>
       </Button>
     </>

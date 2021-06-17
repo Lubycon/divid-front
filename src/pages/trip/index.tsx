@@ -1,26 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { basicWrap, grayBackground } from 'styles/containers';
 import FloatingActionButton from 'components/floating-action-button';
-import { useQueryString } from 'utils';
+import { useQueryString, isError } from 'utils';
 import { useGetDetailTripInfo } from 'hooks/data/useTripInfo';
-import Join from 'pages/join';
+import Loading from 'pages/loading';
 import TripLog from './trip-log';
 import Header from './header';
 
 export default function Trip() {
+  const history = useHistory();
   const tripId = useQueryString().get('tripId');
-  const { data, isLoading } = useGetDetailTripInfo(tripId || '');
-  console.log(data);
+  const { data, isLoading, error } = useGetDetailTripInfo(tripId || '');
 
-  const RESPONSE_DUMMY = 200;
+  if (isError(error)) {
+    if (error.message === 'Request failed with status code 404') {
+      history.push('/notFound');
+    }
+    if (error.message === 'Request failed with status code 403') {
+      history.push(`/join?tripId=${tripId}`);
+    }
+    if (error.message === 'Request failed with status code 400') {
+      history.push(`/login?tripId=${tripId}`);
+    }
+  }
 
   if (isLoading || !data) {
-    return <div>loading</div>;
-  }
-  if (RESPONSE_DUMMY !== 200) {
-    // 로그인 상태이고, 링크로 접근했으나, 여행에 조인하지 않은 경우
-    return <Join />;
+    return <Loading />;
   }
 
   return (

@@ -26,7 +26,7 @@ interface InitialToken {
 }
 
 export default function useKakaoToken(code: string) {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [kakaoAccessToken, setKakaoAccessToken] = useState<string | null>(null);
   const apiKey = process.env.REACT_APP_KAKAO_REST_API_KEY;
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function useKakaoToken(code: string) {
           .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
           .join('&');
         const result = await http.post<InitialToken, string>('https://kauth.kakao.com/oauth/token', queryString);
-        setAccessToken(result.access_token);
+        setKakaoAccessToken(result.access_token);
         return result;
       } catch (e) {
         return e;
@@ -52,13 +52,13 @@ export default function useKakaoToken(code: string) {
     typeof code === 'string' && getKakaoToken(code);
   }, []);
 
-  console.log(accessToken);
+  console.log(kakaoAccessToken);
 
   function postKakaoToken(config: RequestBodyConfig) {
     return http.post<Response, undefined>('/auth/login', undefined, config);
   }
 
-  return useQuery('postKakaoToken', () => postKakaoToken({ headers: { accessToken } }), {
-    enabled: !!accessToken
+  return useQuery('postKakaoToken', () => postKakaoToken({ headers: { kakaoAccessToken } }), {
+    enabled: !!kakaoAccessToken
   });
 }

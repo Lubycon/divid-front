@@ -5,10 +5,7 @@ import { Token } from './types';
 
 const axiosInstance = axios.create({
   // baseURL: 'http://ec2-3-37-82-85.ap-northeast-2.compute.amazonaws.com:8081',
-  baseURL: 'http://divid.kr',
-  headers: {
-    accessToken: getLocalStorage('accessToken')
-  }
+  baseURL: 'http://divid.kr'
 });
 
 async function checkToken(config: AxiosRequestConfig) {
@@ -22,11 +19,11 @@ async function checkToken(config: AxiosRequestConfig) {
   if (decode.exp < currentTime) {
     return {
       ...config,
-      headers: { ...config.headers, refreshToken }
+      headers: { ...config.headers, accessToken, refreshToken }
     };
   }
 
-  return config;
+  return { ...config, headers: { ...config.headers, accessToken } };
 }
 
 async function changeToken(response: AxiosResponse) {

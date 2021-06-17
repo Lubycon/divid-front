@@ -52,8 +52,13 @@ export function useScroll() {
   return isScrolled;
 }
 
-export function isHome() {
+export function isProjectsPage() {
   const homePath = /\/projects/;
+  return homePath.test(window.location.href);
+}
+
+export function isHomePage() {
+  const homePath = /\/home/;
   return homePath.test(window.location.href);
 }
 
@@ -170,4 +175,8 @@ export function setLocalStorage<T>(key: string, value: T) {
 
 export function getKeys<T>(data: T): Array<keyof typeof data> {
   return Object.keys(data) as Array<keyof typeof data>;
+}
+
+export function isError(error: unknown): error is Error {
+  return error instanceof Error;
 }

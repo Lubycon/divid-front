@@ -1,5 +1,5 @@
 export interface Auth {
-  authorize: ({ redirectUri: string }) => void;
+  authorize: ({ redirectUri: string, state: string }) => void;
 }
 export interface KakaoSDK {
   Auth: Auth;
