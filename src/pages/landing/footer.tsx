@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-// import { flexAlignCenter } from 'styles/containers';
 import color from 'styles/colors';
 import { Link } from 'react-router-dom';
 import { mediaQuery, pxToVw } from 'styles/media';

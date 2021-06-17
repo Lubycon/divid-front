@@ -91,6 +91,10 @@ export function getPageInfo() {
     {
       pathRegEx: /\/terms/,
       title: '이용약관'
+    },
+    {
+      pathRegEx: /\/detail/,
+      title: '상세 내역'
     }
   ];
   const result = pages.find(({ pathRegEx }) => pathRegEx.test(window.location.href));

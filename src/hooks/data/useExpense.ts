@@ -1,5 +1,5 @@
 import http from 'api';
-import { ExpenseInfo, PostExpenseInfo, ExpenseListInfo } from 'model/expense';
+import { ExpenseInfo, PostExpenseInfo, ExpenseListInfo, CalculateDetails } from 'model/expense';
 import { useQuery } from 'react-query';
 
 interface Response {
@@ -28,6 +28,10 @@ function getExpenseAll(tripId: string) {
   return http.get<ExpenseListInfo[]>(`/expenses/all?tripId=${tripId}`);
 }
 
+function getCalculateDetail(tripId: string) {
+  return http.get<CalculateDetails[]>(`/expenses/calculate/all?tripId=${tripId}`);
+}
+
 export function useGetExpenseInfo(tripId: string, expenseId: number) {
   return useQuery('getExpenseInfo', () => getExpenseInfo(tripId, expenseId));
 }
@@ -46,4 +50,8 @@ export function useDeleteExpense(tripId: string, expenseId: number) {
 
 export function useGetExpenseAll(tripId: string) {
   return useQuery('getExpenseAll', () => getExpenseAll(tripId));
+}
+
+export function useGetCalculateDetail(tripId: string) {
+  return useQuery('getCalculateDetail', () => getCalculateDetail(tripId));
 }
