@@ -1,5 +1,10 @@
 import { Animals } from 'api/types';
 
+export enum GiveOrTake {
+  Give = 'give',
+  Take = 'take'
+}
+
 export interface ExpenseAssignee {
   userId: number;
   nickname: string;
@@ -48,4 +53,25 @@ export interface DetailResponse {
   title: string;
   totalPrice: number;
   userId: number;
+}
+
+export interface CalculateDetail {
+  nickName: string;
+  payDate: string;
+  payerId: number;
+  price: number;
+  profileImg: Animals;
+  type: GiveOrTake;
+  userId: number;
+}
+
+export interface CalculateDetails {
+  id: number;
+  me: boolean;
+  nickName: string;
+  payDate: string;
+  profileImg: Animals;
+  title: string;
+  totalPrice: number;
+  calculateListDetails: CalculateDetail[];
 }
