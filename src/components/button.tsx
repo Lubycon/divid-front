@@ -26,6 +26,7 @@ const squareButton = css`
 
   &:disabled {
     opacity: 0.3;
+    cursor: not-allowed;
   }
 
   &:hover {

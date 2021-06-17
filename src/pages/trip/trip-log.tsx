@@ -54,6 +54,12 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
   const takeMoneyAmount = trip.amountResponse.takeAmount;
   const memberCount = trip.userInfoResponseList.length;
 
+  const handleClickFab = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (memberCount < 2) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       {!giveMoneyAmount && !takeMoneyAmount ? (
@@ -62,12 +68,14 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
         <>
           <SummaryContainer>
             <Title>내 정산내역</Title>
-            <Button buttonType={ButtonType.Text}>
-              <>
-                <Label>더보기</Label>
-                <ButtonIcon />
-              </>
-            </Button>
+            <Link to={`/summary?tripId=${tripId}`}>
+              <Button buttonType={ButtonType.Text}>
+                <>
+                  <Label>더보기</Label>
+                  <ButtonIcon />
+                </>
+              </Button>
+            </Link>
             <GraphWrap>
               <Graph giveMoneyAmount={giveMoneyAmount} takeMoneyAmount={takeMoneyAmount} />
             </GraphWrap>
@@ -75,7 +83,7 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
           <LogList tripId={tripId} />
         </>
       )}
-      <Link to={memberCount < 2 ? '#none' : `/expense?tripId=${tripId}`}>
+      <Link to={memberCount < 2 ? '#none' : `/expense?tripId=${tripId}`} onClick={handleClickFab}>
         <FloatingActionButton disabled={memberCount < 2} />
       </Link>
     </>

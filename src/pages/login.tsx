@@ -132,7 +132,9 @@ export default function Login() {
   if (tripId && data) {
     return (
       <div css={[basicWrap, flexCenter, grayBackground]}>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
         <Title>이 여행의 멤버이신가요?</Title>
         <TripInfoContainer>
           <TripTitle>{data.tripName}</TripTitle>

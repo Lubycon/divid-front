@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
-import { getPageInfo, getHeaderButton, useScroll, isProjectsPage } from 'utils';
+import { getPageInfo, useHeaderOptionalButton, useScroll, isProjectsPage } from 'utils';
 import color from 'styles/colors';
 
 const Wrap = styled.div<{ isScrolled: boolean }>`
@@ -66,8 +66,29 @@ const Icon = styled.div`
   }
 `;
 
-const Logo = styled(Icon)`
-  cursor: pointer;
+const Logo = styled.div`
+  width: ${pxToVw(60)};
+  height: ${pxToVw(30)};
+  background: url('/images/logosection.svg') no-repeat center;
+  background-size: contain;
+
+  ${mediaQuery(640)} {
+    width: 60px;
+    height: 30px;
+  }
+`;
+
+const LogoLink = styled(Link)`
+  width: ${pxToVw(60)};
+  height: ${pxToVw(30)};
+  position: absolute;
+  left: ${pxToVw(20)};
+
+  ${mediaQuery(640)} {
+    width: 60px;
+    height: 30px;
+    left: 20px;
+  }
 `;
 
 const BackButton = styled(Icon)`
@@ -92,15 +113,15 @@ const ButtonLabel = styled(Title)`
 export default function Header() {
   const isScrolled = useScroll();
   const title = getPageInfo();
-  const button = getHeaderButton();
+  const button = useHeaderOptionalButton();
 
   return (
     <Wrap isScrolled={isScrolled}>
       <HeaderContainer>
         {isProjectsPage() ? (
-          <Link to="/projects">
-            <Logo>로고</Logo>
-          </Link>
+          <LogoLink to="/projects">
+            <Logo />
+          </LogoLink>
         ) : (
           <BackButton
             onClick={() => {

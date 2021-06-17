@@ -105,7 +105,8 @@ export function getPageInfo() {
   return result.title;
 }
 
-export function getHeaderButton() {
+export function useHeaderOptionalButton() {
+  const tripId = useQueryString().get('tripId');
   const pages: { pathRegEx: RegExp; label: string; link: string }[] = [
     {
       pathRegEx: /\/projects/,
@@ -115,7 +116,7 @@ export function getHeaderButton() {
     {
       pathRegEx: /\/trips/,
       label: '수정',
-      link: '/modify'
+      link: `/modify?tripId=${tripId}`
     }
   ];
 
