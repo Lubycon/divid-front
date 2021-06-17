@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 
 import { basicWrap } from 'styles/containers';
 import { Heading3, Heading7, Body4 } from 'styles/typography';
-import { Animals } from 'components/profile';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
 import Button from 'components/button';
+import { useQueryString } from 'utils';
+import { useGetSummaryExpense } from 'hooks/data/useExpense';
+import Loading from 'pages/loading';
 import List from './list';
 
 const Title = styled(Heading3)`
@@ -59,35 +61,31 @@ const Label = styled(Heading7)`
   color: ${color.white};
 `;
 
-interface DummyProps {
-  id: number;
-  nickName: string;
-  profile: Animals;
-  kind: string;
-  amount: number;
-}
-
-const Dummy: DummyProps[] = [
-  { id: 1, nickName: '지형', profile: Animals.Puppy, kind: 'give', amount: 50000 },
-  { id: 2, nickName: '영진', profile: Animals.Unicorn, kind: 'take', amount: 50000 }
-];
-
 export default function Summary() {
+  const tripId = useQueryString().get('tripId');
+  const { data } = useGetSummaryExpense(tripId || '');
+
+  if (!data) {
+    return <Loading />;
+  }
+
   return (
     <div css={basicWrap}>
       <Title>
-        <span>주예</span> 님의 정산 내역
+        <span>{data.nickName}</span> 님의 정산 내역
       </Title>
       <Desc>카드를 누르면 자세한 내역을 볼 수 있어요.</Desc>
       <DetailWrap>
         <CharSummary />
-        <NoList>주고 받을 내역이 없어요.</NoList>
-        {Dummy &&
-          Dummy.map(({ nickName, profile, kind, amount }) => (
-            <List nickName={nickName} profile={profile} kind={kind} amount={amount} />
-          ))}
+        {data.detailList.length ? (
+          data.detailList.map(({ nickName, profileImg, type, price }) => (
+            <List nickName={nickName} profile={profileImg} kind={type} amount={price} />
+          ))
+        ) : (
+          <NoList>주고 받을 내역이 없어요.</NoList>
+        )}
       </DetailWrap>
-      <Button>
+      <Button disabled={data.detailList.length < 1}>
         <Label>정산 내역 공유</Label>
       </Button>
     </div>
