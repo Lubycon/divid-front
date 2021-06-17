@@ -1,5 +1,5 @@
 import http from 'api';
-import { ExpenseInfo, PostExpenseInfo, ExpenseListInfo, CalculateDetails, SummaryDetailList } from 'model/expense';
+import { ExpenseInfo, PostExpenseInfo, ExpenseListInfo, CalculateDetailList, SummaryDetailList } from 'model/expense';
 import { useQuery } from 'react-query';
 
 interface Response {
@@ -29,7 +29,7 @@ function getExpenseAll(tripId: string) {
 }
 
 function getCalculateDetail(tripId: string) {
-  return http.get<CalculateDetails[]>(`/expenses/calculate/all?tripId=${tripId}`);
+  return http.get<CalculateDetailList[]>(`/expenses/calculate/all?tripId=${tripId}`);
 }
 
 function getSummaryExpense(tripId: string) {

@@ -57,7 +57,6 @@ export interface DetailResponse {
 
 export interface CalculateDetail {
   nickName: string;
-  payDate: string;
   payerId: number;
   price: number;
   profileImg: Animals;
@@ -74,6 +73,11 @@ export interface CalculateDetails {
   title: string;
   totalPrice: number;
   calculateListDetails: CalculateDetail[];
+}
+
+export interface CalculateDetailList {
+  calculateListDetails: CalculateDetails[];
+  payDate: string;
 }
 
 export interface SummaryDetail {
