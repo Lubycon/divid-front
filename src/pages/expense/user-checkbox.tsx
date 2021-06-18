@@ -4,7 +4,7 @@ import Profile, { ProfileProps } from 'components/profile';
 import CheckBox from 'components/check-box';
 import { flexAlignCenter } from 'styles/containers';
 import { useRecoilState } from 'recoil';
-import { expenseAssigneeState } from './expense-state';
+import { expenseState } from './expense-state';
 
 const Wrap = styled.div`
   ${flexAlignCenter};
@@ -14,19 +14,29 @@ const Wrap = styled.div`
 
 interface CheckboxProps extends ProfileProps {
   userId: number;
-  handleExpenseDetail: () => void;
 }
 
-export default function UserCheckbox({ userId, nickName, type, isMe, handleExpenseDetail }: CheckboxProps) {
-  const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
+export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxProps) {
+  const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const [isChecked, setIsChecked] = useState(true);
 
-  const handleClick = (id: number) => {
-    setIsChecked(!isChecked);
-    const restMembers = assignee.members.filter((member) => member.userId !== id);
-    const stateChangedMember = [{ userId: id, isAssigned: !isChecked }];
-    setAssignee({ members: [...restMembers, ...stateChangedMember] });
-    console.log(assignee);
+  const handleClick = (id: number, checked: boolean) => {
+    setIsChecked(checked);
+    if (!checked) {
+      const updateInfo = newExpense.expenseDetails
+        .filter((el) => el.userId !== id)
+        .map((el) => ({ userId: el.userId, price: newExpense.totalPrice / (newExpense.expenseDetails.length - 1) }));
+      setNewExpense({ ...newExpense, expenseDetails: updateInfo });
+      return;
+    }
+    const updateInfo = newExpense.expenseDetails.map((el) => ({
+      userId: el.userId,
+      price: newExpense.totalPrice / (newExpense.expenseDetails.length - 1)
+    }));
+    setNewExpense({
+      ...newExpense,
+      expenseDetails: [...updateInfo, { userId, price: newExpense.totalPrice / (newExpense.expenseDetails.length + 1) }]
+    });
   };
 
   return (
@@ -36,8 +46,7 @@ export default function UserCheckbox({ userId, nickName, type, isMe, handleExpen
         userId={userId}
         checked={isChecked}
         handleClick={() => {
-          handleClick(userId);
-          handleExpenseDetail();
+          handleClick(userId, !isChecked);
         }}
       />
     </Wrap>

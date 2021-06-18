@@ -5,7 +5,7 @@ import { flexAlignCenter } from 'styles/containers';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { useRecoilState } from 'recoil';
-import { expenseState, expenseAssigneeState, AssigneeInfo } from './expense-state';
+import { expenseState } from './expense-state';
 
 const Wrap = styled.div`
   ${flexAlignCenter};
@@ -15,7 +15,6 @@ const Wrap = styled.div`
 
 interface CheckboxProps extends ProfileProps {
   userId: number;
-  handleExpenseDetail: () => void;
 }
 
 const PriceInput = styled.input`
@@ -50,35 +49,32 @@ const PriceInput = styled.input`
   }
 `;
 
-export default function IndividualInput({ userId, nickName, type, isMe, handleExpenseDetail }: CheckboxProps) {
+export default function IndividualInput({ userId, nickName, type, isMe }: CheckboxProps) {
   const [initialPrice, setInitialPrice] = useState<number | null>(null);
-  const [newExpense] = useRecoilState(expenseState);
-  const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
+  const [newExpense, setNewExpense] = useRecoilState(expenseState);
 
   useEffect(() => {
-    if (newExpense.totalPrice !== 0) {
-      const divided = newExpense.totalPrice / assignee.members.length;
-      console.log(divided);
-      setInitialPrice(divided);
-      const restMembers = assignee.members.filter((member) => member.userId !== userId);
-      const stateChangedMember: AssigneeInfo[] = [{ userId, price: divided }];
-      setAssignee({ members: [...restMembers, ...stateChangedMember] });
+    if (newExpense.totalPrice > 0) {
+      setInitialPrice(newExpense.totalPrice / newExpense.expenseDetails.length);
+      return;
     }
+    setInitialPrice(0);
   }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
-    e.target.value = e.target.value.replace(/[^0-9]/, '');
-    const price = Number(e.target.value);
-    const restMembers = assignee.members.filter((member) => member.userId !== id);
-    const stateChangedMember: AssigneeInfo[] = [{ userId: id, price }];
-    setAssignee({ members: [...restMembers, ...stateChangedMember] });
-
-    e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
-    console.log(assignee);
-  };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.value = '';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^0-9]/, '');
+    const price = Number(e.target.value);
+    const updateInfo = newExpense.expenseDetails.filter((el) => el.userId !== userId);
+    if (price === 0) {
+      setNewExpense({ ...newExpense, expenseDetails: updateInfo });
+      return;
+    }
+    setNewExpense({ ...newExpense, expenseDetails: [...updateInfo, { userId, price }] });
+    e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
   };
 
   return (
@@ -88,11 +84,8 @@ export default function IndividualInput({ userId, nickName, type, isMe, handleEx
         type="text"
         placeholder="금액입력"
         defaultValue={initialPrice ?? ''}
-        onChange={(e) => {
-          handleChange(e, userId);
-          handleExpenseDetail();
-        }}
         onFocus={handleFocus}
+        onBlur={handleBlur}
       />
     </Wrap>
   );

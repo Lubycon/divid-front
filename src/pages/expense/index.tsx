@@ -19,7 +19,7 @@ import { CaptionBold, Heading7 } from 'styles/typography';
 import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
-import { expenseState, expenseAssigneeState } from './expense-state';
+import { expenseState } from './expense-state';
 import IndividualInput from './individual-input';
 
 const FormWrap = styled.div`
@@ -61,28 +61,21 @@ const Label = styled(Heading7)`
 
 export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
-  const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
   const { refetch: postExpense, isLoading } = usePostExpense(newExpense);
   const resetExpenseState = useResetRecoilState(expenseState);
-  const resetAssigneeState = useResetRecoilState(expenseAssigneeState);
 
   useEffect(() => {
     async function handleOnMount() {
       const { data } = await refetch();
-      console.log(data);
       data &&
         tripId &&
         setNewExpense({
           ...newExpense,
           payerId: data[0].userId,
-          tripId
-        });
-      data &&
-        setAssignee({
-          ...assignee,
-          members: data.map((member) => ({ userId: member.userId, isAssigned: true }))
+          tripId,
+          expenseDetails: data.map(({ userId }) => ({ userId, price: 0 }))
         });
     }
     handleOnMount();
@@ -92,9 +85,23 @@ export default function Expense() {
     children: <SelectModal members={members || []} />
   });
 
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    setNewExpense({ ...newExpense, title });
+    console.log(newExpense);
+  };
+
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
-    setNewExpense({ ...newExpense, totalPrice: price });
+
+    setNewExpense({
+      ...newExpense,
+      totalPrice: price,
+      expenseDetails: newExpense.expenseDetails.map((el) => ({
+        userId: el.userId,
+        price: price / newExpense.expenseDetails.length
+      }))
+    });
 
     console.log({ newExpense });
     e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
@@ -107,62 +114,38 @@ export default function Expense() {
   const handleBlurTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
     e.target.value = numberWithCommas(price);
-    handleExpenseDetail();
-  };
-
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    setNewExpense({ ...newExpense, title });
-    console.log(newExpense);
-  };
-
-  const handleExpenseDetail = () => {
-    if (!newExpense.individual) {
-      const assignedMembers = assignee.members.filter((m) => m.isAssigned === true);
-      const expenseData = assignedMembers.map((m) => ({
-        userId: m.userId,
-        price: newExpense.totalPrice / assignedMembers.length
-      }));
-      setNewExpense({
-        ...newExpense,
-        expenseDetails: expenseData
-      });
-    }
-    if (newExpense.individual) {
-      const assignedMembers = assignee.members.filter((m) => !!m.price);
-      const expenseData = assignedMembers.map((m) => ({
-        userId: m.userId,
-        price: m.price || 0
-      }));
-      setNewExpense({
-        ...newExpense,
-        expenseDetails: expenseData
-      });
-    }
   };
 
   const handleSubmit = async () => {
     if (isLoading) return;
     console.log({ newExpense });
 
-    if (newExpense.individual) {
-      const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
-      if (newExpense.totalPrice !== addAll) {
-        console.log('값을 확인하세요');
-        return;
-      }
+    if (newExpense.totalPrice <= 0) {
+      console.log('마이너스 값은 입력할 수 없습니다.');
+      return;
+    }
+
+    const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
+    if (newExpense.totalPrice !== addAll) {
+      console.log('값을 확인하세요');
+      return;
     }
 
     await postExpense();
     resetExpenseState();
-    resetAssigneeState();
     window.history.back();
   };
 
   const ToggleDutchPay = () => {
+    const memberDetail = newExpense.expenseDetails.map(({ userId }) => ({
+      userId,
+      price: newExpense.totalPrice / newExpense.expenseDetails.length
+    }));
+
     setNewExpense({
       ...newExpense,
-      individual: !newExpense.individual
+      individual: !newExpense.individual,
+      expenseDetails: memberDetail
     });
   };
 
@@ -234,27 +217,13 @@ export default function Expense() {
             {Array.isArray(members) &&
               !newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <UserCheckbox
-                  key={userId}
-                  userId={userId}
-                  nickName={nickName}
-                  type={profileImg}
-                  isMe={me}
-                  handleExpenseDetail={handleExpenseDetail}
-                />
+                <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
             {/* 개별 입력인 경우 */}
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <IndividualInput
-                  key={userId}
-                  userId={userId}
-                  nickName={nickName}
-                  type={profileImg}
-                  isMe={me}
-                  handleExpenseDetail={handleExpenseDetail}
-                />
+                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
           </SelectWrap>
         </FormWrap>
