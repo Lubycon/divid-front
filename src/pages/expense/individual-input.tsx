@@ -5,7 +5,7 @@ import { flexAlignCenter } from 'styles/containers';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { useRecoilState } from 'recoil';
-import { expenseState, expenseAssigneeState, AssigneeInfo } from './expense-state';
+import { expenseState } from './expense-state';
 
 const Wrap = styled.div`
   ${flexAlignCenter};
@@ -51,26 +51,30 @@ const PriceInput = styled.input`
 
 export default function IndividualInput({ userId, nickName, type, isMe }: CheckboxProps) {
   const [initialPrice, setInitialPrice] = useState<number | null>(null);
-  const [newExpense] = useRecoilState(expenseState);
-  const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
+  const [newExpense, setNewExpense] = useRecoilState(expenseState);
 
   useEffect(() => {
-    if (newExpense.totalPrice !== 0) {
-      const divided = newExpense.totalPrice / assignee.members.length;
-      console.log(divided);
-      setInitialPrice(divided);
+    if (newExpense.totalPrice > 0) {
+      setInitialPrice(newExpense.totalPrice / newExpense.expenseDetails.length);
+      return;
     }
+    setInitialPrice(0);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.value = '';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.replace(/[^0-9]/, '');
     const price = Number(e.target.value);
-    const restMembers = assignee.members.filter((member) => member.userId !== id);
-    const stateChangedMember: AssigneeInfo[] = [{ userId: id, price }];
-    setAssignee({ members: [...restMembers, ...stateChangedMember] });
-
+    const updateInfo = newExpense.expenseDetails.filter((el) => el.userId !== userId);
+    if (price === 0) {
+      setNewExpense({ ...newExpense, expenseDetails: updateInfo });
+      return;
+    }
+    setNewExpense({ ...newExpense, expenseDetails: [...updateInfo, { userId, price }] });
     e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
-    console.log(assignee);
   };
 
   return (
@@ -80,7 +84,8 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
         type="text"
         placeholder="금액입력"
         defaultValue={initialPrice ?? ''}
-        onChange={(e) => handleChange(e, userId)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
     </Wrap>
   );

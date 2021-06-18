@@ -30,7 +30,7 @@ interface CheckBoxProps {
 export default function CheckBox({ userId, checked, handleClick }: CheckBoxProps) {
   return (
     <Wrap>
-      <input id={`${userId}`} type="checkbox" checked={checked} onChange={handleClick} />
+      <input id={`${userId}`} type="checkbox" defaultChecked={checked} onChange={handleClick} />
       <label htmlFor={`${userId}`} />
     </Wrap>
   );

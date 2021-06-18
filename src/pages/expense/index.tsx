@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { usePostExpense } from 'hooks/data/useExpense';
 import { numberWithCommas, useQueryString } from 'utils';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
 import { SingleDatePicker } from 'components/date-picker';
 
@@ -15,11 +15,11 @@ import color from 'styles/colors';
 import Button from 'components/button';
 import Loading from 'pages/loading';
 import TextInput from 'components/text-input';
-import { CaptionBold } from 'styles/typography';
+import { CaptionBold, Heading7 } from 'styles/typography';
 import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
-import { expenseState, expenseAssigneeState } from './expense-state';
+import { expenseState } from './expense-state';
 import IndividualInput from './individual-input';
 
 const FormWrap = styled.div`
@@ -55,28 +55,27 @@ const SelectWrap = styled.div`
 
 const ToggleWrap = styled.div``;
 
+const Label = styled(Heading7)`
+  color: ${color.white};
+`;
+
 export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
-  const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
-  const { refetch: postExpense } = usePostExpense(newExpense);
+  const { refetch: postExpense, isLoading } = usePostExpense(newExpense);
+  const resetExpenseState = useResetRecoilState(expenseState);
 
   useEffect(() => {
     async function handleOnMount() {
       const { data } = await refetch();
-      console.log(data);
       data &&
         tripId &&
         setNewExpense({
           ...newExpense,
           payerId: data[0].userId,
-          tripId
-        });
-      data &&
-        setAssignee({
-          ...assignee,
-          members: data.map((member) => ({ userId: member.userId, isAssigned: true }))
+          tripId,
+          expenseDetails: data.map(({ userId }) => ({ userId, price: 0 }))
         });
     }
     handleOnMount();
@@ -86,16 +85,30 @@ export default function Expense() {
     children: <SelectModal members={members || []} />
   });
 
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    setNewExpense({ ...newExpense, title });
+    console.log(newExpense);
+  };
+
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = e.target.value.replace(/[^0-9]/, '');
     const price = Number(e.target.value);
-    if (typeof price === 'number') {
-      setNewExpense({
-        ...newExpense,
-        totalPrice: price
-      });
-    }
+
+    setNewExpense({
+      ...newExpense,
+      totalPrice: price,
+      expenseDetails: newExpense.expenseDetails.map((el) => ({
+        userId: el.userId,
+        price: price / newExpense.expenseDetails.length
+      }))
+    });
+
+    console.log({ newExpense });
     e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
+  };
+
+  const handleFocusTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^0-9]/, '');
   };
 
   const handleBlurTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,40 +116,36 @@ export default function Expense() {
     e.target.value = numberWithCommas(price);
   };
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    setNewExpense({ ...newExpense, title });
-    console.log(newExpense);
-  };
+  const handleSubmit = async () => {
+    if (isLoading) return;
+    console.log({ newExpense });
 
-  const handleSubmit = () => {
-    if (newExpense.individual) {
-      const assignedMembers = assignee.members.filter((m) => m.isAssigned === true);
-      setNewExpense({
-        ...newExpense,
-        expenseDetails: assignedMembers.map((m) => ({
-          userId: m.userId,
-          price: newExpense.totalPrice / assignedMembers.length
-        }))
-      });
+    if (newExpense.totalPrice <= 0) {
+      console.log('마이너스 값은 입력할 수 없습니다.');
+      return;
     }
-    if (!newExpense.individual) {
-      const assignedMembers = assignee.members.filter((m) => !!m.price);
-      setNewExpense({
-        ...newExpense,
-        expenseDetails: assignedMembers.map((m) => ({
-          userId: m.userId,
-          price: m.price || 0
-        }))
-      });
+
+    const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
+    if (newExpense.totalPrice !== addAll) {
+      console.log('값을 확인하세요');
+      return;
     }
-    return postExpense();
+
+    await postExpense();
+    resetExpenseState();
+    window.history.back();
   };
 
   const ToggleDutchPay = () => {
+    const memberDetail = newExpense.expenseDetails.map(({ userId }) => ({
+      userId,
+      price: newExpense.totalPrice / newExpense.expenseDetails.length
+    }));
+
     setNewExpense({
       ...newExpense,
-      individual: !newExpense.individual
+      individual: !newExpense.individual,
+      expenseDetails: memberDetail
     });
   };
 
@@ -171,7 +180,10 @@ export default function Expense() {
               `}
               placeholder="금액입력(원)"
               type="text"
-              onChange={handleChangeTotalPrice}
+              onChange={(e) => {
+                handleChangeTotalPrice(e);
+              }}
+              onFocus={handleFocusTotalPrice}
               onBlur={handleBlurTotalPrice}
             />
             <TextInput
@@ -201,12 +213,13 @@ export default function Expense() {
                 <Toggle isIndividual={newExpense.individual} onToggle={ToggleDutchPay} />
               </ToggleWrap>
             </div>
-
+            {/* 더치페이인 경우 */}
             {Array.isArray(members) &&
               !newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
                 <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
               ))}
+            {/* 개별 입력인 경우 */}
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
@@ -220,7 +233,7 @@ export default function Expense() {
             margin-top: 16px;
           `}
         >
-          저장
+          <Label>저장</Label>
         </Button>
       </div>
     </>

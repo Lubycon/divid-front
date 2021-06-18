@@ -69,8 +69,12 @@ export function getPageInfo() {
       title: '여행 추가'
     },
     {
-      pathRegEx: /\/trip\/[0-9]+\/expense/,
+      pathRegEx: /\/expense/,
       title: '쓴 돈 추가'
+    },
+    {
+      pathRegEx: /\/editExpense/,
+      title: '쓴 돈 수정'
     },
     {
       pathRegEx: /\/mypage/,
