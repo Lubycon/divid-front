@@ -14,9 +14,10 @@ const Wrap = styled.div`
 
 interface CheckboxProps extends ProfileProps {
   userId: number;
+  handleExpenseDetail: () => void;
 }
 
-export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxProps) {
+export default function UserCheckbox({ userId, nickName, type, isMe, handleExpenseDetail }: CheckboxProps) {
   const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
   const [isChecked, setIsChecked] = useState(true);
 
@@ -27,10 +28,18 @@ export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxP
     setAssignee({ members: [...restMembers, ...stateChangedMember] });
     console.log(assignee);
   };
+
   return (
     <Wrap>
       <Profile nickName={nickName} type={type} isMe={isMe} hasName />
-      <CheckBox userId={userId} checked={isChecked} handleClick={() => handleClick(userId)} />
+      <CheckBox
+        userId={userId}
+        checked={isChecked}
+        handleClick={() => {
+          handleClick(userId);
+          handleExpenseDetail();
+        }}
+      />
     </Wrap>
   );
 }

@@ -62,6 +62,10 @@ const routes: RouteProps[] = [
     component: Expense
   },
   {
+    path: '/editExpense',
+    component: Expense
+  },
+  {
     path: '/summary',
     component: Summary
   },

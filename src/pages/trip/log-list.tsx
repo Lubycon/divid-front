@@ -34,7 +34,7 @@ export default function LogList({ tripId }: { tripId: string }) {
   return (
     <Wrap>
       {data?.map((el, i) => (
-        <>
+        <React.Fragment key={el.payDate}>
           <CaptionWrap>
             <Text>{el.payDate}</Text>
             {i === 0 ? (
@@ -42,9 +42,18 @@ export default function LogList({ tripId }: { tripId: string }) {
             ) : null}
           </CaptionWrap>
           {el.detailResponses.map(({ nickName, expenseId, totalPrice, title, profileImg, me }) => (
-            <Log key={expenseId} expender={nickName} profile={profileImg} amount={totalPrice} desc={title} isMe={me} />
+            <Log
+              key={expenseId}
+              expenseId={expenseId}
+              tripId={tripId}
+              expender={nickName}
+              profile={profileImg}
+              amount={totalPrice}
+              desc={title}
+              isMe={me}
+            />
           ))}
-        </>
+        </React.Fragment>
       ))}
     </Wrap>
   );

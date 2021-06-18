@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { usePostExpense } from 'hooks/data/useExpense';
 import { numberWithCommas, useQueryString } from 'utils';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
 import { SingleDatePicker } from 'components/date-picker';
 
@@ -15,7 +15,7 @@ import color from 'styles/colors';
 import Button from 'components/button';
 import Loading from 'pages/loading';
 import TextInput from 'components/text-input';
-import { CaptionBold } from 'styles/typography';
+import { CaptionBold, Heading7 } from 'styles/typography';
 import Profile from 'components/profile';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
@@ -55,12 +55,18 @@ const SelectWrap = styled.div`
 
 const ToggleWrap = styled.div``;
 
+const Label = styled(Heading7)`
+  color: ${color.white};
+`;
+
 export default function Expense() {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
-  const { refetch: postExpense } = usePostExpense(newExpense);
+  const { refetch: postExpense, isLoading } = usePostExpense(newExpense);
+  const resetExpenseState = useResetRecoilState(expenseState);
+  const resetAssigneeState = useResetRecoilState(expenseAssigneeState);
 
   useEffect(() => {
     async function handleOnMount() {
@@ -89,18 +95,16 @@ export default function Expense() {
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.replace(/[^0-9]/, '');
     const price = Number(e.target.value);
-    if (typeof price === 'number') {
-      setNewExpense({
-        ...newExpense,
-        totalPrice: price
-      });
-    }
+    setNewExpense({ ...newExpense, totalPrice: price });
+
+    console.log({ newExpense });
     e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
   };
 
   const handleBlurTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
     e.target.value = numberWithCommas(price);
+    handleExpenseDetail();
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,28 +113,38 @@ export default function Expense() {
     console.log(newExpense);
   };
 
-  const handleSubmit = () => {
-    if (newExpense.individual) {
-      const assignedMembers = assignee.members.filter((m) => m.isAssigned === true);
-      setNewExpense({
-        ...newExpense,
-        expenseDetails: assignedMembers.map((m) => ({
-          userId: m.userId,
-          price: newExpense.totalPrice / assignedMembers.length
-        }))
-      });
-    }
+  const handleExpenseDetail = () => {
     if (!newExpense.individual) {
-      const assignedMembers = assignee.members.filter((m) => !!m.price);
+      const assignedMembers = assignee.members.filter((m) => m.isAssigned === true);
+      const expenseData = assignedMembers.map((m) => ({
+        userId: m.userId,
+        price: newExpense.totalPrice / assignedMembers.length
+      }));
       setNewExpense({
         ...newExpense,
-        expenseDetails: assignedMembers.map((m) => ({
-          userId: m.userId,
-          price: m.price || 0
-        }))
+        expenseDetails: expenseData
       });
     }
-    return postExpense();
+    if (newExpense.individual) {
+      const assignedMembers = assignee.members.filter((m) => !!m.price);
+      const expenseData = assignedMembers.map((m) => ({
+        userId: m.userId,
+        price: m.price || 0
+      }));
+      setNewExpense({
+        ...newExpense,
+        expenseDetails: expenseData
+      });
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (isLoading) return;
+    console.log({ newExpense });
+    await postExpense();
+    resetExpenseState();
+    resetAssigneeState();
+    window.history.back();
   };
 
   const ToggleDutchPay = () => {
@@ -171,7 +185,9 @@ export default function Expense() {
               `}
               placeholder="금액입력(원)"
               type="text"
-              onChange={handleChangeTotalPrice}
+              onChange={(e) => {
+                handleChangeTotalPrice(e);
+              }}
               onBlur={handleBlurTotalPrice}
             />
             <TextInput
@@ -201,12 +217,20 @@ export default function Expense() {
                 <Toggle isIndividual={newExpense.individual} onToggle={ToggleDutchPay} />
               </ToggleWrap>
             </div>
-
+            {/* 더치페이인 경우 */}
             {Array.isArray(members) &&
               !newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <UserCheckbox key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+                <UserCheckbox
+                  key={userId}
+                  userId={userId}
+                  nickName={nickName}
+                  type={profileImg}
+                  isMe={me}
+                  handleExpenseDetail={handleExpenseDetail}
+                />
               ))}
+            {/* 개별 입력인 경우 */}
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
@@ -220,7 +244,7 @@ export default function Expense() {
             margin-top: 16px;
           `}
         >
-          저장
+          <Label>저장</Label>
         </Button>
       </div>
     </>
