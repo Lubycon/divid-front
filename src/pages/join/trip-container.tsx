@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { changeStringToDate, makeDateFormat, isError } from 'utils';
 
 import Button from 'components/button';
@@ -7,6 +8,7 @@ import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
 
 import { flexCenter } from 'styles/containers';
+import SnackBar from 'components/snack-bar';
 import { Heading4, Heading5, Heading7 } from 'styles/typography';
 import { GuestTripInfo } from 'model/trip';
 import { useJoinTrip } from 'hooks/data/useTripInfo';
@@ -96,7 +98,7 @@ const Input = styled.input`
   }
 `;
 
-const NumberBox = styled.div<{ isWrong: boolean }>`
+const NumberBox = styled.div<{ isWrong: boolean; isFocused: boolean }>`
   width: ${pxToVw(32)};
   height: ${pxToVw(38)};
   background: #f7f7f7;
@@ -105,6 +107,12 @@ const NumberBox = styled.div<{ isWrong: boolean }>`
   border-radius: 4px;
   ${flexCenter}
   margin: 0 ${pxToVw(4)};
+
+  ${({ isFocused }) =>
+    isFocused &&
+    css`
+      border: 1px solid ${color.primary};
+    `}
 
   ${mediaQuery(640)} {
     width: 32px;
@@ -115,6 +123,12 @@ const NumberBox = styled.div<{ isWrong: boolean }>`
 
 const Number = styled(Heading5)`
   color: ${color.primary};
+`;
+
+const Text = styled(Heading7)`
+  span {
+    color: ${color.primary};
+  }
 `;
 
 const BoxsWrap = styled.div`
@@ -129,6 +143,7 @@ const BoxsWrap = styled.div`
 
 export default function TripContainer({ trip, tripId }: { trip: GuestTripInfo; tripId: string | null }) {
   const [password, setPassword] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const { refetch: joinTrip, error, data } = useJoinTrip(tripId || '', { headers: { inviteCode: password } });
@@ -152,6 +167,11 @@ export default function TripContainer({ trip, tripId }: { trip: GuestTripInfo; t
     if (isError(error)) {
       if (error.message === 'Request failed with status code 403') {
         setIsWrong(true);
+        setOpenSnackbar(true);
+
+        setTimeout(() => {
+          setOpenSnackbar(false);
+        }, 3000);
       }
     }
     if (data) {
@@ -160,22 +180,33 @@ export default function TripContainer({ trip, tripId }: { trip: GuestTripInfo; t
     }
   }, [error, data]);
 
+  console.log(password);
+
   return (
-    <Container isFocused={isFocused}>
-      <JoinImg isFocused={isFocused} />
-      <TripName>{trip.tripName}</TripName>
-      <Info>
-        {makeDateFormat(changeStringToDate(trip.startDate))} - {makeDateFormat(changeStringToDate(trip.endDate))},{' '}
-        {trip.memberCnt}명
-      </Info>
-      <PasswordInput
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        password={password}
-        setIsFocused={setIsFocused}
-        isWrong={isWrong}
-      />
-    </Container>
+    <>
+      <Container isFocused={isFocused}>
+        <JoinImg isFocused={isFocused} />
+        <TripName>{trip.tripName}</TripName>
+        <Info>
+          {makeDateFormat(changeStringToDate(trip.startDate))} - {makeDateFormat(changeStringToDate(trip.endDate))},{' '}
+          {trip.memberCnt}명
+        </Info>
+        <PasswordInput
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          password={password}
+          setIsFocused={setIsFocused}
+          isWrong={isWrong}
+          isFocused={isFocused}
+          setPassword={setPassword}
+        />
+      </Container>
+      {openSnackbar && (
+        <SnackBar isOpen={openSnackbar}>
+          <Text>코드가 일치하지 않습니다. 코드를 다시 확인하고 입력해주세요.</Text>
+        </SnackBar>
+      )}
+    </>
   );
 }
 
@@ -185,15 +216,32 @@ interface PasswordInputProps {
   password: string;
   setIsFocused: (b: boolean) => void;
   isWrong: boolean;
+  isFocused: boolean;
+  setPassword: (s: string) => void;
 }
 
-function PasswordInput({ handleChange, handleSubmit, password, isWrong, setIsFocused }: PasswordInputProps) {
+function PasswordInput({
+  handleChange,
+  handleSubmit,
+  password,
+  setPassword,
+  isWrong,
+  isFocused,
+  setIsFocused
+}: PasswordInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const focusInput = () => {
     if (inputRef && inputRef.current) {
       console.log('inputFocused!');
       inputRef.current.focus();
+    }
+  };
+
+  const resetInput = () => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.value = '';
+      setPassword('');
     }
   };
 
@@ -210,13 +258,16 @@ function PasswordInput({ handleChange, handleSubmit, password, isWrong, setIsFoc
         onChange={handleChange}
         ref={inputRef}
         onBlur={() => setIsFocused(false)}
-        onFocus={() => setIsFocused(true)}
+        onFocus={() => {
+          setIsFocused(true);
+          resetInput();
+        }}
       />
       <BoxsWrap onClick={focusInput}>
-        <NumberBox isWrong={isWrong}>
+        <NumberBox isWrong={isWrong} isFocused={isFocused}>
           <Number>{password[0] ?? undefined}</Number>
         </NumberBox>
-        <NumberBox isWrong={isWrong}>
+        <NumberBox isWrong={isWrong} isFocused={isFocused}>
           <Number>{password[1] ?? undefined}</Number>
         </NumberBox>
       </BoxsWrap>

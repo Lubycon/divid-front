@@ -6,12 +6,6 @@ interface ExpenseInfo {
   price: number;
 }
 
-export interface AssigneeInfo {
-  userId: number;
-  isAssigned?: boolean;
-  price?: number;
-}
-
 export const expenseState = atom({
   key: 'expenseState',
   default: {
@@ -22,13 +16,6 @@ export const expenseState = atom({
     individual: false,
     expenseDetails: [] as ExpenseInfo[],
     tripId: ''
-  }
-});
-
-export const expenseAssigneeState = atom({
-  key: 'expenseAssigneeState',
-  default: {
-    members: [] as AssigneeInfo[]
   }
 });
 

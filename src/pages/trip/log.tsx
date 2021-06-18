@@ -6,6 +6,7 @@ import Profile, { IconSize } from 'components/profile';
 import { Heading7, Heading5 as Amount, CaptionBold, Badge } from 'styles/typography';
 import { numberWithCommas } from 'utils';
 import { Animals } from 'api/types';
+import { Link } from 'react-router-dom';
 
 const Wrap = styled.div`
   width: 100%;
@@ -35,32 +36,36 @@ interface LogProps {
   amount: number;
   desc: string;
   isMe: boolean;
+  expenseId: number;
+  tripId: string;
 }
 
-export default function Log({ expender, profile, amount, desc, isMe }: LogProps) {
+export default function Log({ expenseId, tripId, expender, profile, amount, desc, isMe }: LogProps) {
   return (
     <Wrap>
       <div css={flexBox}>
         <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} />
         <Name>{expender}</Name>
       </div>
-      <div
-        css={css`
-          text-align: right;
-        `}
-      >
-        <div css={flexBox}>
-          <Amount>{numberWithCommas(amount)}</Amount>
-          <CaptionBold>원</CaptionBold>
-        </div>
-        <Badge
+      <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>
+        <div
           css={css`
-            color: ${color.grayscale.gray03};
+            text-align: right;
           `}
         >
-          {desc}
-        </Badge>
-      </div>
+          <div css={flexBox}>
+            <Amount>{numberWithCommas(amount)}</Amount>
+            <CaptionBold>원</CaptionBold>
+          </div>
+          <Badge
+            css={css`
+              color: ${color.grayscale.gray03};
+            `}
+          >
+            {desc}
+          </Badge>
+        </div>
+      </Link>
     </Wrap>
   );
 }

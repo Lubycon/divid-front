@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router-dom';
 import { basicWrap, flexAlignCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
 import TextInput from 'components/text-input';
@@ -47,18 +46,15 @@ export const editProjectState = atom({
 });
 
 export default function Modify() {
-  const history = useHistory();
   const [editProject, setEditProject] = useRecoilState(editProjectState);
   const tripId = useQueryString().get('tripId');
   const { data: info } = useGetDetailTripInfo(tripId || '');
   const { refetch } = useEditTripInfo(tripId || '', editProject);
-  console.log(info);
 
   useEffect(() => {
     if (info) {
       setEditProject({ ...info });
     }
-    console.log(editProject);
   }, [info]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,11 +67,10 @@ export default function Modify() {
   };
 
   const handleSubmit = async () => {
-    console.log(editProject);
     const { data, isError } = await refetch();
 
     if (!isError && data) {
-      history.push(`/trips?tripId=${tripId}`);
+      window.history.back();
     }
   };
 
