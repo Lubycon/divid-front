@@ -15,6 +15,7 @@ const Wrap = styled.div`
 
 interface CheckboxProps extends ProfileProps {
   userId: number;
+  handleExpenseDetail: () => void;
 }
 
 const PriceInput = styled.input`
@@ -49,7 +50,7 @@ const PriceInput = styled.input`
   }
 `;
 
-export default function IndividualInput({ userId, nickName, type, isMe }: CheckboxProps) {
+export default function IndividualInput({ userId, nickName, type, isMe, handleExpenseDetail }: CheckboxProps) {
   const [initialPrice, setInitialPrice] = useState<number | null>(null);
   const [newExpense] = useRecoilState(expenseState);
   const [assignee, setAssignee] = useRecoilState(expenseAssigneeState);
@@ -59,6 +60,9 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
       const divided = newExpense.totalPrice / assignee.members.length;
       console.log(divided);
       setInitialPrice(divided);
+      const restMembers = assignee.members.filter((member) => member.userId !== userId);
+      const stateChangedMember: AssigneeInfo[] = [{ userId, price: divided }];
+      setAssignee({ members: [...restMembers, ...stateChangedMember] });
     }
   }, []);
 
@@ -73,6 +77,10 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
     console.log(assignee);
   };
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.value = '';
+  };
+
   return (
     <Wrap>
       <Profile nickName={nickName} type={type} isMe={isMe} hasName />
@@ -80,7 +88,11 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
         type="text"
         placeholder="금액입력"
         defaultValue={initialPrice ?? ''}
-        onChange={(e) => handleChange(e, userId)}
+        onChange={(e) => {
+          handleChange(e, userId);
+          handleExpenseDetail();
+        }}
+        onFocus={handleFocus}
       />
     </Wrap>
   );

@@ -93,12 +93,15 @@ export default function Expense() {
   });
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = e.target.value.replace(/[^0-9]/, '');
     const price = Number(e.target.value);
     setNewExpense({ ...newExpense, totalPrice: price });
 
     console.log({ newExpense });
     e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
+  };
+
+  const handleFocusTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/[^0-9]/, '');
   };
 
   const handleBlurTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +144,15 @@ export default function Expense() {
   const handleSubmit = async () => {
     if (isLoading) return;
     console.log({ newExpense });
+
+    if (newExpense.individual) {
+      const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
+      if (newExpense.totalPrice !== addAll) {
+        console.log('값을 확인하세요');
+        return;
+      }
+    }
+
     await postExpense();
     resetExpenseState();
     resetAssigneeState();
@@ -188,6 +200,7 @@ export default function Expense() {
               onChange={(e) => {
                 handleChangeTotalPrice(e);
               }}
+              onFocus={handleFocusTotalPrice}
               onBlur={handleBlurTotalPrice}
             />
             <TextInput
@@ -234,7 +247,14 @@ export default function Expense() {
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+                <IndividualInput
+                  key={userId}
+                  userId={userId}
+                  nickName={nickName}
+                  type={profileImg}
+                  isMe={me}
+                  handleExpenseDetail={handleExpenseDetail}
+                />
               ))}
           </SelectWrap>
         </FormWrap>
