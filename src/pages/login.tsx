@@ -127,7 +127,7 @@ export default function Login() {
   const handleClickLogin = () => {
     if (Kakao.isInitialized()) {
       Kakao.Auth.authorize({
-        redirectUri: 'http://divid.kr/oauth/kakao/result',
+        redirectUri: 'https://divid.kr/oauth/kakao/result',
         state: tripId || ''
       });
     }
