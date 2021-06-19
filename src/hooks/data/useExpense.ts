@@ -21,7 +21,7 @@ function postExpense(data: PostExpenseInfo) {
 }
 
 function deleteExpense(tripId: string, expenseId: string) {
-  return http.post<Response, ExpenseInfo>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
+  return http.delete<Response>(`/expenses?tripId=${tripId}&expenseId=${expenseId}`);
 }
 
 function getExpenseAll(tripId: string) {
