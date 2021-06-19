@@ -123,7 +123,7 @@ export default function Login() {
   const handleClickLogin = () => {
     if (Kakao.isInitialized()) {
       Kakao.Auth.authorize({
-        redirectUri: 'http://localhost:8081/oauth/kakao/result',
+        redirectUri: 'http://divid.kr/oauth/kakao/result',
         state: tripId || ''
       });
     }
