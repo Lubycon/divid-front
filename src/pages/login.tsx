@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
@@ -116,14 +116,18 @@ Kakao.init(apiKey);
 
 export default function Login() {
   const tripId = useQueryString().get('tripId');
-  const { data } = useGetGuestTrip(tripId || '');
+  const { refetch: getTripInfo, data } = useGetGuestTrip(tripId || '');
 
-  console.log(tripId);
+  useEffect(() => {
+    if (tripId !== null) {
+      getTripInfo();
+    }
+  }, [tripId]);
 
   const handleClickLogin = () => {
     if (Kakao.isInitialized()) {
       Kakao.Auth.authorize({
-        redirectUri: 'http://divid.kr/oauth/kakao/result',
+        redirectUri: 'http://localhost:8081/oauth/kakao/result',
         state: tripId || ''
       });
     }
