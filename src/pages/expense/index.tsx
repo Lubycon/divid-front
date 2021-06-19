@@ -121,12 +121,12 @@ export default function Expense() {
     console.log({ newExpense });
 
     if (newExpense.totalPrice <= 0) {
-      console.log('마이너스 값은 입력할 수 없습니다.');
+      console.log('금액을 확인해주세요.');
       return;
     }
 
     const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
-    if (newExpense.totalPrice !== addAll) {
+    if (Math.abs(newExpense.totalPrice - addAll) > 10) {
       console.log('값을 확인하세요');
       return;
     }

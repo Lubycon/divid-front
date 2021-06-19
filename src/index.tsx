@@ -18,6 +18,7 @@ import Create from './pages/create-trip';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
 import Expense from './pages/expense';
+import EditExpense from './pages/expense/edit';
 import MyPage from './pages/mypage';
 import Modify from './pages/modify-trip';
 import ServiceInfo from './pages/service-info';
@@ -63,7 +64,7 @@ const routes: RouteProps[] = [
   },
   {
     path: '/editExpense',
-    component: Expense
+    component: EditExpense
   },
   {
     path: '/summary',

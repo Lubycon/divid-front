@@ -27,6 +27,7 @@ async function checkToken(config: AxiosRequestConfig) {
 }
 
 async function changeToken(response: AxiosResponse) {
+  console.log('----------------', response);
   const newToken = response.data.accessToken;
   const oldToken = getLocalStorage<string>('accessToken');
   if (typeof newToken !== 'undefined' && newToken !== oldToken) {
