@@ -6,7 +6,6 @@ import Loading from 'pages/loading';
 
 export default function KakaoLogin() {
   const code = useQueryString().get('code');
-  const state = useQueryString().get('state');
   const { isLoading, data } = useKakaoToken(code || '');
   const history = useHistory();
 
@@ -14,11 +13,6 @@ export default function KakaoLogin() {
     const { accessToken, refreshToken } = data;
     setLocalStorage('accessToken', accessToken);
     setLocalStorage('refreshToken', refreshToken);
-
-    // if (state) {
-    //   accessToken && history.push(`/trips?tripId=${state}`);
-    //   return <Loading />;
-    // }
 
     accessToken && history.push('/projects');
   }
