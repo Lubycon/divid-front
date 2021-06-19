@@ -16,10 +16,10 @@ export default function KakaoLogin() {
     setLocalStorage('refreshToken', refreshToken);
 
     console.log(state);
-    if (state) {
-      accessToken && history.push(`/trips?tripId=${state}`);
-      return <Loading />;
-    }
+    // if (state) {
+    //   accessToken && history.push(`/trips?tripId=${state}`);
+    //   return <Loading />;
+    // }
 
     accessToken && history.push('/projects');
   }
