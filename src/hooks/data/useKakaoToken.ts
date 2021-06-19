@@ -35,7 +35,7 @@ export default function useKakaoToken(code: string) {
         const data: KakaoAuthQuery = {
           grant_type: 'authorization_code',
           client_id: apiKey || '',
-          redirect_uri: 'http://divid.kr/oauth/kakao/result',
+          redirect_uri: 'https://divid.kr/oauth/kakao/result',
           code: codeString
         };
         const queryString = getKeys(data)
@@ -55,7 +55,7 @@ export default function useKakaoToken(code: string) {
   console.log(kakaoAccessToken);
 
   function postKakaoToken(config: RequestBodyConfig) {
-    return http.post<Response, undefined>('/auth/login', undefined, config);
+    return http.post<Response, undefined>('/auth/kakao', undefined, config);
   }
 
   return useQuery('postKakaoToken', () => postKakaoToken({ headers: { kakaoAccessToken } }), {
