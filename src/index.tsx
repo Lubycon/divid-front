@@ -110,6 +110,7 @@ function App() {
         {routes.map((route) => (
           <Route key={route.path} path={route.path} component={route.component} exact />
         ))}
+        <Route component={Error404} />
       </Switch>
     </QueryClientProvider>
   );
