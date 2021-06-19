@@ -55,7 +55,7 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
 
   useEffect(() => {
     if (newExpense.totalPrice > 0) {
-      setInitialPrice(newExpense.totalPrice / newExpense.expenseDetails.length);
+      setInitialPrice(Math.floor(newExpense.totalPrice / newExpense.expenseDetails.length));
       return;
     }
     setInitialPrice(0);
