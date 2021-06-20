@@ -106,7 +106,7 @@ export default function MyPage() {
           handleClick: () => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            history.push('/login');
+            history.push('/home');
           }
         }
       }}
@@ -123,6 +123,9 @@ export default function MyPage() {
           label: '탈퇴',
           handleClick: () => {
             postWithdrawal();
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            history.push('/home');
           }
         },
         right: {
