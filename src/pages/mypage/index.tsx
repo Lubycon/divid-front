@@ -36,6 +36,7 @@ const ProfileWrap = styled.div`
   margin-bottom: 8px;
   z-index: 2;
   position: relative;
+  cursor: pointer;
 `;
 
 const MarkWrap = styled.div`
@@ -78,7 +79,7 @@ export default function MyPage() {
     }
   }, [data]);
 
-  const handleChange = _.debounce((value: string) => {
+  const handleChange = _.throttle((value: string) => {
     setNickname(value);
     console.log(nickname);
   }, 500);
@@ -167,12 +168,14 @@ export default function MyPage() {
         </IconSelector>
         <InputBox
           label="이름"
-          note="최소 2자 최대 10자 입력가능해요."
+          note="최소 1자 최대 10자 입력가능해요."
           defaultValue={nickname}
           onChangeInput={handleChange}
+          maxLength={10}
+          minLength={1}
         />
         <ButtonWrap>
-          <Button onClick={handleSubmit}>
+          <Button onClick={handleSubmit} disabled={!nickname.length}>
             <Label>저장</Label>
           </Button>
         </ButtonWrap>
