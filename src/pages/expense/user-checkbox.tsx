@@ -41,7 +41,7 @@ export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxP
 
   return (
     <Wrap>
-      <Profile nickName={nickName} type={type} isMe={isMe} hasName />
+      <Profile nickName={nickName} type={type} isMe={isMe} borderColor={false} hasName />
       <CheckBox
         userId={userId}
         checked={isChecked}

@@ -231,7 +231,7 @@ export default function Expense() {
           <SelectWrap>
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
-              <Profile nickName={payer.nickName} type={payer.profileImg} isMe={payer.me} hasName />
+              <Profile nickName={payer.nickName} type={payer.profileImg} isMe={payer.me} hasName borderColor={false} />
             </PayerButton>
             <div
               css={[

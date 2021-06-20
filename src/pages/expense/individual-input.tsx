@@ -84,7 +84,7 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
 
   return (
     <Wrap>
-      <Profile nickName={nickName} type={type} isMe={isMe} hasName />
+      <Profile nickName={nickName} type={type} isMe={isMe} borderColor={false} hasName />
       <PriceInput
         type="text"
         placeholder="금액입력"
