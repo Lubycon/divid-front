@@ -176,7 +176,7 @@ export default function TripContainer({ trip, tripId }: { trip: GuestTripInfo; t
     }
     if (data) {
       console.log(data);
-      history.push(`/trip?tripId=${tripId}`);
+      history.push(`/trips?tripId=${tripId}`);
     }
   }, [error, data]);
 
