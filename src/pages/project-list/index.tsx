@@ -25,6 +25,7 @@ export default function ProjectList() {
   const { handleOpen: openCreateTooltip, renderModal: renderCreateTooltip } = useTooltip({
     children: (
       <Tooltip
+        text="버튼을 눌러 여행을 만들어보세요!"
         position={css`
           top: ${pxToVw(65)};
           right: ${pxToVw(24)};
@@ -33,17 +34,16 @@ export default function ProjectList() {
             right: 25px;
           }
         `}
-        text="버튼을 눌러 여행을 만들어보세요!"
+        trianglePosition={15}
       />
     ),
     type: 'create-trip'
   });
 
   useEffect(() => {
-    if (!getLocalStorage('create-trip') && !isLoading) {
+    if (!getLocalStorage('create-trip')) {
       openCreateTooltip();
     }
-    openCreateTooltip();
   }, [isLoading]);
 
   if (isLoading) {

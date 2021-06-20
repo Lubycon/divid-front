@@ -56,7 +56,7 @@ export default function TooltipModal({ children, isOpen, onRequestClose }: Modal
       style={modalStyle}
       shouldCloseOnOverlayClick
     >
-      <Contents>{children}</Contents>
+      <Contents onClick={onRequestClose}>{children}</Contents>
     </ReactModal>
   );
 }
@@ -64,7 +64,7 @@ export default function TooltipModal({ children, isOpen, onRequestClose }: Modal
 interface TooltipProps {
   text: string;
   position: SerializedStyles;
-  trianglePosition?: number;
+  trianglePosition: number;
 }
 
 const Wrap = styled.div`
@@ -89,9 +89,27 @@ const LabelWrap = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  position: absolute;
 
   ${mediaQuery(640)} {
     padding: 0 16px;
+  }
+`;
+
+const Triangle = styled.div<{ position: number }>`
+  width: ${pxToVw(20)};
+  height: ${pxToVw(20)};
+  background: url('/images/tooltip_rectangle.svg') no-repeat center;
+  background-size: contain;
+  position: absolute;
+  top: ${pxToVw(-16)};
+  right: ${({ position }) => pxToVw(position)};
+
+  ${mediaQuery(640)} {
+    width: 20px;
+    height: 20px;
+    top: -16px;
+    right: ${({ position }) => position}px;
   }
 `;
 
@@ -99,6 +117,7 @@ export function Tooltip({ text, position, trianglePosition }: TooltipProps) {
   return (
     <Wrap css={position}>
       <LabelWrap>
+        <Triangle position={trianglePosition} />
         <Label>{text}</Label>
       </LabelWrap>
     </Wrap>
