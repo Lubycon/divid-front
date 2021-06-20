@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
+import { GiveOrTake } from 'model/expense';
 import { numberWithCommas, calcRate } from 'utils';
 import { Badge as CommonBadge, Heading5 } from 'styles/typography';
 
@@ -17,10 +18,10 @@ const GraphContainer = styled.div`
   overflow: hidden;
 `;
 
-const ColorBar = styled.div<{ percent: number; type: LogType }>`
+const ColorBar = styled.div<{ percent: number; type: GiveOrTake }>`
   width: ${({ percent }) => percent}%;
   height: 100%;
-  background-color: ${({ type }) => (type === LogType.Give ? color.red : color.green)};
+  background-color: ${({ type }) => (type === GiveOrTake.Give ? color.red : color.green)};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,11 +37,6 @@ const Amount = styled(Heading5)`
   color: ${color.grayscale.gray06};
   line-height: 1;
 `;
-
-enum LogType {
-  Give = 'give',
-  Take = 'take'
-}
 
 export default function Graph({ giveMoneyAmount, takeMoneyAmount }: GiveNTakeAmountProps) {
   const totalAmount = giveMoneyAmount + takeMoneyAmount;
@@ -60,13 +56,13 @@ export default function Graph({ giveMoneyAmount, takeMoneyAmount }: GiveNTakeAmo
   return (
     <GraphContainer>
       {giveMoneyAmount !== 0 && (
-        <ColorBar type={LogType.Give} percent={setPercentRange(giveMoneyPercent)}>
+        <ColorBar type={GiveOrTake.Give} percent={setPercentRange(giveMoneyPercent)}>
           <Badge>갚을 돈</Badge>
           <Amount>{numberWithCommas(giveMoneyAmount)}</Amount>
         </ColorBar>
       )}
       {takeMoneyAmount !== 0 && (
-        <ColorBar type={LogType.Take} percent={setPercentRange(takeMoneyPercent)}>
+        <ColorBar type={GiveOrTake.Take} percent={setPercentRange(takeMoneyPercent)}>
           <Badge>받을 돈</Badge>
           <Amount>{numberWithCommas(takeMoneyAmount)}</Amount>
         </ColorBar>
