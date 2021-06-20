@@ -42,12 +42,12 @@ interface LogProps {
 
 export default function Log({ expenseId, tripId, expender, profile, amount, desc, isMe }: LogProps) {
   return (
-    <Wrap>
-      <div css={flexBox}>
-        <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} />
-        <Name>{expender}</Name>
-      </div>
-      <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>
+    <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>
+      <Wrap>
+        <div css={flexBox}>
+          <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} />
+          <Name>{expender}</Name>
+        </div>
         <div
           css={css`
             text-align: right;
@@ -65,7 +65,7 @@ export default function Log({ expenseId, tripId, expender, profile, amount, desc
             {desc}
           </Badge>
         </div>
-      </Link>
-    </Wrap>
+      </Wrap>
+    </Link>
   );
 }

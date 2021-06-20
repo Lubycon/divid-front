@@ -73,6 +73,7 @@ export default function Expense() {
   const { refetch, data: members } = useGetTripMembers(tripId || '');
   const { refetch: postExpense, isLoading } = usePostExpense(newExpense);
   const resetExpenseState = useResetRecoilState(expenseState);
+  const payer = members?.filter((el) => el.userId === newExpense.payerId)[0];
   const { handleOpen: openIndividualTooltip, renderModal: renderIndividualTooltip } = useTooltip({
     children: (
       <Tooltip
@@ -187,7 +188,7 @@ export default function Expense() {
     });
   };
 
-  if (!members) {
+  if (!members || !payer) {
     return <Loading />;
   }
 
@@ -230,7 +231,7 @@ export default function Expense() {
           <SelectWrap>
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
-              <Profile nickName={members[0].nickName} type={members[0].profileImg} isMe={members[0].me} hasName />
+              <Profile nickName={payer.nickName} type={payer.profileImg} isMe={payer.me} hasName />
             </PayerButton>
             <div
               css={[
