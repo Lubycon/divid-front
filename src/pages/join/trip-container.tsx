@@ -175,12 +175,9 @@ export default function TripContainer({ trip, tripId }: { trip: GuestTripInfo; t
       }
     }
     if (data) {
-      console.log(data);
       history.push(`/trips?tripId=${tripId}`);
     }
   }, [error, data]);
-
-  console.log(password);
 
   return (
     <>
@@ -233,7 +230,6 @@ function PasswordInput({
 
   const focusInput = () => {
     if (inputRef && inputRef.current) {
-      console.log('inputFocused!');
       inputRef.current.focus();
     }
   };

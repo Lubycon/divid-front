@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { GiveOrTake } from 'model/expense';
 import { Animals } from 'api/types';
 import Profile from 'components/profile';
 import { Heading7 } from 'styles/typography';
@@ -21,15 +22,15 @@ const Text = styled(Heading7)`
   margin-left: 4px;
 `;
 
-const Point = styled.span<{ kind: string }>`
-  color: ${({ kind }) => (kind === 'give' ? color.red : color.green)};
+const Point = styled.span<{ kind: GiveOrTake }>`
+  color: ${({ kind }) => (kind === GiveOrTake.Give ? color.red : color.green)};
   font-weight: 800;
 `;
 
 interface ListProps {
   nickName: string;
   profile: Animals;
-  kind: string;
+  kind: GiveOrTake;
   amount: number;
 }
 

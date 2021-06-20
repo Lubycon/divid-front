@@ -83,7 +83,6 @@ export default function Summary() {
   디빗으로 정산내역을 확인해보세요.`;
 
   const handleCopy = () => {
-    console.log('click');
     setOpenSnackbar(true);
 
     setTimeout(() => {

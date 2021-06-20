@@ -6,7 +6,7 @@ import Profile, { IconSize } from 'components/profile';
 import { Heading5 as Amount, CaptionBold, Badge, Caption } from 'styles/typography';
 import { numberWithCommas } from 'utils';
 import { Animals } from 'api/types';
-import { CalculateDetail } from 'model/expense';
+import { CalculateDetail, GiveOrTake } from 'model/expense';
 import { flexAlignCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
 
@@ -37,8 +37,8 @@ const Text = styled(Caption)`
   }
 `;
 
-const Point = styled.span<{ kind: string }>`
-  color: ${({ kind }) => (kind === 'give' ? color.red : color.green)};
+const Point = styled.span<{ kind: GiveOrTake }>`
+  color: ${({ kind }) => (kind === GiveOrTake.Give ? color.red : color.green)};
 `;
 
 const Wrap = styled.div`
@@ -125,7 +125,7 @@ export default function Log({ expender, profile, amount, desc, isMe, calculateLi
             <Profile type={el.profileImg} iconSize={IconSize.SM} />
             <Text>
               <span>{el.nickName}</span> 님에게 <Point kind={el.type}>{numberWithCommas(el.price)}원</Point>{' '}
-              {el.type === 'GIVE' ? '주기' : '받기'}
+              {el.type === GiveOrTake.Give ? '주기' : '받기'}
             </Text>
           </DetailWrap>
         ))

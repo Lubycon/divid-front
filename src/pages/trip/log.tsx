@@ -46,6 +46,9 @@ export default function Log({ expenseId, tripId, expender, profile, amount, desc
         <div
           css={css`
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
           `}
         >
           <div css={flexBox}>

@@ -34,8 +34,6 @@ export default function Join() {
     refetch();
   }, [tripId]);
 
-  console.log(data);
-
   if (!data) {
     return <Loading />;
   }

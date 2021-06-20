@@ -30,7 +30,6 @@ export default function LogList({ tripId }: { tripId: string }) {
     <Loading />;
   }
 
-  console.log(data);
   return (
     <Wrap>
       {data?.map((el, i) => (
