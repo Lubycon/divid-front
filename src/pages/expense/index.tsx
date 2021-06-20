@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { basicWrap, flexCenter } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -79,6 +79,8 @@ const ArrowDown = styled(ArrowDownCommon)`
 `;
 
 export default function Expense() {
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
@@ -136,6 +138,7 @@ export default function Expense() {
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
+    setIsError(false);
 
     setNewExpense({
       ...newExpense,
@@ -164,13 +167,15 @@ export default function Expense() {
     console.log({ newExpense });
 
     if (newExpense.totalPrice <= 0) {
-      console.log('금액을 확인해주세요.');
+      setErrorMsg('금액을 확인해주세요.');
+      setIsError(true);
       return;
     }
 
     const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
     if (Math.abs(newExpense.totalPrice - addAll) > 10) {
-      console.log('값을 확인하세요');
+      setErrorMsg('전체 금액과 따로 입력한 금액을 합친 금액이 서로 달라요. 금액을 확인 후 다시 입력해주세요.');
+      setIsError(true);
       return;
     }
 
@@ -229,6 +234,8 @@ export default function Expense() {
               }}
               onFocus={handleFocusTotalPrice}
               onBlur={handleBlurTotalPrice}
+              error={isError}
+              errorMsg={errorMsg}
             />
             <TextInput
               css={css`
@@ -268,7 +275,14 @@ export default function Expense() {
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+                <IndividualInput
+                  key={userId}
+                  userId={userId}
+                  nickName={nickName}
+                  type={profileImg}
+                  isMe={me}
+                  isError={isError}
+                />
               ))}
           </SelectWrap>
         </FormWrap>

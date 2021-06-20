@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { basicWrap, flexAlignCenter } from 'styles/containers';
@@ -47,6 +47,7 @@ export const editProjectState = atom({
 
 export default function Modify() {
   const [editProject, setEditProject] = useRecoilState(editProjectState);
+  const [nameError, setNameError] = useState(false);
   const tripId = useQueryString().get('tripId');
   const { data: info } = useGetDetailTripInfo(tripId || '');
   const { refetch } = useEditTripInfo(tripId || '', editProject);
@@ -59,6 +60,7 @@ export default function Modify() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const editTripName = e.target.value;
+    setNameError(false);
     setEditProject({ ...editProject, tripName: editTripName });
   };
 
@@ -67,6 +69,12 @@ export default function Modify() {
   };
 
   const handleSubmit = async () => {
+    const newTripTitle = editProject.tripName.replace(/^\s+|\s+$/g, '');
+    if (!newTripTitle.length) {
+      setNameError(true);
+      return;
+    }
+
     const { data, isError } = await refetch();
 
     if (!isError && data) {
@@ -83,6 +91,8 @@ export default function Modify() {
         maxLength={14}
         minLength={2}
         defaultValue={editProject.tripName}
+        error={nameError}
+        errorMsg="공백은 여행 이름으로 사용할 수 없어요. 단어나 문장으로 입력해주세요."
       />
       <PickerWrapper>
         {!!editProject.startDate.length && !!editProject.endDate.length && (

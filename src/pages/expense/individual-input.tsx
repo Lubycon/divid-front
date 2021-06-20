@@ -15,9 +15,10 @@ const Wrap = styled.div`
 
 interface CheckboxProps extends ProfileProps {
   userId: number;
+  isError: boolean;
 }
 
-const PriceInput = styled.input`
+const PriceInput = styled.input<{ isError: boolean }>`
   width: 82px;
   height: 30px;
   border: none;
@@ -37,6 +38,8 @@ const PriceInput = styled.input`
     border-bottom: 2px solid ${color.black};
   }
 
+  border-color: ${({ isError }) => isError && color.red};
+
   &::placeholder {
     color: ${color.grayscale.gray01};
     font-size: ${pxToVw(18)};
@@ -49,7 +52,7 @@ const PriceInput = styled.input`
   }
 `;
 
-export default function IndividualInput({ userId, nickName, type, isMe }: CheckboxProps) {
+export default function IndividualInput({ userId, nickName, type, isMe, isError }: CheckboxProps) {
   const [initialPrice, setInitialPrice] = useState<number | null>(null);
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
 
@@ -91,6 +94,7 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
         defaultValue={initialPrice ?? ''}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        isError={isError}
       />
     </Wrap>
   );
