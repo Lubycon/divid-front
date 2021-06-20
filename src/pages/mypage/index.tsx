@@ -80,7 +80,8 @@ export default function MyPage() {
   }, [data]);
 
   const handleChange = _.throttle((value: string) => {
-    setNickname(value);
+    const newValue = value.replace(/^\s+|\s+$/g, '');
+    setNickname(newValue);
     console.log(nickname);
   }, 500);
 
