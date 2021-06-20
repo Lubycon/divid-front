@@ -127,9 +127,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isError(error)) {
-      if (error.message === 'Request failed with status code 404') {
-        history.push('/login');
-      }
+      history.push('/login');
     }
   }, [error, data]);
 
