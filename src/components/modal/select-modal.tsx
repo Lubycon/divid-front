@@ -116,7 +116,7 @@ export default function SelectModal({ members, onClose }: SelectModalProps) {
               onClick={() => onChoosePayer(index)}
             />
             <Label htmlFor={nickName}>
-              <Profile nickName={nickName} type={profileImg} isMe={me} hasName />
+              <Profile nickName={nickName} type={profileImg} isMe={me} borderColor={false} hasName />
             </Label>
           </Option>
         ))}

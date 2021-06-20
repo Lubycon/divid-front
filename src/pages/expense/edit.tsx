@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { basicWrap, flexCenter } from 'styles/containers';
 import { mediaQuery, pxToVw } from 'styles/media';
 
@@ -61,7 +61,7 @@ const Label = styled(Heading7)`
 `;
 
 const OptionalButton = styled.div`
-  position: fixed;
+  position: absolute;
   top: ${pxToVw(18)};
   right: ${pxToVw(20)};
   text-decoration: none;
@@ -78,6 +78,8 @@ const ButtonLabel = styled(Heading7)`
 `;
 
 export default function EditExpense() {
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const tripId = useQueryString().get('tripId');
   const expenseId = useQueryString().get('expenseId');
@@ -121,6 +123,7 @@ export default function EditExpense() {
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
+    setIsError(false);
 
     setNewExpense({
       ...newExpense,
@@ -149,13 +152,15 @@ export default function EditExpense() {
     console.log({ newExpense });
 
     if (newExpense.totalPrice <= 0) {
-      console.log('마이너스 값은 입력할 수 없습니다.');
+      setErrorMsg('금액을 확인해주세요.');
+      setIsError(true);
       return;
     }
 
     const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
-    if (newExpense.totalPrice !== addAll) {
-      console.log('값을 확인하세요');
+    if (Math.abs(newExpense.totalPrice - addAll) > 10) {
+      setErrorMsg('전체 금액과 따로 입력한 금액을 합친 금액이 서로 달라요. 금액을 확인 후 다시 입력해주세요.');
+      setIsError(true);
       return;
     }
 
@@ -221,6 +226,7 @@ export default function EditExpense() {
           basicWrap,
           css`
             background-color: ${color.grayscale.gray07};
+            position: relative;
           `
         ]}
       >
@@ -239,6 +245,8 @@ export default function EditExpense() {
               onFocus={handleFocusTotalPrice}
               onBlur={handleBlurTotalPrice}
               defaultValue={initialData.totalPrice}
+              error={isError}
+              errorMsg={errorMsg}
             />
             <TextInput
               css={css`
@@ -278,7 +286,14 @@ export default function EditExpense() {
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+                <IndividualInput
+                  key={userId}
+                  userId={userId}
+                  nickName={nickName}
+                  type={profileImg}
+                  isMe={me}
+                  isError={isError}
+                />
               ))}
           </SelectWrap>
         </FormWrap>

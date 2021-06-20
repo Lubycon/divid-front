@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
@@ -48,6 +48,7 @@ export const newProjectState = atom({
 
 export default function Create() {
   const [newProject, setNewProject] = useRecoilState(newProjectState);
+  const [nameError, setNameError] = useState(false);
   const history = useHistory();
   const { refetch } = usePostTrip({
     ...newProject,
@@ -56,6 +57,7 @@ export default function Create() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTripName = e.target.value;
+    setNameError(false);
     setNewProject({ ...newProject, tripName: newTripName });
   };
 
@@ -64,6 +66,11 @@ export default function Create() {
   };
 
   const handleSubmit = async () => {
+    const newTripTitle = newProject.tripName.replace(/^\s+|\s+$/g, '');
+    if (!newTripTitle.length) {
+      setNameError(true);
+      return;
+    }
     const { data, isError } = await refetch();
 
     if (!isError && data) {
@@ -78,6 +85,8 @@ export default function Create() {
         note="이름은 최소 2자, 최대 14자까지 입력 가능해요"
         maxLength={14}
         minLength={2}
+        error={nameError}
+        errorMsg="공백은 여행 이름으로 사용할 수 없어요. 단어나 문장으로 입력해주세요."
       />
       <PickerWrapper>
         <DateRangeSelector setDate={handleChooseDate} />

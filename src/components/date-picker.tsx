@@ -8,7 +8,7 @@ import { changeDateToString, makeDateFormat2, makeDateFormat } from 'utils';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { Body1, Heading7, Heading6 } from 'styles/typography';
 import { flexCenter, flexAlignCenter } from 'styles/containers';
-import { Close } from 'styles/icon';
+import { ArrowLeft as ArrowLeftCommon, ArrowRight as ArrowRightCommon, Close } from 'styles/icon';
 import color from 'styles/colors';
 import '../../node_modules/react-datepicker/dist/react-datepicker.css';
 import './date-picker.scss';
@@ -105,6 +105,32 @@ const DownIcon = styled.span`
   background-size: contain;
 `;
 
+const ArrowRight = styled(ArrowRightCommon)`
+  position: absolute;
+  z-index: 11;
+  top: ${pxToVw(124)};
+  right: ${pxToVw(17)};
+  pointer-events: none;
+
+  ${mediaQuery(640)} {
+    right: 17px;
+    top: 124px;
+  }
+`;
+
+const ArrowLeft = styled(ArrowLeftCommon)`
+  position: absolute;
+  z-index: 11;
+  top: ${pxToVw(124)};
+  right: ${pxToVw(103)};
+  pointer-events: none;
+
+  ${mediaQuery(640)} {
+    right: 103px;
+    top: 124px;
+  }
+`;
+
 registerLocale('ko', ko);
 setDefaultLocale('ko');
 
@@ -158,6 +184,8 @@ export default function DateRangeSelector({ setDate, defaultStartDate, defaultEn
           <CloseButton onClick={() => setShowPicker(false)}>
             <Close />
           </CloseButton>
+          <ArrowLeft />
+          <ArrowRight />
           <DatePicker
             selected={startDate}
             onChange={handleChange}

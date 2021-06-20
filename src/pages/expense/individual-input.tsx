@@ -15,9 +15,10 @@ const Wrap = styled.div`
 
 interface CheckboxProps extends ProfileProps {
   userId: number;
+  isError: boolean;
 }
 
-const PriceInput = styled.input`
+const PriceInput = styled.input<{ isError: boolean }>`
   width: 82px;
   height: 30px;
   border: none;
@@ -37,6 +38,8 @@ const PriceInput = styled.input`
     border-bottom: 2px solid ${color.black};
   }
 
+  border-color: ${({ isError }) => isError && color.red};
+
   &::placeholder {
     color: ${color.grayscale.gray01};
     font-size: ${pxToVw(18)};
@@ -49,11 +52,16 @@ const PriceInput = styled.input`
   }
 `;
 
-export default function IndividualInput({ userId, nickName, type, isMe }: CheckboxProps) {
+export default function IndividualInput({ userId, nickName, type, isMe, isError }: CheckboxProps) {
   const [initialPrice, setInitialPrice] = useState<number | null>(null);
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
 
   useEffect(() => {
+    const individualExpense = newExpense.expenseDetails.filter((el) => el.userId === userId)[0].price;
+    if (individualExpense !== 0) {
+      setInitialPrice(individualExpense);
+      return;
+    }
     if (newExpense.totalPrice > 0) {
       setInitialPrice(Math.floor(newExpense.totalPrice / newExpense.expenseDetails.length));
       return;
@@ -79,13 +87,14 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
 
   return (
     <Wrap>
-      <Profile nickName={nickName} type={type} isMe={isMe} hasName />
+      <Profile nickName={nickName} type={type} isMe={isMe} borderColor={false} hasName />
       <PriceInput
         type="text"
         placeholder="금액입력"
         defaultValue={initialPrice ?? ''}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        isError={isError}
       />
     </Wrap>
   );

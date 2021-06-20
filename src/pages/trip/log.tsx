@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
 import Profile, { IconSize } from 'components/profile';
-import { Heading7, Heading5 as Amount, CaptionBold, Badge } from 'styles/typography';
+import { Heading5 as Amount, CaptionBold, Badge } from 'styles/typography';
 import { numberWithCommas } from 'utils';
 import { Animals } from 'api/types';
 import { Link } from 'react-router-dom';
@@ -19,10 +19,6 @@ const Wrap = styled.div`
   margin-bottom: 8px;
   border-radius: 8px;
   box-sizing: border-box;
-`;
-
-const Name = styled(Heading7)`
-  margin-left: 12px;
 `;
 
 const flexBox = css`
@@ -42,12 +38,11 @@ interface LogProps {
 
 export default function Log({ expenseId, tripId, expender, profile, amount, desc, isMe }: LogProps) {
   return (
-    <Wrap>
-      <div css={flexBox}>
-        <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} />
-        <Name>{expender}</Name>
-      </div>
-      <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>
+    <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>
+      <Wrap>
+        <div css={flexBox}>
+          <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} hasName nickName={expender} />
+        </div>
         <div
           css={css`
             text-align: right;
@@ -65,7 +60,7 @@ export default function Log({ expenseId, tripId, expender, profile, amount, desc
             {desc}
           </Badge>
         </div>
-      </Link>
-    </Wrap>
+      </Wrap>
+    </Link>
   );
 }

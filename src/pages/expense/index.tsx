@@ -1,22 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { basicWrap, flexCenter } from 'styles/containers';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { usePostExpense } from 'hooks/data/useExpense';
-import { numberWithCommas, useQueryString } from 'utils';
+import useTooltip from 'hooks/useTooltip';
+import { getLocalStorage, numberWithCommas, useQueryString } from 'utils';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
 import { SingleDatePicker } from 'components/date-picker';
-
+import { Tooltip } from 'components/modal/tooltip';
 import SelectModal from 'components/modal/select-modal';
-import { mediaQuery } from 'styles/media';
-import color from 'styles/colors';
 import Button from 'components/button';
-import Loading from 'pages/loading';
 import TextInput from 'components/text-input';
-import { CaptionBold, Heading7 } from 'styles/typography';
 import Profile from 'components/profile';
+
+import { mediaQuery, pxToVw } from 'styles/media';
+import { CaptionBold, Heading7 } from 'styles/typography';
+import { ArrowDown as ArrowDownCommon } from 'styles/icon';
+import color from 'styles/colors';
+import Loading from 'pages/loading';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
 import { expenseState } from './expense-state';
@@ -47,24 +50,66 @@ const PayerButton = styled.button`
   background: none;
   padding: 0;
   margin-bottom: 21px;
+  display: flex;
+  align-items: center;
+
+  ${mediaQuery(640)} {
+    margin-bottom: 9px;
+  }
 `;
 
 const SelectWrap = styled.div`
   margin: 3px 5px;
 `;
 
-const ToggleWrap = styled.div``;
+const ToggleWrap = styled.div`
+  margin: 12px 0;
+`;
 
 const Label = styled(Heading7)`
   color: ${color.white};
 `;
 
+const ArrowDown = styled(ArrowDownCommon)`
+  margin-left: ${pxToVw(6)};
+
+  ${mediaQuery(640)} {
+    margin-left: 6px;
+  }
+`;
+
 export default function Expense() {
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
   const tripId = useQueryString().get('tripId');
   const { refetch, data: members } = useGetTripMembers(tripId || '');
   const { refetch: postExpense, isLoading } = usePostExpense(newExpense);
   const resetExpenseState = useResetRecoilState(expenseState);
+  const payer = members?.filter((el) => el.userId === newExpense.payerId)[0];
+  const { handleOpen: openIndividualTooltip, renderModal: renderIndividualTooltip } = useTooltip({
+    children: (
+      <Tooltip
+        text="1/N을 끄면 쓴 돈을 따로 입력할 수 있어요!"
+        position={css`
+          top: ${pxToVw(427)};
+          right: ${pxToVw(24)};
+          ${mediaQuery(640)} {
+            top: 436px;
+            right: 25px;
+          }
+        `}
+        trianglePosition={42}
+      />
+    ),
+    type: 'individual-payment'
+  });
+
+  useEffect(() => {
+    if (!getLocalStorage('individual-payment')) {
+      openIndividualTooltip();
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     async function handleOnMount() {
@@ -93,6 +138,7 @@ export default function Expense() {
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const price = Number(e.target.value);
+    setIsError(false);
 
     setNewExpense({
       ...newExpense,
@@ -121,13 +167,15 @@ export default function Expense() {
     console.log({ newExpense });
 
     if (newExpense.totalPrice <= 0) {
-      console.log('금액을 확인해주세요.');
+      setErrorMsg('금액을 확인해주세요.');
+      setIsError(true);
       return;
     }
 
     const addAll = newExpense.expenseDetails.map((el) => el.price).reduce((prev, curr) => prev + curr, 0);
     if (Math.abs(newExpense.totalPrice - addAll) > 10) {
-      console.log('값을 확인하세요');
+      setErrorMsg('전체 금액과 따로 입력한 금액을 합친 금액이 서로 달라요. 금액을 확인 후 다시 입력해주세요.');
+      setIsError(true);
       return;
     }
 
@@ -156,13 +204,14 @@ export default function Expense() {
     });
   };
 
-  if (!members) {
+  if (!members || !payer) {
     return <Loading />;
   }
 
   return (
     <>
       {renderPayerModal()}
+      {renderIndividualTooltip()}
       <div
         css={[
           basicWrap,
@@ -185,6 +234,8 @@ export default function Expense() {
               }}
               onFocus={handleFocusTotalPrice}
               onBlur={handleBlurTotalPrice}
+              error={isError}
+              errorMsg={errorMsg}
             />
             <TextInput
               css={css`
@@ -198,7 +249,8 @@ export default function Expense() {
           <SelectWrap>
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
-              <Profile nickName={members[0].nickName} type={members[0].profileImg} isMe={members[0].me} hasName />
+              <Profile nickName={payer.nickName} type={payer.profileImg} isMe={payer.me} hasName borderColor={false} />
+              <ArrowDown />
             </PayerButton>
             <div
               css={[
@@ -223,7 +275,14 @@ export default function Expense() {
             {Array.isArray(members) &&
               newExpense.individual &&
               members.map(({ userId, nickName, profileImg, me }) => (
-                <IndividualInput key={userId} userId={userId} nickName={nickName} type={profileImg} isMe={me} />
+                <IndividualInput
+                  key={userId}
+                  userId={userId}
+                  nickName={nickName}
+                  type={profileImg}
+                  isMe={me}
+                  isError={isError}
+                />
               ))}
           </SelectWrap>
         </FormWrap>

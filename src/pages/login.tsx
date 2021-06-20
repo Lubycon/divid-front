@@ -6,8 +6,8 @@ import { mediaQuery, pxToVw } from 'styles/media';
 import { basicWrap, flexAlignCenter, flexCenter, grayBackground } from 'styles/containers';
 import { Heading3, Heading7, Caption, Heading6 } from 'styles/typography';
 import Button from 'components/button';
-import { Link } from 'react-router-dom';
-import { changeStringToDate, makeDateFormat, useQueryString } from 'utils';
+import { Link, useHistory } from 'react-router-dom';
+import { changeStringToDate, makeDateFormat, useQueryString, isError } from 'utils';
 import { useGetGuestTrip } from 'hooks/data/useTripInfo';
 
 const Title = styled(Heading3)`
@@ -96,14 +96,14 @@ const TripText = styled(Heading7)`
 `;
 
 const Logo = styled.div`
-  width: ${pxToVw(60)};
+  width: ${pxToVw(100)};
   height: ${pxToVw(30)};
-  background: url('/images/logosection.svg') no-repeat center;
+  background: url('/images/beta_logo_section.svg') no-repeat center;
   background-size: contain;
   margin-bottom: ${pxToVw(25)};
 
   ${mediaQuery(640)} {
-    width: 60px;
+    width: 100px;
     height: 30px;
     margin-bottom: 33px;
   }
@@ -115,14 +115,23 @@ const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
 Kakao.init(apiKey);
 
 export default function Login() {
+  const history = useHistory();
   const tripId = useQueryString().get('tripId');
-  const { refetch: getTripInfo, data } = useGetGuestTrip(tripId || '');
+  const { refetch: getTripInfo, data, error } = useGetGuestTrip(tripId || '');
 
   useEffect(() => {
     if (tripId !== null) {
       getTripInfo();
     }
   }, [tripId]);
+
+  useEffect(() => {
+    if (isError(error)) {
+      if (error.message === 'Request failed with status code 404') {
+        history.push('/login');
+      }
+    }
+  }, [error, data]);
 
   const handleClickLogin = () => {
     if (Kakao.isInitialized()) {

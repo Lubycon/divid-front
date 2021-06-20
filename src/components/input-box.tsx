@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { mediaQuery, pxToVw } from 'styles/media';
 import color from 'styles/colors';
@@ -9,7 +10,7 @@ const container = css`
   width: 100%;
 `;
 
-const inputText = css`
+const Input = styled.input`
   height: ${pxToVw(48)};
   border-radius: ${pxToVw(8)};
   border: 1px solid ${color.grayscale.gray05};
@@ -18,6 +19,7 @@ const inputText = css`
 
   &:focus {
     outline: none;
+    border-color: ${color.primary};
   }
 
   ${mediaQuery(640)} {
@@ -48,6 +50,7 @@ const subtext = css`
   ${mediaQuery(640)} {
     font-size: 14px;
     margin-bottom: 6px;
+    margin-top: 6px;
   }
 `;
 
@@ -65,7 +68,7 @@ export default function InputBox({ label, note, onChangeInput, ...rest }: InputB
   return (
     <div css={container}>
       {label && <p css={labelStyle}>{label}</p>}
-      <input css={inputText} type="text" onChange={handleChange} {...rest} />
+      <Input type="text" onChange={handleChange} {...rest} />
       {note && <p css={subtext}>{note}</p>}
     </div>
   );
