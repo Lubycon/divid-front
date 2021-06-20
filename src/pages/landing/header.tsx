@@ -55,9 +55,9 @@ const unscrolled = css`
 `;
 
 const Logo = styled.div`
-  width: ${pxToVw(80)};
-  height: ${pxToVw(27)};
-  background: url('/images/logosection.svg') no-repeat center;
+  width: ${pxToVw(140)};
+  height: ${pxToVw(40)};
+  background: url('/images/beta_logo_section.svg') no-repeat center;
   background-size: contain;
   position: absolute;
   left: ${pxToVw(24)};
@@ -65,8 +65,8 @@ const Logo = styled.div`
   top: ${pxToVw(20)};
 
   ${mediaQuery(640)} {
-    width: 80px;
-    height: 27px;
+    width: 140px;
+    height: 40px;
     left: 0;
     top: 20px;
   }

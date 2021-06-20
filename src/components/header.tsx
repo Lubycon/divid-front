@@ -67,13 +67,13 @@ const Icon = styled.div`
 `;
 
 const Logo = styled.div`
-  width: ${pxToVw(60)};
+  width: ${pxToVw(100)};
   height: ${pxToVw(30)};
-  background: url('/images/logosection.svg') no-repeat center;
+  background: url('/images/beta_logo_section.svg') no-repeat center;
   background-size: contain;
 
   ${mediaQuery(640)} {
-    width: 60px;
+    width: 100px;
     height: 30px;
   }
 `;
