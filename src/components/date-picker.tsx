@@ -168,7 +168,6 @@ export default function DateRangeSelector({ setDate, defaultStartDate, defaultEn
 
       setDate(startDateString, endDateString);
     }
-    console.log(startDate, endDate);
   };
 
   return (

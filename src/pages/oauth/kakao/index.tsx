@@ -15,7 +15,6 @@ export default function KakaoLogin() {
     setLocalStorage('accessToken', accessToken);
     setLocalStorage('refreshToken', refreshToken);
 
-    console.log(state);
     if (state) {
       accessToken && history.push(`/trips?tripId=${state}`);
       return <Loading />;

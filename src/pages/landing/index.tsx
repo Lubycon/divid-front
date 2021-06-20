@@ -16,6 +16,7 @@ const Wrap = styled.div`
 `;
 
 export default function Landing() {
+  console.log('디비디비디빗!* ੈ✩‧₊˚* ੈ✩‧₊  ');
   return (
     <Wrap>
       <FirstSection />

@@ -82,7 +82,6 @@ export default function MyPage() {
   const handleChange = _.throttle((value: string) => {
     const newValue = value.replace(/^\s+|\s+$/g, '');
     setNickname(newValue);
-    console.log(nickname);
   }, 500);
 
   const handleSubmit = async () => {
@@ -96,10 +95,7 @@ export default function MyPage() {
       body="정말 로그아웃 하시겠어요?"
       buttons={{
         left: {
-          label: '취소',
-          handleClick: () => {
-            console.log('취소 클릭');
-          }
+          label: '취소'
         },
         right: {
           label: '로그아웃',
@@ -130,9 +126,7 @@ export default function MyPage() {
         },
         right: {
           label: '취소',
-          handleClick: () => {
-            console.log('취소 클릭');
-          }
+          handleClick: () => {}
         }
       }}
     />
