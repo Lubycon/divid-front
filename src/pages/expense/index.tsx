@@ -4,19 +4,21 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
 import { usePostExpense } from 'hooks/data/useExpense';
-import { numberWithCommas, useQueryString } from 'utils';
+import useTooltip from 'hooks/useTooltip';
+import { getLocalStorage, numberWithCommas, useQueryString } from 'utils';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
 import { SingleDatePicker } from 'components/date-picker';
-
+import { Tooltip } from 'components/modal/tooltip';
 import SelectModal from 'components/modal/select-modal';
-import { mediaQuery } from 'styles/media';
-import color from 'styles/colors';
 import Button from 'components/button';
-import Loading from 'pages/loading';
 import TextInput from 'components/text-input';
-import { CaptionBold, Heading7 } from 'styles/typography';
 import Profile from 'components/profile';
+
+import { mediaQuery, pxToVw } from 'styles/media';
+import { CaptionBold, Heading7 } from 'styles/typography';
+import color from 'styles/colors';
+import Loading from 'pages/loading';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
 import { expenseState } from './expense-state';
@@ -47,13 +49,19 @@ const PayerButton = styled.button`
   background: none;
   padding: 0;
   margin-bottom: 21px;
+
+  ${mediaQuery(640)} {
+    margin-bottom: 9px;
+  }
 `;
 
 const SelectWrap = styled.div`
   margin: 3px 5px;
 `;
 
-const ToggleWrap = styled.div``;
+const ToggleWrap = styled.div`
+  margin: 12px 0;
+`;
 
 const Label = styled(Heading7)`
   color: ${color.white};
@@ -65,6 +73,29 @@ export default function Expense() {
   const { refetch, data: members } = useGetTripMembers(tripId || '');
   const { refetch: postExpense, isLoading } = usePostExpense(newExpense);
   const resetExpenseState = useResetRecoilState(expenseState);
+  const { handleOpen: openIndividualTooltip, renderModal: renderIndividualTooltip } = useTooltip({
+    children: (
+      <Tooltip
+        text="1/N을 끄면 쓴 돈을 따로 입력할 수 있어요!"
+        position={css`
+          top: ${pxToVw(427)};
+          right: ${pxToVw(24)};
+          ${mediaQuery(640)} {
+            top: 436px;
+            right: 25px;
+          }
+        `}
+        trianglePosition={42}
+      />
+    ),
+    type: 'individual-payment'
+  });
+
+  useEffect(() => {
+    if (!getLocalStorage('individual-payment')) {
+      openIndividualTooltip();
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     async function handleOnMount() {
@@ -163,6 +194,7 @@ export default function Expense() {
   return (
     <>
       {renderPayerModal()}
+      {renderIndividualTooltip()}
       <div
         css={[
           basicWrap,
