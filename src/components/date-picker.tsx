@@ -245,6 +245,8 @@ export function SingleDatePicker({ setDate, defaultDate }: SingleDatePickerProps
           <CloseButton onClick={() => setShowPicker(false)}>
             <Close />
           </CloseButton>
+          <ArrowLeft />
+          <ArrowRight />
           <DatePicker
             selected={singleDate}
             onChange={handleChange}
