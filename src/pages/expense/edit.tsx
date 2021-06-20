@@ -90,7 +90,6 @@ export default function EditExpense() {
   const initialPayer = members?.filter((el) => el.userId === newExpense.payerId)[0];
   const { refetch: deleteExpense } = useDeleteExpense(tripId || '', expenseId || '');
 
-
   useEffect(() => {
     async function handleOnMount() {
       const { data } = await refetch();
