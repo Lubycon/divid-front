@@ -1,10 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { GiveOrTake } from 'model/expense';
 import { Badge, Heading5, CaptionBold } from 'styles/typography';
 import color from 'styles/colors';
 import { numberWithCommas } from 'utils';
+
+export enum GiveOrTake {
+  Give = 'give',
+  Take = 'take'
+}
 
 interface CountProps {
   type: GiveOrTake;

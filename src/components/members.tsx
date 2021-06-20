@@ -57,6 +57,7 @@ export default function Members({ members, trip }: MembersProps) {
   `;
 
   const handleInvite = () => {
+    console.log('click');
     setOpenSnackbar(true);
 
     setTimeout(() => {

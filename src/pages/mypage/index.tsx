@@ -82,6 +82,7 @@ export default function MyPage() {
   const handleChange = _.throttle((value: string) => {
     const newValue = value.replace(/^\s+|\s+$/g, '');
     setNickname(newValue);
+    console.log(nickname);
   }, 500);
 
   const handleSubmit = async () => {
@@ -95,14 +96,17 @@ export default function MyPage() {
       body="정말 로그아웃 하시겠어요?"
       buttons={{
         left: {
-          label: '취소'
+          label: '취소',
+          handleClick: () => {
+            console.log('취소 클릭');
+          }
         },
         right: {
           label: '로그아웃',
           handleClick: () => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            history.push('/home');
+            history.push('/login');
           }
         }
       }}
@@ -119,14 +123,13 @@ export default function MyPage() {
           label: '탈퇴',
           handleClick: () => {
             postWithdrawal();
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            history.push('/home');
           }
         },
         right: {
           label: '취소',
-          handleClick: () => {}
+          handleClick: () => {
+            console.log('취소 클릭');
+          }
         }
       }}
     />

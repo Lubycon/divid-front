@@ -133,6 +133,7 @@ export default function Expense() {
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setNewExpense({ ...newExpense, title });
+    console.log(newExpense);
   };
 
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,6 +149,7 @@ export default function Expense() {
       }))
     });
 
+    console.log({ newExpense });
     e.target.value = e.target.value.replace(/[^0-9 ,]/, '');
   };
 
@@ -162,6 +164,7 @@ export default function Expense() {
 
   const handleSubmit = async () => {
     if (isLoading) return;
+    console.log({ newExpense });
 
     if (newExpense.totalPrice <= 0) {
       setErrorMsg('금액을 확인해주세요.');

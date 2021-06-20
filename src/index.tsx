@@ -100,6 +100,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const location = useLocation();
+  console.log(location);
 
   return (
     <QueryClientProvider client={queryClient}>

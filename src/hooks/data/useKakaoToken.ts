@@ -52,6 +52,8 @@ export default function useKakaoToken(code: string) {
     typeof code === 'string' && getKakaoToken(code);
   }, []);
 
+  console.log(kakaoAccessToken);
+
   function postKakaoToken(config: RequestBodyConfig) {
     return http.post<Response, undefined>('/oauth/kakao', undefined, config);
   }

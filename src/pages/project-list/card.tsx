@@ -117,11 +117,14 @@ export default function Card({
       buttons={{
         left: {
           label: '취소',
-          handleClick: () => {}
+          handleClick: () => {
+            console.log('취소 클릭');
+          }
         },
         right: {
           label: '나가기',
           handleClick: async () => {
+            console.log('나가기 클릭');
             await exitTrip();
             window.location.reload();
           }
@@ -169,6 +172,7 @@ export default function Card({
                 <MoreButton
                   onClick={() => {
                     history.push(`/modify?tripId=${tripId}`);
+                    console.log('수정');
                   }}
                 >
                   여행정보수정

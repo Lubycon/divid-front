@@ -75,6 +75,7 @@ export default function Detail() {
   const tripId = useQueryString().get('tripId');
   const { data } = useGetCalculateDetail(tripId || '');
   const { data: tripInfo } = useGetDetailTripInfo(tripId || '');
+  console.log(tripInfo);
 
   if (!data || !tripInfo) {
     return <Loading />;
