@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { mediaQuery } from 'styles/media';
 import { basicWrap, blueBackground } from 'styles/containers';
@@ -28,7 +28,11 @@ const Title = styled(Heading3)`
 
 export default function Join() {
   const tripId = useQueryString().get('tripId');
-  const { data } = useGetGuestTrip(tripId || '');
+  const { refetch, data } = useGetGuestTrip(tripId || '');
+
+  useEffect(() => {
+    refetch();
+  }, [tripId]);
 
   console.log(data);
 
