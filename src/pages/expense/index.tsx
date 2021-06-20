@@ -17,6 +17,7 @@ import Profile from 'components/profile';
 
 import { mediaQuery, pxToVw } from 'styles/media';
 import { CaptionBold, Heading7 } from 'styles/typography';
+import { ArrowDown as ArrowDownCommon } from 'styles/icon';
 import color from 'styles/colors';
 import Loading from 'pages/loading';
 import UserCheckbox from './user-checkbox';
@@ -49,6 +50,8 @@ const PayerButton = styled.button`
   background: none;
   padding: 0;
   margin-bottom: 21px;
+  display: flex;
+  align-items: center;
 
   ${mediaQuery(640)} {
     margin-bottom: 9px;
@@ -65,6 +68,14 @@ const ToggleWrap = styled.div`
 
 const Label = styled(Heading7)`
   color: ${color.white};
+`;
+
+const ArrowDown = styled(ArrowDownCommon)`
+  margin-left: ${pxToVw(6)};
+
+  ${mediaQuery(640)} {
+    margin-left: 6px;
+  }
 `;
 
 export default function Expense() {
@@ -232,6 +243,7 @@ export default function Expense() {
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
               <Profile nickName={payer.nickName} type={payer.profileImg} isMe={payer.me} hasName borderColor={false} />
+              <ArrowDown />
             </PayerButton>
             <div
               css={[
