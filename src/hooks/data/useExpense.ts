@@ -49,7 +49,7 @@ export function usePostExpense(data: PostExpenseInfo) {
 }
 
 export function useDeleteExpense(tripId: string, expenseId: string) {
-  return useQuery('deleteExpense', () => deleteExpense(tripId, expenseId));
+  return useQuery('deleteExpense', () => deleteExpense(tripId, expenseId), { enabled: false });
 }
 
 export function useGetExpenseAll(tripId: string) {

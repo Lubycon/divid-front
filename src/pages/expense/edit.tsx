@@ -61,7 +61,7 @@ const Label = styled(Heading7)`
 `;
 
 const OptionalButton = styled.div`
-  position: fixed;
+  position: absolute;
   top: ${pxToVw(18)};
   right: ${pxToVw(20)};
   text-decoration: none;
@@ -221,6 +221,7 @@ export default function EditExpense() {
           basicWrap,
           css`
             background-color: ${color.grayscale.gray07};
+            position: relative;
           `
         ]}
       >

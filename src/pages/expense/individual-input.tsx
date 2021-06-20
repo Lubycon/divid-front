@@ -54,6 +54,11 @@ export default function IndividualInput({ userId, nickName, type, isMe }: Checkb
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
 
   useEffect(() => {
+    const individualExpense = newExpense.expenseDetails.filter((el) => el.userId === userId)[0].price;
+    if (individualExpense !== 0) {
+      setInitialPrice(individualExpense);
+      return;
+    }
     if (newExpense.totalPrice > 0) {
       setInitialPrice(Math.floor(newExpense.totalPrice / newExpense.expenseDetails.length));
       return;
