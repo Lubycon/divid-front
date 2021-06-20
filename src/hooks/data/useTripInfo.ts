@@ -52,7 +52,7 @@ export function useGetTripLists() {
 }
 
 export function useGetDetailTripInfo(tripId: string) {
-  return useQuery('getDetailTripInfo', () => getDetailTripInfo(tripId));
+  return useQuery('getDetailTripInfo', () => getDetailTripInfo(tripId), { retry: 1 });
 }
 
 export function useEditTripInfo(tripId: string, data: TripEditInfo) {
