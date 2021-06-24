@@ -9,7 +9,7 @@ import color from 'styles/colors';
 import Log from './log';
 
 const Wrap = styled.div`
-  margin-top: 24px;
+  margin-top: 27px;
 `;
 
 const Text = styled(Caption)`

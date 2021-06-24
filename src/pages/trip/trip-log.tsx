@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { DetailTripInfo } from 'model/trip';
+import { mediaQuery, pxToVw } from 'styles/media';
 
 import Button, { ButtonType } from 'components/button';
 import FloatingActionButton from 'components/floating-action-button';
@@ -49,6 +50,19 @@ const GraphWrap = styled.div`
   margin-top: 19px;
 `;
 
+const Divider = styled.div`
+  width: 100vw;
+  height: ${pxToVw(10)};
+  background: ${color.white};
+  margin-left: ${pxToVw(-24)};
+
+  ${mediaQuery(640)} {
+    height: 10px;
+    width: 640px;
+    margin-left: -24px;
+  }
+`;
+
 export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId: string }) {
   const giveMoneyAmount = trip.amountResponse.giveAmount;
   const takeMoneyAmount = trip.amountResponse.takeAmount;
@@ -80,6 +94,7 @@ export default function TripLog({ trip, tripId }: { trip: DetailTripInfo; tripId
               <Graph giveMoneyAmount={giveMoneyAmount} takeMoneyAmount={takeMoneyAmount} />
             </GraphWrap>
           </SummaryContainer>
+          <Divider />
           <LogList tripId={tripId} />
         </>
       )}

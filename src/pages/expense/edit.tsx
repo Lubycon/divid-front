@@ -15,50 +15,14 @@ import ButtonModal from 'components/modal/button-modal';
 import Button from 'components/button';
 import Profile from 'components/profile';
 import TextInput from 'components/text-input';
-import { CaptionBold, Heading7 } from 'styles/typography';
+import { Heading7 } from 'styles/typography';
 import color from 'styles/colors';
 import Loading from 'pages/loading';
 import UserCheckbox from './user-checkbox';
 import Toggle from './toggle';
+import { FormWrap, Caption, SelectWrap, ToggleWrap, Label, ArrowDown, PayerButton } from './index';
 import { expenseState } from './expense-state';
 import IndividualInput from './individual-input';
-
-const FormWrap = styled.div`
-  width: 100%;
-  min-height: 300px;
-  padding: 16px 16px 20px;
-  background: ${color.white};
-  border: 1px solid ${color.grayscale.gray05};
-  border-radius: 16px;
-  box-sizing: border-box;
-
-  ${mediaQuery(640)} {
-    padding: 20px 24px;
-  }
-`;
-
-const Caption = styled(CaptionBold)`
-  color: ${color.grayscale.gray03};
-  margin: 12px 0;
-`;
-
-const PayerButton = styled.button`
-  width: 100%;
-  border: none;
-  background: none;
-  padding: 0;
-  margin-bottom: 21px;
-`;
-
-const SelectWrap = styled.div`
-  margin: 3px 5px;
-`;
-
-const ToggleWrap = styled.div``;
-
-const Label = styled(Heading7)`
-  color: ${color.white};
-`;
 
 const OptionalButton = styled.div`
   position: absolute;
@@ -258,6 +222,7 @@ export default function EditExpense() {
             <Caption>낸 사람</Caption>
             <PayerButton onClick={openPayerModal}>
               <Profile nickName={initialPayer.nickName} type={initialPayer.profileImg} isMe={initialPayer.me} hasName />
+              <ArrowDown />
             </PayerButton>
             <div
               css={[
