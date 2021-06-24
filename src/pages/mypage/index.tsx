@@ -15,28 +15,43 @@ import { CheckMark } from 'styles/icon';
 import { SubButtonWrap as CommonButtonWrap, Caption, Divider } from 'components/footer';
 import { useGetMyPage, useEditMyPage, usePostWithdrawal } from 'hooks/data/useMyPage';
 import Loading from 'pages/loading';
+import { mediaQuery, pxToVw } from 'styles/media';
 
 const IconSelector = styled.div`
-  padding: 23px 0 19px;
+  padding: 6.1333333333vw 0 5.0666666667vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  ${mediaQuery(640)} {
+    padding: 23px 0 19px;
+  }
 `;
 
 const Icons = styled.div`
-  width: 188px;
-  height: 96px;
-  margin-top: 16px;
+  width: 50.1333333333vw;
+  height: 25.6vw;
+  margin-top: 4.2666666667vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  ${mediaQuery(640)} {
+    width: 188px;
+    height: 96px;
+    margin-top: 16px;
+  }
 `;
 
 const ProfileWrap = styled.div`
-  margin-bottom: 8px;
+  margin-bottom: 2.1333333333vw;
   z-index: 2;
   position: relative;
   cursor: pointer;
+
+  ${mediaQuery(640)} {
+    margin-bottom: 8px;
+  }
 `;
 
 const MarkWrap = styled.div`
@@ -49,11 +64,19 @@ const MarkWrap = styled.div`
 `;
 
 const ButtonWrap = styled.div`
-  margin-top: 32px;
+  margin-top: ${pxToVw(32)};
+
+  ${mediaQuery(640)} {
+    margin-top: 32px;
+  }
 `;
 
 const SubButtonWrap = styled(CommonButtonWrap)`
-  margin-top: 57px;
+  margin-top: ${pxToVw(57)};
+
+  ${mediaQuery(640)} {
+    margin-top: 57px;
+  }
 `;
 
 const Label = styled(Heading7)`
