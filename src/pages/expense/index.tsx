@@ -124,6 +124,7 @@ export default function Expense() {
         });
     }
     handleOnMount();
+    return () => resetExpenseState();
   }, []);
 
   const { handleOpen: openPayerModal, renderModal: renderPayerModal } = useModal({

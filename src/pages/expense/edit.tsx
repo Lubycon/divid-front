@@ -98,7 +98,7 @@ export default function EditExpense() {
         setNewExpense({
           payerId: data.payerId,
           tripId,
-          expenseDetails: data.getExpenseDetails,
+          expenseDetails: data.getExpenseDetails.map(({ userId, price }) => ({ userId, price })),
           individual: data.individual,
           payDate: data.payDate,
           title: data.title,
@@ -107,6 +107,7 @@ export default function EditExpense() {
       await getTripMember();
     }
     handleOnMount();
+    return () => resetExpenseState();
   }, []);
 
   const { handleOpen: openPayerModal, renderModal: renderPayerModal } = useModal({
