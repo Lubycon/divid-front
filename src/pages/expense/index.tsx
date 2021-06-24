@@ -25,7 +25,7 @@ import Toggle from './toggle';
 import { expenseState } from './expense-state';
 import IndividualInput from './individual-input';
 
-const FormWrap = styled.div`
+export const FormWrap = styled.div`
   width: 100%;
   min-height: 300px;
   padding: 16px 16px 20px;
@@ -39,12 +39,12 @@ const FormWrap = styled.div`
   }
 `;
 
-const Caption = styled(CaptionBold)`
+export const Caption = styled(CaptionBold)`
   color: ${color.grayscale.gray03};
   margin: 12px 0;
 `;
 
-const PayerButton = styled.button`
+export const PayerButton = styled.button`
   width: 100%;
   border: none;
   background: none;
@@ -58,19 +58,19 @@ const PayerButton = styled.button`
   }
 `;
 
-const SelectWrap = styled.div`
+export const SelectWrap = styled.div`
   margin: 3px 5px;
 `;
 
-const ToggleWrap = styled.div`
+export const ToggleWrap = styled.div`
   margin: 12px 0;
 `;
 
-const Label = styled(Heading7)`
+export const Label = styled(Heading7)`
   color: ${color.white};
 `;
 
-const ArrowDown = styled(ArrowDownCommon)`
+export const ArrowDown = styled(ArrowDownCommon)`
   margin-left: ${pxToVw(6)};
 
   ${mediaQuery(640)} {
@@ -124,6 +124,7 @@ export default function Expense() {
         });
     }
     handleOnMount();
+    return () => resetExpenseState();
   }, []);
 
   const { handleOpen: openPayerModal, renderModal: renderPayerModal } = useModal({

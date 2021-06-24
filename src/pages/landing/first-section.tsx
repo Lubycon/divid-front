@@ -94,14 +94,13 @@ const SwagImg = styled.div`
 `;
 
 export const CustomButton = styled(Button)`
-  padding: 0 ${pxToVw(20)};
   width: ${pxToVw(132)};
   height: ${pxToVw(50)};
   border-radius: 100px;
   margin: ${pxToVw(16)} 0 0 ${pxToVw(24)};
+  padding: 0;
 
   ${mediaQuery(640)} {
-    padding: 0 32px;
     width: 164px;
     margin: 30px 0 189px 76px;
   }

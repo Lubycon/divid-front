@@ -35,13 +35,19 @@ const squareButton = css`
 `;
 
 const roundButton = css`
-  height: 44px;
+  height: ${pxToVw(44)};
   border-radius: 100px;
+  padding: 0 ${pxToVw(10)};
   background: ${color.white};
+  box-sizing: border-box;
   border: 2px solid ${color.grayscale.gray06};
-  padding: 0 10px;
   ${flexCenter};
   cursor: pointer;
+
+  ${mediaQuery(640)} {
+    height: 44px;
+    padding: 0 10px;
+  }
 `;
 
 const textButton = css`

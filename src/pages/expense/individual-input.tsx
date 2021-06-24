@@ -57,7 +57,7 @@ export default function IndividualInput({ userId, nickName, type, isMe, isError 
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
 
   useEffect(() => {
-    const individualExpense = newExpense.expenseDetails.filter((el) => el.userId === userId)[0].price;
+    const individualExpense = newExpense.expenseDetails.filter((el) => el.userId === userId)[0]?.price;
     if (individualExpense !== 0) {
       setInitialPrice(individualExpense);
       return;

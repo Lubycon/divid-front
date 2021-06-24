@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Profile, { ProfileProps } from 'components/profile';
 import CheckBox from 'components/check-box';
@@ -18,7 +18,16 @@ interface CheckboxProps extends ProfileProps {
 
 export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxProps) {
   const [newExpense, setNewExpense] = useRecoilState(expenseState);
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const individualExpense = newExpense.expenseDetails.filter((el) => el.userId === userId);
+    if (!individualExpense.length) {
+      setIsChecked(false);
+      return;
+    }
+    setIsChecked(true);
+  }, []);
 
   const handleClick = (id: number, checked: boolean) => {
     setIsChecked(checked);
@@ -39,12 +48,14 @@ export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxP
     });
   };
 
+  console.log(isChecked);
+
   return (
     <Wrap>
       <Profile nickName={nickName} type={type} isMe={isMe} borderColor={false} hasName />
       <CheckBox
         userId={userId}
-        checked={isChecked}
+        checked={isChecked ?? true}
         handleClick={() => {
           handleClick(userId, !isChecked);
         }}

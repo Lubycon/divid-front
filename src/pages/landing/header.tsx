@@ -62,13 +62,13 @@ const Logo = styled.div`
   position: absolute;
   left: ${pxToVw(24)};
   cursor: pointer;
-  top: ${pxToVw(20)};
+  top: ${pxToVw(11)};
 
   ${mediaQuery(640)} {
     width: 140px;
     height: 40px;
     left: 0;
-    top: 20px;
+    top: 11px;
   }
 `;
 
