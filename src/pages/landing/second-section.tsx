@@ -52,7 +52,7 @@ const Bubble = styled.div`
   padding-right: ${pxToVw(16)};
   box-sizing: border-box;
 
-  &:nth-child(odd) {
+  &:nth-of-type(odd) {
     border-radius: 40px 0 40px 40px;
   }
 
@@ -63,7 +63,7 @@ const Bubble = styled.div`
     margin-right: 108px;
     padding: 0;
 
-    &:nth-child(odd) {
+    &:nth-of-type(odd) {
       margin-left: 108px;
       margin-right: 0;
     }
