@@ -2,17 +2,28 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import color from 'styles/colors';
-import http, { RequestBodyConfig } from 'api';
+import http from 'api';
 import { mediaQuery, pxToVw } from 'styles/media';
 import { basicWrap, flexAlignCenter, flexCenter, grayBackground } from 'styles/containers';
 import { Heading3, Heading7, Caption, Heading6 } from 'styles/typography';
 import Button from 'components/button';
 import { Link, useHistory } from 'react-router-dom';
-import { changeStringToDate, makeDateFormat, useQueryString, isError } from 'utils';
+import { changeStringToDate, makeDateFormat, useQueryString, isError, setLocalStorage } from 'utils';
 import { useGetGuestTrip } from 'hooks/data/useTripInfo';
 import GoogleLogin from 'react-google-login';
 
 const googleApiKey = process.env.REACT_APP_Google;
+
+interface Response {
+  message: string;
+  accessToken: string;
+  refreshToken: string;
+}
+interface LoginBody {
+  googleId: string;
+  name: string;
+  email: string;
+}
 
 const Title = styled(Heading3)`
   margin-bottom: 24px;
@@ -124,6 +135,7 @@ const Logo = styled.div`
 export default function Login() {
   const history = useHistory();
   const tripId = useQueryString().get('tripId');
+  // const { refetch: loginGoogle, data: loginData } = useGoogleLogin();
   const { refetch: getTripInfo, data, error } = useGetGuestTrip(tripId || '');
 
   useEffect(() => {
@@ -149,16 +161,22 @@ export default function Login() {
 
    // Google Login
   const responseGoogle = (res: any) => {
-    console.log(res.profileObj);
+    console.log(res);
     const loginConfig = {
       name: res.profileObj.name,
       email: res.profileObj.email,
       googleId: res.profileObj.googleId,
     };
-    function postGoogleLogin(config: RequestBodyConfig) {
-      return http.post<Response, undefined>('/oauth/google', undefined, config);
+    console.log(loginConfig);
+    function postGoogleLogin(body: LoginBody) {
+      return http.post<Response, LoginBody>('/googleLogin', body);
     }
-    postGoogleLogin({ data: loginConfig });
+    postGoogleLogin(loginConfig)
+      .then(response => {
+        setLocalStorage('accessToken', response.accessToken);
+        setLocalStorage('refreshToken', response.refreshToken);
+      })
+      .then(() => history.push('/projects'));
   }; 
 
   // Login Fail
