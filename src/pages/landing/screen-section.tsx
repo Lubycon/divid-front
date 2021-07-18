@@ -14,7 +14,7 @@ const Section = styled.div`
   height: ${pxToVw(650)};
   padding: 0 ${pxToVw(24)};
 
-  &:nth-child(odd) {
+  &:nth-of-type(odd) {
     background: ${color.grayscale.gray07};
   }
 
@@ -23,7 +23,7 @@ const Section = styled.div`
     padding: 0;
     justify-content: center;
 
-    &:nth-child(odd) {
+    &:nth-of-type(odd) {
       & > div {
         flex-direction: row-reverse;
       }

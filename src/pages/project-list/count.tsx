@@ -12,7 +12,7 @@ interface CountProps {
 }
 
 const conditionalGap = css`
-  &:nth-child(2) {
+  &:nth-of-type(2) {
     margin-left: 17px;
   }
 `;
