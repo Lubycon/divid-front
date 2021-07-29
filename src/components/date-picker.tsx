@@ -20,11 +20,11 @@ const ShowPickerButton = styled(Body1)`
 
 const Wrap = styled.div`
   ${flexAlignCenter};
-  margin-top: ${pxToVw(16)};
+  margin-top: ${pxToVw(8)};
   position: relative;
 
   ${mediaQuery(640)} {
-    margin-top: 16px;
+    margin-top: 8px;
   }
 `;
 
@@ -53,6 +53,10 @@ const DatePickerWrap = styled.div<{ isEndDate: boolean }>`
     border-radius: 16px;
     height: ${({ isEndDate }) => (isEndDate ? 615 : 530)}px;
   }
+`;
+
+const HeaderTitle = styled(Heading7)`
+  font-size: 16px;
 `;
 
 const ButtonWrap = styled.div`
@@ -92,10 +96,6 @@ const CloseButton = styled.div`
   height: 44px;
   ${flexCenter};
   z-index: 11;
-
-  ${mediaQuery(640)} {
-    top: 10px;
-  }
 `;
 
 const DownIcon = styled.span`
@@ -108,27 +108,21 @@ const DownIcon = styled.span`
 const ArrowRight = styled(ArrowRightCommon)`
   position: absolute;
   z-index: 11;
-  top: ${pxToVw(124)};
-  right: ${pxToVw(17)};
+  right: 17px;
+  top: 124px;
+  width: 24px;
+  height: 24px;
   pointer-events: none;
-
-  ${mediaQuery(640)} {
-    right: 17px;
-    top: 124px;
-  }
 `;
 
 const ArrowLeft = styled(ArrowLeftCommon)`
   position: absolute;
   z-index: 11;
-  top: ${pxToVw(124)};
-  right: ${pxToVw(103)};
+  right: 103px;
+  top: 124px;
+  width: 24px;
+  height: 24px;
   pointer-events: none;
-
-  ${mediaQuery(640)} {
-    right: 103px;
-    top: 124px;
-  }
 `;
 
 registerLocale('ko', ko);
@@ -178,7 +172,7 @@ export default function DateRangeSelector({ setDate, defaultStartDate, defaultEn
       {showPicker && (
         <DatePickerWrap isEndDate={!!endDate}>
           <Header>
-            <Heading7>여행일정 선택</Heading7>
+            <HeaderTitle>여행일정 선택</HeaderTitle>
           </Header>
           <CloseButton onClick={() => setShowPicker(false)}>
             <Close />
@@ -239,7 +233,7 @@ export function SingleDatePicker({ setDate, defaultDate }: SingleDatePickerProps
       {showPicker && (
         <DatePickerWrap isEndDate={!!singleDate}>
           <Header>
-            <Heading7>여행일정 선택</Heading7>
+            <HeaderTitle>여행일정 선택</HeaderTitle>
           </Header>
           <CloseButton onClick={() => setShowPicker(false)}>
             <Close />

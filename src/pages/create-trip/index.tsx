@@ -25,10 +25,15 @@ const Label = styled(Heading7)`
 `;
 
 const Arrow = styled.span`
-  width: 24px;
-  height: 24px;
+  width: ${pxToVw(24)};
+  height: ${pxToVw(24)};
   background: url('/images/arrow_down.svg') center no-repeat;
   background-size: contain;
+
+  ${mediaQuery(640)} {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const PickerWrapper = styled.div`
