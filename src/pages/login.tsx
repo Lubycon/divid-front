@@ -152,13 +152,11 @@ export default function Login() {
 
   // Google Login
   const responseGoogle = (res: any) => {
-    console.log(res);
     const loginConfig = {
       name: res.profileObj.name,
       email: res.profileObj.email,
       googleId: res.profileObj.googleId
     };
-    console.log(loginConfig);
     function postGoogleLogin(body: LoginBody) {
       return http.post<Response, LoginBody>('/googleLogin', body);
     }

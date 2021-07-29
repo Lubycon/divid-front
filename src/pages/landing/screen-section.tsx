@@ -90,8 +90,8 @@ const Title = styled(Heading3)`
 export default function ScreenSection() {
   return (
     <>
-      {DESC_DATA.map((d) => (
-        <Section>
+      {DESC_DATA.map((d, i) => (
+        <Section key={i}>
           <Content>
             <ScreenImg src={d.img} />
             <TextBox>

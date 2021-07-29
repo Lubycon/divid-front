@@ -48,8 +48,6 @@ export default function UserCheckbox({ userId, nickName, type, isMe }: CheckboxP
     });
   };
 
-  console.log(isChecked);
-
   return (
     <Wrap>
       <Profile nickName={nickName} type={type} isMe={isMe} borderColor={false} hasName />
