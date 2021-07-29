@@ -5,7 +5,7 @@ import { DetailTripInfo } from 'model/trip';
 import { mediaQuery, pxToVw } from 'styles/media';
 import FloatingActionButton from 'components/floating-action-button';
 import color from 'styles/colors';
-import Summary from 'pages/summary';
+import Summary from './summary';
 import Empty from './empty';
 import LogList from './log-list';
 
