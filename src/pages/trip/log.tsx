@@ -116,7 +116,6 @@ export default function Log({ expenseId, tripId, expender, profile, amount, desc
           label: '삭제',
           handleClick: () => {
             deleteExpense();
-            window.history.back();
           }
         }
       }}

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { mediaQuery, pxToVw } from 'styles/media';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { Heading7 as Title } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
@@ -114,6 +114,7 @@ export default function Header() {
   const isScrolled = useScroll();
   const title = getPageInfo();
   const button = useHeaderOptionalButton();
+  const history = useHistory();
 
   return (
     <Wrap isScrolled={isScrolled}>
@@ -125,7 +126,11 @@ export default function Header() {
         ) : (
           <BackButton
             onClick={() => {
-              window.history.back();
+              if (window.location.href.includes('/trips')) {
+                history.push('/projects');
+              } else {
+                window.history.back();
+              }
             }}
           />
         )}
