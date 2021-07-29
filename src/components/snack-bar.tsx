@@ -16,7 +16,7 @@ const SnackBarWrap = styled.div<{ isOpen: boolean }>`
   width: ${pxToVw(327)};
   height: ${pxToVw(60)};
   z-index: 1000;
-  background: ${color.white};
+  background: ${color.grayscale.gray01};
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
   border-radius: 9px;
   ${flexCenter};

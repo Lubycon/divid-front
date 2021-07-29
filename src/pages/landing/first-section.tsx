@@ -80,7 +80,7 @@ const Label = styled(Heading7)`
 
 const SwagImg = styled.div`
   width: ${pxToVw(142)};
-  height: ${pxToVw(150)};
+  height: ${pxToVw(156)};
   background: url('/images/Frame 880.svg') center no-repeat;
   background-size: contain;
   position: absolute;
@@ -89,7 +89,7 @@ const SwagImg = styled.div`
 
   ${mediaQuery(640)} {
     width: 226px;
-    height: 210px;
+    height: 241px;
   }
 `;
 

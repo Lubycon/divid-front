@@ -34,7 +34,7 @@ const Label = styled(CaptionBold)`
 
 const Text = styled(Heading7)`
   span {
-    color: ${color.primary};
+    color: ${color.green};
   }
 `;
 

@@ -189,10 +189,10 @@ export default function MyPage() {
         </IconSelector>
         <InputBox
           label="이름"
-          note="최소 1자 최대 10자 입력가능해요."
+          note="최소 1자 최대 4자 입력가능해요."
           defaultValue={nickname}
           onChangeInput={handleChange}
-          maxLength={10}
+          maxLength={4}
           minLength={1}
         />
         <ButtonWrap>

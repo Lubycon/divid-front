@@ -50,8 +50,7 @@ const MainImg = styled.div`
 const button = css`
   width: 100%;
   border-radius: 8px;
-  background-color: white;
-  border: 1px solid ${color.grayscale.gray05};
+  background-color: #4285f4;
   color: rgb(0, 0, 0, 0.85);
   margin-top: 36px;
 
@@ -62,6 +61,7 @@ const button = css`
 
 const Text = styled(Heading7)`
   display: inline-block;
+  color: ${color.white};
 `;
 
 const SubText = styled(Caption)`
@@ -80,13 +80,13 @@ const SubText = styled(Caption)`
   }
 `;
 
-// const KakaoIcon = styled.span`
-//   width: 24px;
-//   height: 24px;
-//   margin-right: 4px;
-//   background: url('/images/ico_kakaotalk.svg') center no-repeat;
-//   background-size: contain;
-// `;
+const GoogleIcon = styled.span`
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  background: url('/images/ico_google.svg') center no-repeat;
+  background-size: contain;
+`;
 
 const TripInfoContainer = styled.div`
   width: ${pxToVw(200)};
@@ -127,10 +127,10 @@ const Logo = styled.div`
   }
 `;
 
-// const { Kakao } = window;
-// const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
+const { Kakao } = window;
+const apiKey = process.env.REACT_APP_KAKAO_APP_KEY;
 
-// Kakao.init(apiKey);
+Kakao.init(apiKey);
 
 export default function Login() {
   const history = useHistory();
@@ -150,38 +150,29 @@ export default function Login() {
     }
   }, [error, data]);
 
-  // const handleClickLogin = () => {
-  //   if (Kakao.isInitialized()) {
-  //     Kakao.Auth.authorize({
-  //       redirectUri: 'https://divid.kr/oauth/kakao/result',
-  //       state: tripId || ''
-  //     });
-  //   }
-  // };
-
-   // Google Login
+  // Google Login
   const responseGoogle = (res: any) => {
     console.log(res);
     const loginConfig = {
       name: res.profileObj.name,
       email: res.profileObj.email,
-      googleId: res.profileObj.googleId,
+      googleId: res.profileObj.googleId
     };
     console.log(loginConfig);
     function postGoogleLogin(body: LoginBody) {
       return http.post<Response, LoginBody>('/googleLogin', body);
     }
     postGoogleLogin(loginConfig)
-      .then(response => {
+      .then((response) => {
         setLocalStorage('accessToken', response.accessToken);
         setLocalStorage('refreshToken', response.refreshToken);
       })
       .then(() => history.push('/projects'));
-  }; 
+  };
 
   // Login Fail
   const responseFail = (err: any) => {
-      console.error(err);
+    console.error(err);
   };
 
   if (tripId && data) {
@@ -197,23 +188,22 @@ export default function Login() {
             {makeDateFormat(changeStringToDate(data.startDate))} - {makeDateFormat(changeStringToDate(data.endDate))}
           </TripText>
         </TripInfoContainer>
-        {/* <Button onClick={handleClickLogin} customStyle={button}>
-          <>
-            <KakaoIcon />
-            <Text>카카오로 계속하기</Text>
-          </>
-        </Button> */}
         <GoogleLogin
           clientId={googleApiKey || ''}
-          buttonText="구글 계정으로 시작하기"
+          buttonText="구글로 계속하기"
           onSuccess={responseGoogle}
           onFailure={responseFail}
-          render={renderProps => (
-            <Button onClick={renderProps.onClick} customStyle={button}><Text>구글 계정으로 시작하기</Text></Button>
+          render={(renderProps) => (
+            <Button onClick={renderProps.onClick} customStyle={button}>
+              <>
+                <GoogleIcon />
+                <Text>구글로 계속하기</Text>
+              </>
+            </Button>
           )}
         />
         <SubText>
-          “카카오로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
+          “구글로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
           <br /> <Link to="/terms">이용약관</Link>에 동의합니다.
         </SubText>
       </div>
@@ -228,23 +218,22 @@ export default function Login() {
         디빗에서 쉽게!
       </Title>
       <MainImg />
-      {/* <Button onClick={handleClickLogin} customStyle={button}>
-        <>
-          <KakaoIcon />
-          <Text>카카오로 계속하기</Text>
-        </>
-      </Button> */}
       <GoogleLogin
-          clientId={googleApiKey || ''}
-          buttonText="구글 계정으로 시작하기"
-          onSuccess={responseGoogle}
-          onFailure={responseFail}
-          render={renderProps => (
-            <Button onClick={renderProps.onClick} customStyle={button}><Text>구글 계정으로 시작하기</Text></Button>
-          )}
+        clientId={googleApiKey || ''}
+        buttonText="구글로 계속하기"
+        onSuccess={responseGoogle}
+        onFailure={responseFail}
+        render={(renderProps) => (
+          <Button onClick={renderProps.onClick} customStyle={button}>
+            <>
+              <GoogleIcon />
+              <Text>구글로 계속하기</Text>
+            </>
+          </Button>
+        )}
       />
       <SubText>
-        “카카오로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
+        “구글로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
         <br /> <Link to="/terms">이용약관</Link>에 동의합니다.
       </SubText>
     </div>

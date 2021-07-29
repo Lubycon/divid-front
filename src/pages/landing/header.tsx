@@ -4,7 +4,7 @@ import { mediaQuery, pxToVw } from 'styles/media';
 
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
-import { Heading7 as Title } from 'styles/typography';
+import { CaptionBold } from 'styles/typography';
 import { flexCenter } from 'styles/containers';
 import { useScroll } from 'utils';
 import color from 'styles/colors';
@@ -44,6 +44,10 @@ const HeaderContainer = styled.div`
   }
 `;
 
+const Title = styled(CaptionBold)`
+  display: inline-block;
+`;
+
 const scrolled = css`
   background-color: ${color.white};
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
@@ -55,20 +59,20 @@ const unscrolled = css`
 `;
 
 const Logo = styled.div`
-  width: ${pxToVw(140)};
-  height: ${pxToVw(40)};
-  background: url('/images/beta_logo_section.svg') no-repeat center;
+  width: ${pxToVw(100)};
+  height: ${pxToVw(30)};
+  background: url('/images/logo_section.svg') no-repeat center;
   background-size: contain;
   position: absolute;
   left: ${pxToVw(24)};
   cursor: pointer;
-  top: ${pxToVw(11)};
+  top: ${pxToVw(19)};
 
   ${mediaQuery(640)} {
-    width: 140px;
-    height: 40px;
+    width: 100px;
+    height: 30px;
     left: 0;
-    top: 11px;
+    top: 19px;
   }
 `;
 
@@ -77,8 +81,8 @@ const ButtonLabel = styled(Title)`
 `;
 
 const ButtonGray = styled.button`
-  width: ${pxToVw(75)};
-  height: ${pxToVw(42)};
+  width: ${pxToVw(70)};
+  height: ${pxToVw(40)};
   background-color: #f3f3f3;
   border-radius: 8px;
   border: none;

@@ -72,6 +72,7 @@ export const Heading7 = styled(Heading)`
 `;
 
 export const Body1 = styled.p`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(26)};
   font-weight: 500;
   line-height: 1.5;
@@ -82,6 +83,7 @@ export const Body1 = styled.p`
 `;
 
 export const Body2 = styled.p`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(20)};
   font-weight: 500;
   line-height: 1.5;
@@ -92,6 +94,7 @@ export const Body2 = styled.p`
 `;
 
 export const Body3 = styled.p`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(18)};
   font-weight: 500;
   line-height: 1.5;
@@ -102,6 +105,7 @@ export const Body3 = styled.p`
 `;
 
 export const Body4 = styled.p`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(16)};
   font-weight: 400;
   line-height: 1.5;
@@ -112,6 +116,7 @@ export const Body4 = styled.p`
 `;
 
 export const CaptionTitle = styled.h3`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(18)};
   font-weight: 600;
   line-height: 1.5;
@@ -122,6 +127,7 @@ export const CaptionTitle = styled.h3`
 `;
 
 export const CaptionBold = styled.p`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(14)};
   font-weight: 600;
   line-height: 1.5;
@@ -132,6 +138,7 @@ export const CaptionBold = styled.p`
 `;
 
 export const Caption = styled.p`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(14)};
   font-weight: 400;
   line-height: 1.5;
@@ -142,6 +149,7 @@ export const Caption = styled.p`
 `;
 
 export const Badge = styled.span`
+  font-family: 'Apple SD Gothic', 'Noto Sans KR', '맑은고딕', sans-serif;
   font-size: ${pxToVw(12)};
   font-weight: 500;
 

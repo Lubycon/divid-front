@@ -59,33 +59,45 @@ export const Divider = styled.div`
 const RightsNotice = styled(Heading)`
   font-weight: 400;
   color: ${color.grayscale.gray04};
-  margin: ${pxToVw(36)} 0;
+  margin: ${pxToVw(36)} 0 ${pxToVw(16)};
   font-size: ${pxToVw(14)};
+  display: block;
 
   ${mediaQuery(640)} {
     font-size: 14px;
-    margin: 36px 0;
+    margin: 36px 0 16px;
   }
 `;
 
 const LubyconLogo = styled.div`
-  right: ${pxToVw(24)};
-  bottom: ${pxToVw(60)};
+  margin-left: ${pxToVw(10)};
   width: ${pxToVw(80)};
   height: ${pxToVw(25)};
   background: url('/images/logo_lubycon.svg') center no-repeat;
   background-size: contain;
-  margin-top: 16px;
+  display: inline-block;
 
   ${mediaQuery(640)} {
+    margin-left: 10px;
     width: 80px;
     height: 25px;
     position: absolute;
-    right: 24px;
-    bottom: 37px;
   }
 `;
 
+const DividLogo = styled.div`
+  width: ${pxToVw(80)};
+  height: ${pxToVw(27)};
+  background: url('/images/logo_divid.svg') center no-repeat;
+  background-size: contain;
+  display: inline-block;
+
+  ${mediaQuery(640)} {
+    width: 80px;
+    height: 27px;
+    position: absolute;
+  }
+`;
 export default function Footer() {
   return (
     <Section>
@@ -104,6 +116,7 @@ export default function Footer() {
           </Link>
         </SubButtonWrap>
         <RightsNotice>© 2021. divid. all rights reserved.</RightsNotice>
+        <DividLogo />
         <LubyconLogo />
       </Content>
     </Section>
