@@ -82,6 +82,8 @@ const LubyconLogo = styled.div`
     width: 80px;
     height: 25px;
     position: absolute;
+    right: 0;
+    bottom: 37px;
   }
 `;
 
@@ -96,6 +98,8 @@ const DividLogo = styled.div`
     width: 80px;
     height: 27px;
     position: absolute;
+    right: 112px;
+    bottom: 37px;
   }
 `;
 export default function Footer() {
