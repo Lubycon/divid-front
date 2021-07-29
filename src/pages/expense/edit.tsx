@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { basicWrap, flexCenter } from 'styles/containers';
-import { mediaQuery, pxToVw } from 'styles/media';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useModal from 'hooks/useModal';
-import { useDeleteExpense, useEditExpenseInfo, useGetExpenseInfo } from 'hooks/data/useExpense';
+import { useEditExpenseInfo, useGetExpenseInfo } from 'hooks/data/useExpense';
 import { numberWithCommas, useQueryString } from 'utils';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useGetTripMembers } from 'hooks/data/useTripInfo';
 import { SingleDatePicker } from 'components/date-picker';
 import SelectModal from 'components/modal/select-modal';
-import ButtonModal from 'components/modal/button-modal';
 import Button from 'components/button';
 import Profile from 'components/profile';
 import TextInput from 'components/text-input';
-import { Heading7 } from 'styles/typography';
 import color from 'styles/colors';
 import Loading from 'pages/loading';
 import UserCheckbox from './user-checkbox';
@@ -23,23 +19,6 @@ import Toggle from './toggle';
 import { FormWrap, Caption, SelectWrap, ToggleWrap, Label, ArrowDown, PayerButton } from './index';
 import { expenseState } from './expense-state';
 import IndividualInput from './individual-input';
-
-const OptionalButton = styled.div`
-  position: absolute;
-  top: ${pxToVw(18)};
-  right: ${pxToVw(20)};
-  text-decoration: none;
-  z-index: 1000;
-
-  ${mediaQuery(640)} {
-    top: 18px;
-    right: 20px;
-  }
-`;
-
-const ButtonLabel = styled(Heading7)`
-  color: ${color.grayscale.gray03};
-`;
 
 export default function EditExpense() {
   const [isError, setIsError] = useState(false);
@@ -52,7 +31,6 @@ export default function EditExpense() {
   const { refetch: postExpense, isLoading } = useEditExpenseInfo(tripId || '', expenseId || '', newExpense);
   const resetExpenseState = useResetRecoilState(expenseState);
   const initialPayer = members?.filter((el) => el.userId === newExpense.payerId)[0];
-  const { refetch: deleteExpense } = useDeleteExpense(tripId || '', expenseId || '');
 
   useEffect(() => {
     async function handleOnMount() {
@@ -129,30 +107,6 @@ export default function EditExpense() {
     window.history.back();
   };
 
-  const DeleteModalContents = (
-    <ButtonModal
-      type="delete"
-      title="정말 삭제하시겠어요?"
-      body="삭제한 내역은 복구가 안 돼요"
-      buttons={{
-        left: {
-          label: '취소'
-        },
-        right: {
-          label: '삭제',
-          handleClick: () => {
-            deleteExpense();
-            window.history.back();
-          }
-        }
-      }}
-    />
-  );
-
-  const { handleOpen: openDeleteModal, renderModal: renderDeleteModal } = useModal({
-    children: DeleteModalContents
-  });
-
   const ToggleDutchPay = () => {
     const memberDetail = newExpense.expenseDetails.map(({ userId }) => ({
       userId,
@@ -180,7 +134,6 @@ export default function EditExpense() {
   return (
     <>
       {renderPayerModal()}
-      {renderDeleteModal()}
       <div
         css={[
           basicWrap,
@@ -266,9 +219,6 @@ export default function EditExpense() {
         >
           <Label>저장</Label>
         </Button>
-        <OptionalButton onClick={openDeleteModal}>
-          <ButtonLabel>삭제</ButtonLabel>
-        </OptionalButton>
       </div>
     </>
   );

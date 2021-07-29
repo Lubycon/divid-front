@@ -1,9 +1,9 @@
 import React from 'react';
-import { useGetExpenseAll } from 'hooks/data/useExpense';
+import { useGetCalculateDetail } from 'hooks/data/useExpense';
 import styled from '@emotion/styled';
 import { Caption } from 'styles/typography';
 import { flexAlignCenter } from 'styles/containers';
-import { numberWithCommas } from 'utils';
+// import { numberWithCommas } from 'utils';
 import Loading from 'pages/loading';
 import color from 'styles/colors';
 import Log from './log';
@@ -24,7 +24,7 @@ const CaptionWrap = styled.div`
 `;
 
 export default function LogList({ tripId }: { tripId: string }) {
-  const { data } = useGetExpenseAll(tripId);
+  const { data } = useGetCalculateDetail(tripId || '');
 
   if (!data) {
     <Loading />;
@@ -36,22 +36,25 @@ export default function LogList({ tripId }: { tripId: string }) {
         <React.Fragment key={el.payDate}>
           <CaptionWrap>
             <Text>{el.payDate}</Text>
-            {i === 0 ? (
+            {/* {i === 0 ? (
               <Text>총 {data?.[0].tripTotalPrice !== undefined && numberWithCommas(data?.[0].tripTotalPrice)}원</Text>
-            ) : null}
+            ) : null} */}
           </CaptionWrap>
-          {el.detailResponses.map(({ nickName, expenseId, totalPrice, title, profileImg, me }) => (
-            <Log
-              key={expenseId}
-              expenseId={expenseId}
-              tripId={tripId}
-              expender={nickName}
-              profile={profileImg}
-              amount={totalPrice}
-              desc={title}
-              isMe={me}
-            />
-          ))}
+          {el.calculateListDetails.map(
+            ({ nickName, id, totalPrice, title, profileImg, me, calculateListDetails }, index) => (
+              <Log
+                key={index}
+                expenseId={id}
+                tripId={tripId}
+                expender={nickName}
+                profile={profileImg}
+                amount={totalPrice}
+                desc={title}
+                isMe={me}
+                details={calculateListDetails}
+              />
+            )
+          )}
         </React.Fragment>
       ))}
     </Wrap>
