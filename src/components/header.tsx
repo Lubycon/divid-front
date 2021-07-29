@@ -69,7 +69,7 @@ const Icon = styled.div`
 const Logo = styled.div`
   width: ${pxToVw(100)};
   height: ${pxToVw(30)};
-  background: url('/images/beta_logo_section.svg') no-repeat center;
+  background: url('/images/logo_section.svg') no-repeat center;
   background-size: contain;
 
   ${mediaQuery(640)} {
