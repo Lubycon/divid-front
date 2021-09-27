@@ -17,6 +17,7 @@ import Trip from './pages/trip';
 import Expense from './pages/expense';
 import EditExpense from './pages/expense/edit';
 import MyPage from './pages/mypage';
+import Kakao from './pages/oauth/kakao';
 import Modify from './pages/modify-trip';
 import ServiceInfo from './pages/service-info';
 import Join from './pages/join';
@@ -34,6 +35,10 @@ const routes: RouteProps[] = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/oauth/kakao/result',
+    component: Kakao
   },
   {
     path: '/create',
