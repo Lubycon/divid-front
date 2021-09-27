@@ -14,13 +14,19 @@ import { Link } from 'react-router-dom';
 import ButtonModal from 'components/modal/button-modal';
 import { useDeleteExpense } from 'hooks/data/useExpense';
 
-const Wrap = styled.div`
+const Wrap = styled.div<{ isToggle: boolean }>`
   width: 100%;
   background-color: ${color.white};
   margin-bottom: 8px;
   border-radius: 8px;
   box-sizing: border-box;
   overflow: hidden;
+
+  ${({ isToggle }) =>
+    isToggle &&
+    css`
+      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+    `}
 `;
 
 const DetailWrap = styled.div`
@@ -88,6 +94,53 @@ const Hr = styled.div`
   margin-bottom: 16px;
 `;
 
+const Button = styled.div`
+  width: ${pxToVw(142)};
+  height: ${pxToVw(44)};
+  border-radius: 8px;
+  border: 1px solid ${color.grayscale.gray07};
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${mediaQuery(640)} {
+    width: 276px;
+    height: 44px;
+    border: 1px solid #d5d6d7;
+  }
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0 20px;
+
+  ${mediaQuery(640)} {
+    margin: 24px 0;
+  }
+`;
+
+const ButtonIcon = styled.div`
+  width: ${pxToVw(16)};
+  height: ${pxToVw(16)};
+  background: url('/images/ico_trash.svg') center no-repeat;
+  background-size: contain;
+  margin-right: ${pxToVw(4)};
+
+    ${mediaQuery(640)} {
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+    }
+  }
+`;
+
+const EditIcon = styled(ButtonIcon)`
+  background: url('/images/ico_edit.svg') center no-repeat;
+  background-size: contain;
+`;
+
 interface LogProps {
   expender: string;
   profile: Animals;
@@ -132,7 +185,7 @@ export default function Log({ expenseId, tripId, expender, profile, amount, desc
 
       <div>
         {/* <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}> */}
-        <Wrap>
+        <Wrap isToggle={isToggle}>
           <MainContents onClick={() => setIsToggle(!isToggle)}>
             <div css={flexBox}>
               <Profile iconSize={IconSize.SM} type={profile} isMe={isMe} hasName nickName={expender} />
@@ -174,10 +227,30 @@ export default function Log({ expenseId, tripId, expender, profile, amount, desc
               ) : (
                 <Nothing>줄 내역이 없습니다.</Nothing>
               )}
-              <button type="button" onClick={openDeleteModal}>
-                삭제
-              </button>
-              <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>수정</Link>
+              <ButtonWrap>
+                <Link to={`/editExpense?tripId=${tripId}&expenseId=${expenseId}`}>
+                  <Button>
+                    <EditIcon />
+                    <Badge
+                      css={css`
+                        color: ${color.grayscale.gray02};
+                      `}
+                    >
+                      수정
+                    </Badge>
+                  </Button>
+                </Link>
+                <Button onClick={openDeleteModal}>
+                  <ButtonIcon />
+                  <Badge
+                    css={css`
+                      color: ${color.red};
+                    `}
+                  >
+                    삭제
+                  </Badge>
+                </Button>
+              </ButtonWrap>
             </SubContents>
           )}
         </Wrap>
