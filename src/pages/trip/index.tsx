@@ -13,10 +13,10 @@ export default function Trip() {
   const { data, isLoading, error } = useGetDetailTripInfo(tripId || '');
 
   if (isError(error)) {
-    console.log(error);
-    console.log(error.message);
-    console.log(error.name);
-    if (error.message === 'Request failed with status code 404') {
+    if (
+      error.message === 'Request failed with status code 404' ||
+      error.message === 'Request failed with status code 500'
+    ) {
       history.push('/notFound');
     }
     if (error.message === 'Request failed with status code 403') {

@@ -89,7 +89,8 @@ const Message = styled.p`
   color: ${color.grayscale.gray02};
   font-size: ${pxToVw(18)};
 
-  & > p {
+  & > span {
+    display: block;
     color: ${color.primary};
     font-weight: 800;
     margin-bottom: ${pxToVw(8)};
@@ -99,7 +100,7 @@ const Message = styled.p`
   ${mediaQuery(640)} {
     font-size: 24px;
 
-    & > p {
+    & > span {
       font-size: 24px;
       margin-bottom: 8px;
     }
@@ -127,11 +128,11 @@ export default function SecondSection() {
     <SecondPart>
       <Content>
         <Title>여행 정산 과정에 {isDesktop ? null : <br />}지치셨나요?</Title>
-        {BUBBLE_DATA.map((b) => (
-          <Bubble>
+        {BUBBLE_DATA.map((b, i) => (
+          <Bubble key={i}>
             <RoundImg index={b.id} />
             <Message>
-              <p>{b.name}</p>
+              <span>{b.name}</span>
               {b.desc}
             </Message>
           </Bubble>

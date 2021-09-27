@@ -35,7 +35,7 @@ export default function useKakaoToken(code: string) {
         const data: KakaoAuthQuery = {
           grant_type: 'authorization_code',
           client_id: apiKey || '',
-          redirect_uri: 'https://localhost:8082/oauth/kakao/result',
+          redirect_uri: 'https://divid.kr/oauth/kakao/result',
           code: codeString
         };
         const queryString = getKeys(data)

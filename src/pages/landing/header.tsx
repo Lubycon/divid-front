@@ -106,7 +106,7 @@ export default function Header() {
   return (
     <Wrap isScrolled={isScrolled}>
       <HeaderContainer>
-        <Link to="/projects">
+        <Link to="/home">
           <Logo />
         </Link>
         <div>

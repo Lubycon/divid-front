@@ -50,8 +50,18 @@ const MainImg = styled.div`
 const button = css`
   width: 100%;
   border-radius: 8px;
-  background-color: #4285f4;
-  color: rgb(0, 0, 0, 0.85);
+  background-color: ${color.white};
+  margin-top: 10px;
+
+  ${mediaQuery(640)} {
+    margin-top: 10px;
+  }
+`;
+
+const kakaobutton = css`
+  width: 100%;
+  border-radius: 8px;
+  background-color: ${color.kakaoYellow};
   margin-top: 36px;
 
   ${mediaQuery(640)} {
@@ -59,9 +69,17 @@ const button = css`
   }
 `;
 
+const KakaoIcon = styled.span`
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  background: url('/images/ico_kakaotalk.svg') center no-repeat;
+  background-size: contain;
+`;
+
 const Text = styled(Heading7)`
   display: inline-block;
-  color: ${color.white};
+  color: ${color.grayscale.gray03};
 `;
 
 const SubText = styled(Caption)`
@@ -69,6 +87,7 @@ const SubText = styled(Caption)`
   color: #4f4f4f;
   text-align: center;
   margin-top: 12px;
+  font-size: ${pxToVw(12)};
 
   ${mediaQuery(640)} {
     margin-top: 24px;
@@ -150,15 +169,22 @@ export default function Login() {
     }
   }, [error, data]);
 
+  const handleClickLogin = () => {
+    if (Kakao.isInitialized()) {
+      Kakao.Auth.authorize({
+        redirectUri: 'https://divid.kr/oauth/kakao/result',
+        state: tripId || ''
+      });
+    }
+  };
+
   // Google Login
   const responseGoogle = (res: any) => {
-    console.log(res);
     const loginConfig = {
       name: res.profileObj.name,
       email: res.profileObj.email,
       googleId: res.profileObj.googleId
     };
-    console.log(loginConfig);
     function postGoogleLogin(body: LoginBody) {
       return http.post<Response, LoginBody>('/googleLogin', body);
     }
@@ -188,6 +214,12 @@ export default function Login() {
             {makeDateFormat(changeStringToDate(data.startDate))} - {makeDateFormat(changeStringToDate(data.endDate))}
           </TripText>
         </TripInfoContainer>
+        <Button onClick={handleClickLogin} customStyle={kakaobutton}>
+          <>
+            <KakaoIcon />
+            <Text>카카오로 계속하기</Text>
+          </>
+        </Button>
         <GoogleLogin
           clientId={googleApiKey || ''}
           buttonText="구글로 계속하기"
@@ -203,8 +235,8 @@ export default function Login() {
           )}
         />
         <SubText>
-          “구글로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
-          <br /> <Link to="/terms">이용약관</Link>에 동의합니다.
+          “구글로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과<br />
+          <Link to="/terms">이용약관</Link>에 동의합니다.
         </SubText>
       </div>
     );
@@ -218,6 +250,12 @@ export default function Login() {
         디빗에서 쉽게!
       </Title>
       <MainImg />
+      <Button onClick={handleClickLogin} customStyle={kakaobutton}>
+        <>
+          <KakaoIcon />
+          <Text>카카오로 계속하기</Text>
+        </>
+      </Button>
       <GoogleLogin
         clientId={googleApiKey || ''}
         buttonText="구글로 계속하기"
@@ -233,7 +271,7 @@ export default function Login() {
         )}
       />
       <SubText>
-        “구글로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
+        “카카오 및 구글로 계속하기”를 누름으로써 <Link to="/privacy">개인정보처리방침</Link>과
         <br /> <Link to="/terms">이용약관</Link>에 동의합니다.
       </SubText>
     </div>

@@ -7,13 +7,10 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { isHomePage } from 'utils';
 import 'reset-css';
 import Header from 'components/header';
-import Summary from 'pages/summary';
-import Detail from 'pages/summary-detail';
 import Error404 from 'pages/error/404';
 import LandingHeader from 'pages/landing/header';
 import Landing from './pages/landing';
 import Login from './pages/login';
-import Kakao from './pages/oauth/kakao';
 import Create from './pages/create-trip';
 import ProjectList from './pages/project-list';
 import Trip from './pages/trip';
@@ -39,10 +36,6 @@ const routes: RouteProps[] = [
     component: Login
   },
   {
-    path: '/oauth/kakao/result',
-    component: Kakao
-  },
-  {
     path: '/create',
     component: Create
   },
@@ -55,20 +48,12 @@ const routes: RouteProps[] = [
     component: Trip
   },
   {
-    path: '/detail',
-    component: Detail
-  },
-  {
     path: '/expense',
     component: Expense
   },
   {
     path: '/editExpense',
     component: EditExpense
-  },
-  {
-    path: '/summary',
-    component: Summary
   },
   {
     path: '/mypage',

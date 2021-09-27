@@ -5,8 +5,8 @@ import color from 'styles/colors';
 import { Badge as CommonBadge } from 'styles/typography';
 
 const InputText = styled.input<{ error: boolean }>`
-  width: 286px;
-  height: 40px;
+  width: ${pxToVw(286)};
+  height: ${pxToVw(40)};
   border: none;
   border-bottom: 1px solid ${color.grayscale.gray05};
   padding: ${pxToVw(14)} 0;
