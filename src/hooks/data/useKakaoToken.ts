@@ -53,7 +53,7 @@ export default function useKakaoToken(code: string) {
   }, []);
 
   function postKakaoToken(config: RequestBodyConfig) {
-    return http.post<Response, undefined>('/oauth/kakao', undefined, config);
+    return http.post<Response, undefined>('/kakaoLogin', undefined, config);
   }
 
   return useQuery('postKakaoToken', () => postKakaoToken({ headers: { kakaoAccessToken } }), {
