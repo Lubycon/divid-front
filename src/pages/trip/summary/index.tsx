@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Heading7, Heading6 } from 'styles/typography';
+import { Heading7, Heading6, CaptionBold } from 'styles/typography';
 import color from 'styles/colors';
 import { mediaQuery, pxToVw } from 'styles/media';
-import Button from 'components/button';
+import ButtonBasic from 'components/button';
 import SnackBar from 'components/snack-bar';
 import { useQueryString } from 'utils';
 import { useGetSummaryExpense } from 'hooks/data/useExpense';
@@ -23,6 +23,27 @@ const DetailWrap = styled.div`
   }
 `;
 
+const Button = styled(ButtonBasic)`
+  background-color: #f5f5ff;
+  height: ${pxToVw(44)};
+
+  p {
+    color: ${color.primary};
+  }
+
+  ${mediaQuery(640)} {
+    height: 44px;
+  }
+`;
+
+const Icon = styled.span`
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background: url('/images/Frame 893.svg') center no-repeat;
+  background-size: contain;
+`;
+
 const Title = styled(Heading6)`
   display: inline-block;
   margin-bottom: 10px;
@@ -30,10 +51,6 @@ const Title = styled(Heading6)`
 
 const NoList = styled(Heading7)`
   color: ${color.grayscale.gray01};
-`;
-
-const Label = styled(Heading7)`
-  color: ${color.white};
 `;
 
 const Text = styled(Heading7)`
@@ -80,7 +97,11 @@ export default function Summary() {
         )}
         <CopyToClipboard text={copyLinkText}>
           <Button disabled={data.detailList.length < 1} onClick={handleCopy}>
-            <Label>공유하기</Label>
+            <>
+              <Icon />
+
+              <CaptionBold>공유하기</CaptionBold>
+            </>
           </Button>
         </CopyToClipboard>
       </DetailWrap>

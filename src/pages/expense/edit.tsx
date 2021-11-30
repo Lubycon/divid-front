@@ -30,7 +30,8 @@ export default function EditExpense() {
   const { data: members, refetch: getTripMember } = useGetTripMembers(tripId || '');
   const { refetch: postExpense, isLoading } = useEditExpenseInfo(tripId || '', expenseId || '', newExpense);
   const resetExpenseState = useResetRecoilState(expenseState);
-  const initialPayer = members?.filter((el) => el.userId === newExpense.payerId)[0];
+  const initialPayer = members?.filter((el) => el.userId === initialData?.payerId)[0];
+  console.log(newExpense.payerId);
 
   useEffect(() => {
     async function handleOnMount() {
@@ -126,6 +127,10 @@ export default function EditExpense() {
       payDate: date
     });
   };
+
+  console.log({ initialData });
+  console.log({ members });
+  console.log({ initialPayer });
 
   if (!initialData || !members || !initialPayer) {
     return <Loading />;
